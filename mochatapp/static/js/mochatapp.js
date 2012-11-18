@@ -1,0 +1,7 @@
+var client = {
+
+}
+
+$(function() {
+
+});

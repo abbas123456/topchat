@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block primary %}
+<div class="span12" id="chat_div">
+    <div class="row-fluid">
+	    <div class="span10">
+	       <textarea class="field span12" id="chat_text_area" rows="20"></textarea>
+	    </div>
+		<div class="span2">
+		    <div id="scroll_body" class="scrolling">
+		        <table id="chat_user_table" class="scroll_padded table-condensed table-hover">
+		            <tbody>
+		                <tr><td>User1</td></tr>
+		                <tr><td>USer2</td></tr>
+		            </tbody>
+		        </table>
+		    </div>
+	    </div>
+    </div>
+    <div class="row-fluid">
+        <div class="span10">
+           <div class="span10">
+               <input class="field span12" id="chat_input" />
+           </div>
+           <div class="span2">
+            <button class="field span12 btn btn-primary" type="button">Send message</button>
+        </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
