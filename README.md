@@ -1,4 +1,4 @@
 mochatapp
 =========
 
-Eventlet / Websocket based chat server 
+Eventlet / Websocket based chat server and client
