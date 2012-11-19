@@ -29,10 +29,6 @@ class BroadcastServerProtocol(WebSocketServerProtocol):
 
 
 class BroadcastServerFactory(WebSocketServerFactory):
-    """
-    Simple broadcast server broadcasting any message it receives to all
-    currently connected clients.
-    """
 
     def __init__(self, url, debug=False, debugCodePaths=False):
        WebSocketServerFactory.__init__(self, url, debug=debug, debugCodePaths=debugCodePaths)
@@ -64,13 +60,18 @@ class BroadcastServerFactory(WebSocketServerFactory):
             print "unregistered client " + client.peerstr
             del self.clients[client]
 
-    def broadcast(self, msg):
-        print "broadcasting prepared message '%s' .." % msg
-        prepared_message = self.prepareMessage(msg)
+    def broadcast(self, message):
+        message = self.remove_html_tags(message)
+        print "broadcasting prepared message '%s' .." % message
+        prepared_message = self.prepareMessage(message)
         for c in self.clients:
             c.sendPreparedMessage(prepared_message)
             print "prepared message sent to " + c.peerstr
 
+    def remove_html_tags(self, data):
+        p = re.compile(r'<.*?>')
+        return p.sub('', data)
+    
 if __name__ == '__main__':
 
     ServerFactory = BroadcastServerFactory
