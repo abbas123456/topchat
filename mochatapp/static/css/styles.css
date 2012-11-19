@@ -64,9 +64,14 @@ img.social {
 }
 
 #chat_text_area {
-    resize: none;
+    color: white;
+    height: 420px; 
+    overflow-x: hidden;
+    overflow-y: scroll;
+    border-left: 1px solid white;
+    border-top: 1px solid white;
+    border-bottom: 1px solid white;
 }
-
 /* Chat user table */
 
 .scrolling {
@@ -109,8 +114,7 @@ img.social {
 #scroll_body {
     border-left: 1px solid white;
     border-top: 1px solid white;
-    border-bottom: 1px solid white;
-    height: 423px;
+    height: 420px;
 }
 
 #chat_user_table {
