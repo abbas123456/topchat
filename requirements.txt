@@ -1,4 +1,9 @@
 Django==1.4.2
-eventlet==0.9.17
+Twisted==12.2.0
+autobahn==0.5.9
+eventlet==0.9.18.dev
 greenlet==0.4.0
+ipdb==0.7
+ipython==0.13.1
 wsgiref==0.1.2
+zope.interface==4.0.1

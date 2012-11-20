@@ -12,7 +12,7 @@ from autobahn.websocket import WebSocketServerFactory, \
                                WebSocketServerProtocol, \
                                listenWS
                                
-from objects import BotMessage, UserMessage, UserJoinedMessage, MessageEncoder
+from objects import BotMessage, UserMessage, UserJoinedMessage, UserLeftMessage, MessageEncoder
                                
 class BroadcastServerProtocol(WebSocketServerProtocol):
 
@@ -41,6 +41,11 @@ class BroadcastServerProtocol(WebSocketServerProtocol):
             self.username = new_username
             bot_message = BotMessage("{0} is now known as {1}".format(old_username, new_username))
             self.factory.broadcast(bot_message)
+            user_left_message = UserLeftMessage(old_username)
+            self.factory.broadcast(user_left_message)
+            user_joined_message = UserJoinedMessage(new_username)
+            self.factory.broadcast(user_joined_message)
+            
         else:
             bot_message = BotMessage("{0} is already in use, please choose another.".format(new_username))
             self.send_direct_message(bot_message)
@@ -81,11 +86,15 @@ class BroadcastServerFactory(WebSocketServerFactory):
     def unregister(self, client):
         if client in self.clients:
             self.clients.remove(client)
+            bot_message = BotMessage("{0} has left the room".format(client.username))
+            self.broadcast(bot_message)
+            user_left_message = UserLeftMessage(client.username)
+            self.broadcast(user_left_message)
 
     def broadcast(self, message):
         for client in self.clients:
             client.send_direct_message(message)
-
+            
     
 if __name__ == '__main__':
 

@@ -14,6 +14,9 @@ var client = {
 	},
 	addUsernameToUserList: function(username) {
 		$('#chat_user_table_body').html($('#chat_user_table_body').html()+'<tr id="'+username+'"><td>'+username+'</td></tr>');
+	},
+	removeUsernameFromUserList: function(username) {
+		$('#'+username).remove();
 	}
 }
 
@@ -27,6 +30,8 @@ $(function() {
     		client.appendUserMessageToChatTextArea(message['username'], message['colour_rgb'], message['message'])
     	} else if (message['type'] == 3) {
     		client.addUsernameToUserList(message['username'])
+    	} else if (message['type'] == 4) {
+    		client.removeUsernameFromUserList(message['username'])
     	}
     }
     $('body').on('keyup','#chat_input', function(event) {
