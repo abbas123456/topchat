@@ -1,5 +1,6 @@
 import sys
 import re
+import json
 
 from twisted.internet import reactor
 from twisted.python import log
@@ -10,67 +11,69 @@ from autobahn.websocket import WebSocketServerFactory, \
                                WebSocketServerProtocol, \
                                listenWS
                                
+from objects import BotMessage, UserMessage, UserJoinedMessage, MessageEncoder
+                               
 class BroadcastServerProtocol(WebSocketServerProtocol):
 
     def onOpen(self):
+        self.username = "Guest{0}".format(re.search(':(.*)', self.peerstr).groups()[0])
         self.factory.register(self)
 
-    def onMessage(self, msg, binary):
+    def onMessage(self, message_text, binary):
         if not binary:
-            match = re.match("CHANGE_USERNAME (.*)", msg)
+            match = re.match("CHANGE_USERNAME (.*)", message_text)
             if match is not None:
-                self.factory.change_username(self, match.groups()[0])
+                new_username = match.groups()[0]
+                self.handle_username_change(new_username)
             else:
-                self.factory.broadcast("{0}: {1}".format(self.factory.get_username(self), msg))
+                user_message = UserMessage(self.username, message_text)
+                self.factory.broadcast(user_message)
 
     def connectionLost(self, reason):
         WebSocketServerProtocol.connectionLost(self, reason)
         self.factory.unregister(self)
+        
+    def handle_username_change(self, new_username):
+        if (self.can_username_be_changed(new_username)):
+            old_username = self.username 
+            self.username = new_username
+            bot_message = BotMessage("{0} is now known as {1}".format(old_username, new_username))
+            self.factory.broadcast(bot_message)
+        else:
+            bot_message = BotMessage("{0} is already in use, please choose another.".format(new_username))
+            self.send_direct_message(bot_message)
 
+    def can_username_be_changed(self, new_username):
+        usernames = self.factory.get_all_usernames()
+        return not new_username in usernames
+            
+    def send_direct_message(self, message):
+        message_json_string = json.dumps(message, cls=MessageEncoder) 
+        BroadcastServerProtocol.sendMessage(self, message_json_string)
 
 class BroadcastServerFactory(WebSocketServerFactory):
 
     def __init__(self, url, debug=False, debugCodePaths=False):
        WebSocketServerFactory.__init__(self, url, debug=debug, debugCodePaths=debugCodePaths)
-       self.clients = {}
+       self.clients = []
 
-    def change_username(self, client, new_username):
-        usernames = [client_usernames['username'] for client_usernames in self.clients.values() ]
-        if new_username in usernames:
-            prepared_message = self.prepareMessage("MoBot: {0} is already in use, please choose another.".format(new_username))
-            client.sendPreparedMessage(prepared_message)
-        else:
-            old_username = self.clients[client]['username'] 
-            self.clients[client]['username'] = new_username
-            self.broadcast("MoBot: {0} is now known as {1}".format(old_username, new_username))
+    def get_all_usernames(self):
+        return [client.username for client in self.clients]
             
-    def get_username(self, client):
-        return self.clients[client]['username']
-    
     def register(self, client):
         if not client in self.clients:
-            print "registered client " + client.peerstr
-            username = "Guest{0}".format(re.search(':(.*)', client.peerstr).groups()[0])
-            self.clients[client] = {"username" : username}
-            prepared_message = self.prepareMessage("MoBot: Welcome {0}, to change your username type 'CHANGE_USERNAME foo'".format(username))
-            client.sendPreparedMessage(prepared_message)
+            self.clients.append(client)
+            bot_message = BotMessage("Welcome {0}, to change your username type 'CHANGE_USERNAME foo'".format(client.username))
+            client.send_direct_message(bot_message)
 
     def unregister(self, client):
         if client in self.clients:
-            print "unregistered client " + client.peerstr
-            del self.clients[client]
+            self.clients.remove(client)
 
     def broadcast(self, message):
-        message = self.remove_html_tags(message)
-        print "broadcasting prepared message '%s' .." % message
-        prepared_message = self.prepareMessage(message)
-        for c in self.clients:
-            c.sendPreparedMessage(prepared_message)
-            print "prepared message sent to " + c.peerstr
+        for client in self.clients:
+            client.send_direct_message(message)
 
-    def remove_html_tags(self, data):
-        p = re.compile(r'<.*?>')
-        return p.sub('', data)
     
 if __name__ == '__main__':
 
