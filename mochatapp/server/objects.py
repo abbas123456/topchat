@@ -28,8 +28,9 @@ class UserMessage(Message):
         return regex.sub('', string)
     
 class UserJoinedMessage(Message):
-    def __init__(self, username):
+    def __init__(self, username, colour_rgb):
         self.username = username
+        self.colour_rgb = colour_rgb
         super(UserJoinedMessage, self).__init__(Message.TYPE_USER_JOINED_MESSAGE, '')
 
 class UserLeftMessage(Message):

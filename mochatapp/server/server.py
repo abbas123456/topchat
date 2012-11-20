@@ -43,7 +43,7 @@ class BroadcastServerProtocol(WebSocketServerProtocol):
             self.factory.broadcast(bot_message)
             user_left_message = UserLeftMessage(old_username)
             self.factory.broadcast(user_left_message)
-            user_joined_message = UserJoinedMessage(new_username)
+            user_joined_message = UserJoinedMessage(new_username, self.colour_rgb)
             self.factory.broadcast(user_joined_message)
             
         else:
@@ -65,12 +65,14 @@ class BroadcastServerFactory(WebSocketServerFactory):
        self.clients = []
 
     def get_all_usernames(self):
-        return [client.username for client in self.clients]
+        client_usernames = [client.username for client in self.clients] 
+        client_usernames.append('MoBot')
+        return client_usernames
             
     def register(self, client):
         if not client in self.clients:
             for current_client in self.clients:
-                user_joined_message = UserJoinedMessage(current_client.username)
+                user_joined_message = UserJoinedMessage(current_client.username, current_client.colour_rgb)
                 client.send_direct_message(user_joined_message)
             
             bot_message = BotMessage("{0} has joined the room".format(client.username))
@@ -80,7 +82,7 @@ class BroadcastServerFactory(WebSocketServerFactory):
             bot_message = BotMessage("Welcome {0}, to change your username type 'CU foo'".format(client.username))
             client.send_direct_message(bot_message)
             
-            user_joined_message = UserJoinedMessage(client.username)
+            user_joined_message = UserJoinedMessage(client.username, client.colour_rgb)
             self.broadcast(user_joined_message)
 
     def unregister(self, client):
