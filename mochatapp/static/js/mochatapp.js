@@ -21,7 +21,7 @@ var client = {
 }
 
 $(function() {
-	var webSocket = new WebSocket("ws://localhost:7000");
+	var webSocket = new WebSocket("ws://localhost:7000"+window.location.pathname);
     webSocket.onmessage = function(e) {
     	message = $.parseJSON(e.data);
     	if (message['type'] == 1) {

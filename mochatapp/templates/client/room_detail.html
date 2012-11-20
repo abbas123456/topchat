@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block primary %}
 <div class="span12" id="chat_div">
+    <p class="lead">{{ object }}</p>
     <div class="row-fluid">
 	    <div class="span10">
 	       <div id="chat_text_area" class="field span12">
@@ -27,4 +28,9 @@
         </div>
     </div>
 </div>
+<p class="lead">All rooms:</p>
+    {% for room in rooms %}
+        <small><a href="{{ room.get_absolute_url }}">{{ room }}</a></small><br />
+    {% endfor %}
+    <br />
 {% endblock %}

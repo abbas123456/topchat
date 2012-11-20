@@ -1,19 +1,15 @@
 import sys
 import re
+import os
 import random
 import json
-
 from twisted.internet import reactor
 from twisted.python import log
 from twisted.web.server import Site
 from twisted.web.static import File
-
-from autobahn.websocket import WebSocketServerFactory, \
-                               WebSocketServerProtocol, \
-                               listenWS
-                               
+from autobahn.websocket import WebSocketServerFactory, WebSocketServerProtocol, listenWS
 from objects import BotMessage, UserMessage, UserJoinedMessage, UserLeftMessage, MessageEncoder
-                               
+
 class BroadcastServerProtocol(WebSocketServerProtocol):
 
     def onOpen(self):
@@ -63,6 +59,7 @@ class BroadcastServerFactory(WebSocketServerFactory):
     def __init__(self, url, debug=False, debugCodePaths=False):
        WebSocketServerFactory.__init__(self, url, debug=debug, debugCodePaths=debugCodePaths)
        self.clients = []
+       self.rooms = []
 
     def get_all_usernames(self):
         client_usernames = [client.username for client in self.clients] 
