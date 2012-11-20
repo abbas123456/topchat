@@ -27,8 +27,9 @@ class UserMessage(Message):
         return regex.sub('', string)
     
 class UserJoinedMessage(Message):
-    def __init__(self, message_text):
-        super(BotMessage, self).__init__(Message.TYPE_USER_JOINED_MESSAGE, message_text)
+    def __init__(self, username):
+        self.username = username
+        super(UserJoinedMessage, self).__init__(Message.TYPE_USER_JOINED_MESSAGE, '')
 
 class MessageEncoder(json.JSONEncoder):
     

@@ -64,12 +64,19 @@ class BroadcastServerFactory(WebSocketServerFactory):
             
     def register(self, client):
         if not client in self.clients:
+            for current_client in self.clients:
+                user_joined_message = UserJoinedMessage(current_client.username)
+                client.send_direct_message(user_joined_message)
+            
             bot_message = BotMessage("{0} has joined the room".format(client.username))
             self.broadcast(bot_message)
             
             self.clients.append(client)
             bot_message = BotMessage("Welcome {0}, to change your username type 'CU foo'".format(client.username))
             client.send_direct_message(bot_message)
+            
+            user_joined_message = UserJoinedMessage(client.username)
+            self.broadcast(user_joined_message)
 
     def unregister(self, client):
         if client in self.clients:

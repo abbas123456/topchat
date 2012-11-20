@@ -11,6 +11,9 @@ var client = {
 	appendUserMessageToChatTextArea: function(username, colour_rgb, message) {
 		var text_area= $('#chat_text_area');
     	text_area.html(text_area.html() + "<small><p style='color: rgb("+ colour_rgb +")'>"+ username +": "+ message +"</p></small>");
+	},
+	addUsernameToUserList: function(username) {
+		$('#chat_user_table_body').html($('#chat_user_table_body').html()+'<tr id="'+username+'"><td>'+username+'</td></tr>');
 	}
 }
 
@@ -22,6 +25,8 @@ $(function() {
     		client.appendBotMessageToChatTextArea(message['username'], message['message'])
     	} else if (message['type'] == 2) {
     		client.appendUserMessageToChatTextArea(message['username'], message['colour_rgb'], message['message'])
+    	} else if (message['type'] == 3) {
+    		client.addUsernameToUserList(message['username'])
     	}
     }
     $('body').on('keyup','#chat_input', function(event) {
