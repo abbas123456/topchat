@@ -1,4 +1,9 @@
 var client = {
+	sendMessageToServer: function(webSocket) {
+		message = $('#chat_input').val();
+		$('#chat_input').val("")
+		webSocket.send(message);
+	},
 	appendBotMessageToChatTextArea: function(username, message) {
 		var text_area= $('#chat_text_area');
     	text_area.html(text_area.html() + "<small><p>"+ username +": "+message+"</p></small>");
@@ -19,9 +24,13 @@ $(function() {
     		client.appendUserMessageToChatTextArea(message['username'], message['colour_rgb'], message['message'])
     	}
     }
+    $('body').on('keyup','#chat_input', function(event) {
+        if(event.keyCode == 13){
+            client.sendMessageToServer(webSocket);
+        }
+    });
+    
     $('body').on('click','#chat_send_message_button', function(event) {
-    	message = $('#chat_input').val();
-    	$('#chat_input').val("")
-    	webSocket.send(message);
+    	client.sendMessageToServer(webSocket);
     });
 });
