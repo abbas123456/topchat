@@ -23,7 +23,7 @@ class BroadcastServerProtocol(WebSocketServerProtocol):
 
     def onMessage(self, message_text, binary):
         if not binary:
-            match = re.match("CHANGE_USERNAME (.*)", message_text)
+            match = re.match("CU (.*)", message_text)
             if match is not None:
                 new_username = match.groups()[0]
                 self.handle_username_change(new_username)
@@ -64,8 +64,11 @@ class BroadcastServerFactory(WebSocketServerFactory):
             
     def register(self, client):
         if not client in self.clients:
+            bot_message = BotMessage("{0} has joined the room".format(client.username))
+            self.broadcast(bot_message)
+            
             self.clients.append(client)
-            bot_message = BotMessage("Welcome {0}, to change your username type 'CHANGE_USERNAME foo'".format(client.username))
+            bot_message = BotMessage("Welcome {0}, to change your username type 'CU foo'".format(client.username))
             client.send_direct_message(bot_message)
 
     def unregister(self, client):
