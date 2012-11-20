@@ -1,5 +1,6 @@
 import sys
 import re
+import random
 import json
 
 from twisted.internet import reactor
@@ -17,6 +18,7 @@ class BroadcastServerProtocol(WebSocketServerProtocol):
 
     def onOpen(self):
         self.username = "Guest{0}".format(re.search(':(.*)', self.peerstr).groups()[0])
+        self.colour_rgb = [random.randint(0, 255) for x in range(3)]
         self.factory.register(self)
 
     def onMessage(self, message_text, binary):
@@ -26,7 +28,7 @@ class BroadcastServerProtocol(WebSocketServerProtocol):
                 new_username = match.groups()[0]
                 self.handle_username_change(new_username)
             else:
-                user_message = UserMessage(self.username, message_text)
+                user_message = UserMessage(self.username, self.colour_rgb, message_text)
                 self.factory.broadcast(user_message)
 
     def connectionLost(self, reason):

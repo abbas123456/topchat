@@ -17,8 +17,9 @@ class BotMessage(Message):
         super(BotMessage, self).__init__(Message.TYPE_BOT_MESSAGE, message_text)
         
 class UserMessage(Message):
-    def __init__(self, username, message_text):
+    def __init__(self, username, colour_rgb, message_text):
         self.username = username
+        self.colour_rgb = colour_rgb
         super(UserMessage, self).__init__(Message.TYPE_USER_MESSAGE, self.remove_html_tags(message_text))
     
     def remove_html_tags(self, string):
