@@ -21,7 +21,14 @@ var client = {
 }
 
 $(function() {
-	var webSocket = new WebSocket("ws://localhost:7000"+window.location.pathname);
+	regex = new RegExp(".*\/(.*)\/$")
+	matches = regex.exec(window.location.pathname)
+	if (matches == null) {
+		roomNumber = 1;
+	} else {
+		roomNumber = matches[1]
+	}
+	var webSocket = new WebSocket("ws://localhost:7000/" + roomNumber);
     webSocket.onmessage = function(e) {
     	message = $.parseJSON(e.data);
     	if (message['type'] == 1) {
