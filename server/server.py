@@ -25,7 +25,7 @@ class BroadcastServerProtocol(WebSocketServerProtocol):
             match = re.match("CU (.*)", message_text)
             if match is not None:
                 new_username = match.groups()[0]
-                self.handle_username_change(new_username)
+                self.factory.change_username(self, new_username)
             else:
                 user_message = UserMessage(self.username, self.colour_rgb, message_text)
                 self.factory.broadcast(user_message, self.room_number)
@@ -33,26 +33,7 @@ class BroadcastServerProtocol(WebSocketServerProtocol):
     def connectionLost(self, reason):
         WebSocketServerProtocol.connectionLost(self, reason)
         self.factory.unregister(self)
-    
-    def handle_username_change(self, new_username):
-        if (self.can_username_be_changed(new_username)):
-            old_username = self.username 
-            self.username = new_username
-            bot_message = BotMessage("{0} is now known as {1}".format(old_username, new_username))
-            self.factory.broadcast(bot_message, self.room_number)
-            user_left_message = UserLeftMessage(old_username)
-            self.factory.broadcast(user_left_message, self.room_number)
-            user_joined_message = UserJoinedMessage(new_username, self.colour_rgb)
-            self.factory.broadcast(user_joined_message, self.room_number)
-            
-        else:
-            bot_message = BotMessage("{0} is already in use, please choose another.".format(new_username))
-            self.send_direct_message(bot_message)
 
-    def can_username_be_changed(self, new_username):
-        usernames = self.factory.get_all_usernames(self.room_number)
-        return not new_username in usernames
-            
     def send_direct_message(self, message):
         message_json_string = json.dumps(message, cls=MessageEncoder) 
         BroadcastServerProtocol.sendMessage(self, message_json_string)
@@ -109,6 +90,25 @@ class BroadcastServerFactory(WebSocketServerFactory):
                 user_left_message = UserLeftMessage(client.username)
                 self.broadcast(user_left_message, client.room_number)
 
+    def change_username(self, client, new_username):
+        if (self.can_username_be_changed(client, new_username)):
+            old_username = client.username 
+            client.username = new_username
+            bot_message = BotMessage("{0} is now known as {1}".format(old_username, new_username))
+            self.broadcast(bot_message, client.room_number)
+            user_left_message = UserLeftMessage(old_username)
+            self.broadcast(user_left_message, client.room_number)
+            user_joined_message = UserJoinedMessage(new_username, client.colour_rgb)
+            self.broadcast(user_joined_message, client.room_number)
+            
+        else:
+            bot_message = BotMessage("{0} is already in use, please choose another username.".format(new_username))
+            client.send_direct_message(bot_message)
+
+    def can_username_be_changed(self, client, new_username):
+        usernames = self.get_all_usernames(client.room_number)
+        return not new_username in usernames
+    
     def broadcast(self, message, room_number):
         for client in self.rooms[room_number]:
             client.send_direct_message(message)
