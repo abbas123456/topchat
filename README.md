@@ -1,4 +1,4 @@
 mochatapp
 =========
 
-Eventlet / Websocket based chat server and client
+Autobahn WS based chat server and django client
