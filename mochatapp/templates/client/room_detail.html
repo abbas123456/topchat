@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {% block primary %}
 <div class="span12" id="chat_div">
+    <div id="disconnected_alert" style="display:none" class="alert alert-error">
+        <p>Looks like you've been disconnected, <a id="reconnect_button" href="#">click here</a> to re-connect</p>
+    </div>
     <p class="lead">{{ object }}</p>
     <div class="row-fluid">
 	    <div class="span10">
@@ -11,7 +14,7 @@
 		    <div id="scroll_body" class="scrolling">
 		        <table id="chat_user_table" class="scroll_padded table-condensed table-hover">
 		            <tbody id="chat_user_table_body">
-		              <tr><td><i class="icon-eye-open icon-white" /></i> MoBot</td></tr>
+		              <tr id="MoBot" name="UserListUsernames"><td><i class="icon-eye-open icon-white" /></i> MoBot</td></tr>
 		            </tbody>
 		        </table>
 		    </div>
