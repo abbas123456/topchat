@@ -1,11 +1,13 @@
 from django.contrib.auth.models import User
 from django.views.generic import CreateView, DetailView
 from account.forms import UserForm
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
 from django.core.urlresolvers import reverse
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, hashers
+from rest_framework import generics
+from account.serializers import UserSerializer
 
 class UserCreateView(CreateView):
     form_class = UserForm
@@ -31,3 +33,15 @@ class UserDetailView(DetailView):
 
     def get(self, request, *args, **kwargs):
         return HttpResponseRedirect(reverse('home'))
+
+class UserDetail(generics.RetrieveAPIView):
+    model = User
+    serializer_class = UserSerializer
+    slug_url_kwarg = 'username'
+    slug_field = 'username'
+    
+    def get(self, request, *args, **kwargs):
+        user = super(UserDetail, self).get(request, *args, **kwargs)
+        if (not hashers.check_password(kwargs['password'], user.data['password'])):
+            raise Http404(u"No users found matching the query")
+        return user
