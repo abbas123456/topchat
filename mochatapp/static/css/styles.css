@@ -126,3 +126,7 @@ img.social {
     background-color: red;
     cursor:pointer;
 }
+
+.hero-unit {
+    color: black;
+}
