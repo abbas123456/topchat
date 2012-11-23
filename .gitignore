@@ -1,4 +1,12 @@
 *.py[co]
+*.log
+*.log
+*.log
+*.log
+*.log
+*.log
+*.log
+*.log
 
 # Eclipse
 .project

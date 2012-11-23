@@ -41,6 +41,8 @@ class UserDetail(generics.RetrieveAPIView):
     slug_field = 'username'
     
     def get(self, request, *args, **kwargs):
+        if not request.is_secure():
+            return HttpResponseRedirect(reverse('home'))
         user = super(UserDetail, self).get(request, *args, **kwargs)
         if (not hashers.check_password(kwargs['password'], user.data['password'])):
             raise Http404(u"No users found matching the query")
