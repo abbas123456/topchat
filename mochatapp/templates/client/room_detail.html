@@ -27,6 +27,11 @@
            </div>
            <div class="span2">
             <button id="chat_send_message_button" class="field span12 btn btn-inverse" type="button">Send message</button>
+            <input type="hidden" id="chat_user_room_number" value="{{ object.id }}" />
+            {% if user.is_authenticated %}
+                <input type="hidden" id="chat_user_username" value="{{ user.username }}" />
+                <input type="hidden" id="chat_user_password" value="{{ user.password }}" />
+           {% endif %}
         </div>
         </div>
     </div>

@@ -1,12 +1,17 @@
 var client = {
 	connectToServer: function() {
-		regex = new RegExp(".*\/(.*)\/$")
-		matches = regex.exec(window.location.pathname)
-		roomNumber = 1;
-		if (matches !== null) {
-			roomNumber = matches[1]
+		if ($('#chat_user_room_number').length > 0) {
+			roomNumber = $('#chat_user_room_number').val();
+			if ($('#chat_user_username').length > 0 && $('#chat_user_password').length > 0) {
+				username = $('#chat_user_username').val();
+				password = $('#chat_user_password').val();
+				webSocket = new WebSocket("wss://localhost:7000/" + roomNumber + '/' + username + '/' + password);
+			} else {
+				webSocket = new WebSocket("wss://localhost:7000/" + roomNumber);	
+			}
+			
+			client.attachWebSocketHandlers(webSocket);
 		}
-		return new WebSocket("wss://localhost:7000/" + roomNumber);
 	},
 	attachWebSocketHandlers: function(webSocket) {
 		webSocket.onmessage = client.webSocketOnMessageHandler;
@@ -54,8 +59,7 @@ var client = {
 }
 
 $(function() {
-	webSocket = client.connectToServer();
-    client.attachWebSocketHandlers(webSocket);
+	client.connectToServer();
     
     $('body').on('keyup','#chat_input', function(event) {
         if(event.keyCode == 13){
@@ -70,8 +74,7 @@ $(function() {
     $('body').on('click','#reconnect_button', function(event) {
     	event.preventDefault();
     	$('#disconnected_alert').hide();
-    	webSocket = client.connectToServer();
-        client.attachWebSocketHandlers(webSocket);
+    	client.connectToServer();
         client.clearAllUsernamesFromUserList();
     });
     
