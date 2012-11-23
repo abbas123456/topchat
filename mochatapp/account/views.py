@@ -34,7 +34,13 @@ class UserDetailView(DetailView):
     def get(self, request, *args, **kwargs):
         return HttpResponseRedirect(reverse('home'))
 
-class UserDetail(generics.RetrieveAPIView):
+class UserApiView(generics.RetrieveAPIView):
+    model = User
+    serializer_class = UserSerializer
+    slug_url_kwarg = 'username'
+    slug_field = 'username'
+    
+class UserPasswordApiView(generics.RetrieveAPIView):
     model = User
     serializer_class = UserSerializer
     slug_url_kwarg = 'username'
@@ -43,7 +49,7 @@ class UserDetail(generics.RetrieveAPIView):
     def get(self, request, *args, **kwargs):
         if not request.is_secure():
             return HttpResponseRedirect(reverse('home'))
-        user = super(UserDetail, self).get(request, *args, **kwargs)
+        user = super(UserPasswordApiView, self).get(request, *args, **kwargs)
         if (not hashers.check_password(kwargs['password'], user.data['password'])):
             raise Http404(u"No users found matching the query")
         return user

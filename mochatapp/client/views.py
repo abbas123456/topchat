@@ -11,6 +11,6 @@ class ChatPageView(DetailView):
         context['rooms'] = Room.objects.all()
         return context
         
-class RoomDetail(generics.RetrieveAPIView):
+class RoomApiView(generics.RetrieveAPIView):
     model = Room
     serializer_class = RoomSerializer
