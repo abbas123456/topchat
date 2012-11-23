@@ -2,12 +2,11 @@ var client = {
 	connectToServer: function() {
 		regex = new RegExp(".*\/(.*)\/$")
 		matches = regex.exec(window.location.pathname)
-		if (matches == null) {
-			roomNumber = 1;
-		} else {
+		roomNumber = 1;
+		if (matches !== null) {
 			roomNumber = matches[1]
 		}
-		return new WebSocket("ws://localhost:7000/" + roomNumber);
+		return new WebSocket("wss://localhost:7000/" + roomNumber);
 	},
 	attachWebSocketHandlers: function(webSocket) {
 		webSocket.onmessage = client.webSocketOnMessageHandler;

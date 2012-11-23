@@ -5,7 +5,7 @@ import random
 import json
 import urllib2
 
-from twisted.internet import reactor
+from twisted.internet import reactor, ssl
 from twisted.python import log
 from twisted.web.server import Site
 from twisted.web.static import File
@@ -81,7 +81,7 @@ class BroadcastServerFactory(WebSocketServerFactory):
             self.broadcast(user_joined_message, client.room_number)
 
     def unregister(self, client):
-        if client.room_number in self.rooms:
+        if hasattr(client, 'room_number') and client.room_number in self.rooms:
             room = self.rooms[client.room_number]
             if client in room:
                 room.remove(client)
@@ -116,11 +116,12 @@ class BroadcastServerFactory(WebSocketServerFactory):
     
 if __name__ == '__main__':
 
+    contextFactory = ssl.DefaultOpenSSLContextFactory('../ssl/stunnel.key', '../ssl/stunnel.crt')
     ServerFactory = BroadcastServerFactory
-    factory = ServerFactory("ws://localhost:7000")
+    factory = ServerFactory("wss://localhost:7000")
 
     factory.protocol = BroadcastServerProtocol
     factory.setProtocolOptions(allowHixie76=True)
-    listenWS(factory)
+    listenWS(factory, contextFactory)
 
     reactor.run()
