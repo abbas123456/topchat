@@ -7,6 +7,9 @@ class Message(object):
     TYPE_USER_MESSAGE = 2
     TYPE_USER_JOINED_MESSAGE = 3
     TYPE_USER_LEFT_MESSAGE = 4
+    TYPE_PRIVATE_BOT_MESSAGE = 5
+    TYPE_PRIVATE_CONVERSATION_SEND_USER_MESSAGE = 6
+    TYPE_PRIVATE_CONVERSATION_RECEIVE_USER_MESSAGE = 7
         
     def __init__(self, type, message):
         self.type = type
@@ -37,6 +40,27 @@ class UserLeftMessage(Message):
     def __init__(self, username):
         self.username = username
         super(UserLeftMessage, self).__init__(Message.TYPE_USER_LEFT_MESSAGE, '')
+
+class PrivateBotMessage(Message):
+    def __init__(self, message_text, recipient_username):
+        self.username = 'MoBot'
+        self.recipient_username = recipient_username
+        super(PrivateBotMessage, self).__init__(Message.TYPE_PRIVATE_BOT_MESSAGE, message_text)
+
+class PrivateConversationSendUserMessage(Message):
+    def __init__(self, username, colour_rgb, message_text, recipient_username):
+        self.username = username
+        self.colour_rgb = colour_rgb
+        self.recipient_username = recipient_username
+        super(PrivateConversationSendUserMessage, self).__init__(
+                         Message.TYPE_PRIVATE_CONVERSATION_SEND_USER_MESSAGE, message_text)
+
+class PrivateConversationReceiveUserMessage(Message):
+    def __init__(self, username, colour_rgb, message_text):
+        self.username = username
+        self.colour_rgb = colour_rgb
+        super(PrivateConversationReceiveUserMessage, self).__init__(
+                        Message.TYPE_PRIVATE_CONVERSATION_RECEIVE_USER_MESSAGE, message_text)
 
 class MessageEncoder(json.JSONEncoder):
     

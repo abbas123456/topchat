@@ -73,6 +73,17 @@ img.social {
     border-top: 1px solid white;
     border-bottom: 1px solid white;
 }
+
+#private_conversation_text_area {
+    color: white;
+    height: 220px; 
+    overflow-x: hidden;
+    overflow-y: scroll;
+    border-left: 1px solid white;
+    border-top: 1px solid white;
+    border-bottom: 1px solid white;	
+}
+
 /* Chat user table */
 
 .scrolling {
@@ -124,7 +135,6 @@ img.social {
 
 .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
     background-color: red;
-    cursor:pointer;
 }
 
 .hero-unit {

@@ -27,6 +27,24 @@ var client = {
     		client.addUsernameToUserList(message['username'], message['colour_rgb'])
     	} else if (message['type'] == 4) {
     		client.removeUsernameFromUserList(message['username'])
+    	} else if (message['type'] == 5) {
+    		var private_message_client = private_message_windows[message['recipient_username']];
+    		private_message_client.appendBotMessageToChatTextArea(message['username'], message['message']);
+    	} else if (message['type'] == 6) {
+    		var private_message_client = private_message_windows[message['recipient_username']];
+    		private_message_client.appendUserMessageToChatTextArea(message['username'], message['colour_rgb'], message['message']);
+    	} else if (message['type'] == 7) {
+    		if (private_message_windows[message['username']] === undefined) {
+    			url = '/private-conversation/'+message['username']+'/';
+    			private_message_window = window.open(url,'','width=800,height=350');
+    			private_message_window.onload = function () {
+    				var private_message_client = private_message_windows[message['username']];
+        			private_message_client.appendUserMessageToChatTextArea(message['username'], message['colour_rgb'], message['message']);
+    			};
+    		} else {
+    			var private_message_client = private_message_windows[message['username']];
+    			private_message_client.appendUserMessageToChatTextArea(message['username'], message['colour_rgb'], message['message']);
+    		}
     	}
 	},
 	webSocketOnCloseHandler: function(e) {
@@ -46,7 +64,8 @@ var client = {
     	text_area.html(text_area.html() + "<small><p style='color: rgb("+ colour_rgb +")'>"+ username +": "+ message +"</p></small>");
 	},
 	addUsernameToUserList: function(username, colour_rgb) {
-		$('#chat_user_table_body').html($('#chat_user_table_body').html()+"<tr id='"+username+"' name='UserListUsernames'><td style='color: rgb("+ colour_rgb +")'><i class='icon-user icon-white' /></i> "+username+"</td></tr>");
+		var private_conversation_url = "<a class='private_conversation' href='/private-conversation/"+username+"/'>";
+		$('#chat_user_table_body').html($('#chat_user_table_body').html()+"<tr id='"+username+"' name='UserListUsernames'><td style='color: rgb("+ colour_rgb +")'>"+private_conversation_url+"<i class='icon-user icon-white' /></i> "+username+"</a></td></tr>");
 	},
 	removeUsernameFromUserList: function(username) {
 		$('#'+username).remove();
@@ -58,9 +77,10 @@ var client = {
 	}
 }
 
-$(function() {
+$(document).ready(function(){
 	client.connectToServer();
-    
+    private_message_windows = [];
+                               
     $('body').on('keyup','#chat_input', function(event) {
         if(event.keyCode == 13){
             client.sendMessageToServer(webSocket);
@@ -76,6 +96,22 @@ $(function() {
     	$('#disconnected_alert').hide();
     	client.connectToServer();
         client.clearAllUsernamesFromUserList();
+    });
+    
+    $('body').on('click', 'a.private_conversation', function(event) {
+    	event.preventDefault();
+    	url = $(event.target).attr("href");
+    	re = new RegExp(".*\/(.*)\/$");
+		matches = re.exec(url);
+		if (matches == null) {
+			return;
+		} else {
+			recipient_username = matches[1];
+			if (private_message_windows[recipient_username] === undefined) {
+				window.open(url,'','width=800,height=350');				
+			}
+		}
+    	
     });
     
 });

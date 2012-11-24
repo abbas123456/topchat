@@ -25,7 +25,7 @@ class BroadcastServerProtocol(WebSocketServerProtocol):
             match = re.match(":CU ([^\s-]+)", message_text)
             if match is not None:
                 new_username = match.groups()[0]
-                self.factory.change_username(self, new_username)
+                self.factory.change_username_temporarily(self, new_username)
                 return
             
             match = re.match(":RL ([^\s-]+) ([^\s-]+)", message_text)
@@ -33,6 +33,13 @@ class BroadcastServerProtocol(WebSocketServerProtocol):
                 username = match.groups()[0]
                 password = match.groups()[1]
                 self.factory.register_or_login(self, username, password)
+                return
+            
+            match = re.match("<([^\s-]+)>(.*)", message_text)
+            if match is not None:
+                recipient_username = match.groups()[0]
+                message_text = match.groups()[1]
+                self.factory.send_private_message(self, recipient_username, message_text)
                 return
             
             user_message = UserMessage(self.username, self.colour_rgb, message_text)

@@ -10,7 +10,11 @@ class ChatPageView(DetailView):
         context = super(ChatPageView, self).get_context_data(**kwargs)
         context['rooms'] = Room.objects.all()
         return context
+
+class PrivateConversationView(TemplateView):
+    template_name = 'client/private_conversation.html'
         
 class RoomApiView(generics.RetrieveAPIView):
     model = Room
     serializer_class = RoomSerializer
+

@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, url
-from client.views import ChatPageView, RoomApiView
+from client.views import ChatPageView, PrivateConversationView, RoomApiView
 from account.views import UserCreateView, UserDetailView, UserApiView, UserPasswordApiView, UserListCreateApiView
 from rest_framework.urlpatterns import format_suffix_patterns
 
@@ -7,6 +7,8 @@ urlpatterns = patterns('',
     url(r'^$', ChatPageView.as_view(), {'pk': 1}, name='home'),
     url(r'^room/(?P<slug>[-\w\d]+)/(?P<pk>\d+)/$',
         ChatPageView.as_view(), name='room_detail'),
+    url(r'^private-conversation/[^\s-]+/$',
+        PrivateConversationView.as_view(), name='private-conversation'),
     url(r'^room/(?P<pk>\d+)/$', RoomApiView.as_view(), name='room-detail'),
     url(r'^accounts/register/$', UserCreateView.as_view(), name='register'),
     url(r'^accounts/login/$', 'django.contrib.auth.views.login',
