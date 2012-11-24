@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, url
 from client.views import ChatPageView, RoomApiView
-from account.views import UserCreateView, UserDetailView, UserApiView, UserPasswordApiView
+from account.views import UserCreateView, UserDetailView, UserApiView, UserPasswordApiView, UserListCreateApiView
 from rest_framework.urlpatterns import format_suffix_patterns
 
 urlpatterns = patterns('',
@@ -18,6 +18,8 @@ urlpatterns = patterns('',
         name='user-detail'),
     url(r'^user/(?P<username>[-\w\d]+)/(?P<password>[-\w\d]+)/$',
         UserPasswordApiView.as_view(), name='user-password-detail'),
+    url(r'^users/$',
+        UserListCreateApiView.as_view(), name='users'),
 )
 
 urlpatterns = format_suffix_patterns(urlpatterns, allowed=['json', 'api'])

@@ -53,3 +53,8 @@ class UserPasswordApiView(generics.RetrieveAPIView):
         if (not hashers.check_password(kwargs['password'], user.data['password'])):
             raise Http404(u"No users found matching the query")
         return user
+
+class UserListCreateApiView(generics.ListCreateAPIView):
+    model = User
+    serializer_class = UserSerializer
+
