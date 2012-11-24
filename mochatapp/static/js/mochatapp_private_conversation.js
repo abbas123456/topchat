@@ -7,10 +7,14 @@ var client = {
 	appendBotMessageToChatTextArea: function(username, message) {
 		var text_area= $('#private_conversation_text_area');
     	text_area.html(text_area.html() + "<small><p>"+ username +": "+message+"</p></small>");
+    	var height = $('#private_conversation_text_area')[0].scrollHeight;
+	    $('#private_conversation_text_area').scrollTop(height); 
 	},
 	appendUserMessageToChatTextArea: function(username, colour_rgb, message) {
 		var text_area= $('#private_conversation_text_area');
     	text_area.html(text_area.html() + "<small><p style='color: rgb("+ colour_rgb +")'>"+ username +": "+ message +"</p></small>");
+    	var height = $('#private_conversation_text_area')[0].scrollHeight;
+	    $('#private_conversation_text_area').scrollTop(height); 
 	},
 	getRecipientUsernameFromUrl: function() {
 		re = new RegExp(".*\/(.*)\/$");
