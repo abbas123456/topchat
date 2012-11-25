@@ -2,7 +2,7 @@
 {% block title %} Register{% endblock %}
 {% block primary %}
 <br />
-<form id="register_form" method="post" action="." class="form-horizontal form_div">
+<form id="register_form" method="post" action="." class="form-horizontal">
     {% csrf_token %}
     {% if form.username.errors %}
    <div class="control-group error">

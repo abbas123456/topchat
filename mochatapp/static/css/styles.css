@@ -1,10 +1,12 @@
 html, body {
     font-size: 16px;
-    font-family: Arial;
+    font-family: “Courier New”, Courier, monospace;
     background-image:url(../img/shattered.png);
     height: 100%;
 }
-
+input {
+	font-family: inherit;
+}
 #container {
     border-left: 1px solid black;
     border-right: 1px solid black;
