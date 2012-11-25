@@ -30,7 +30,7 @@ class BroadcastServerFactory(WebSocketServerFactory):
             
         room = self.rooms[client.room_number]
             
-        if client not in room:
+        if client not in room and client.username not in self.get_all_usernames(client.room_number):
             for current_client in room:
                 user_joined_message = UserJoinedMessage(current_client.username,
                                                         current_client.colour_rgb)
@@ -47,7 +47,10 @@ class BroadcastServerFactory(WebSocketServerFactory):
             
             user_joined_message = UserJoinedMessage(client.username, client.colour_rgb)
             self.broadcast(user_joined_message, client.room_number)
-
+        else:
+            bot_message = BotMessage("You are already part of this room")
+            client.send_direct_message(bot_message)
+            
     def is_room_number_valid(self, room_number):
         return self.api_service.get_room_by_room_number(room_number) is not None
       
