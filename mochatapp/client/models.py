@@ -1,9 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.template.defaultfilters import slugify
 
 
 class Room(models.Model):
     name = models.CharField(max_length=128)
+    description = models.CharField(max_length=512)
+    is_private = models.BooleanField()
     created_by = models.ForeignKey(User)
     created_date = models.DateTimeField()
     slug = models.SlugField()
