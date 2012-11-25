@@ -1,0 +1,35 @@
+{% extends "standalone_room_base.html" %}
+{% block primary %}
+<div class="span12" id="chat_div">
+    <div id="disconnected_alert" style="display:none" class="alert alert-error">
+        <p>Looks like you've been disconnected, <a id="reconnect_button" href="#">click here</a> to re-connect</p>
+    </div>
+    <p class="lead">{{ object }}</p>
+    <div class="row-fluid">
+	    <div class="span10">
+	       <div id="chat_text_area" class="field span12">
+	       </div> 
+	    </div>
+		<div class="span2">
+		    <div id="scroll_body" class="scrolling">
+		        <table id="chat_user_table" class="scroll_padded table-condensed table-hover">
+		            <tbody id="chat_user_table_body">
+		              <tr id="MoBot" name="UserListUsernames"><td><i class="icon-eye-open icon-white" /></i> MoBot</td></tr>
+		            </tbody>
+		        </table>
+		    </div>
+	    </div>
+    </div>
+    <div class="row-fluid">
+        <div class="span10">
+           <div class="span10">
+               <input class="field span12" id="chat_input" />
+           </div>
+           <div class="span2">
+            <button id="chat_send_message_button" class="field span12 btn btn-inverse" type="button">Send message</button>
+            <input type="hidden" id="chat_user_room_number" value="{{ object.id }}" />
+        </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

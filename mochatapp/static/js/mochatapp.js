@@ -78,10 +78,22 @@ var client = {
 		$('tr[name="UserListUsernames"][id!="MoBot"]').each(function(key, value) {
 			client.removeUsernameFromUserList($.trim($(value).text()));
 		});
+	},
+	resizeElementsBasedOnPageHeight: function() {
+		windowHeight = $(window).height();
+		pixelBuffer = 121;
+		$('#chat_text_area').height(windowHeight-pixelBuffer);
+		$('#scroll_body').height(windowHeight-pixelBuffer);
 	}
 }
 
 $(document).ready(function(){
+	
+	re = new RegExp("standalone-room");
+	matches = re.exec(window.location.pathname);
+	if (matches !== null) {
+		client.resizeElementsBasedOnPageHeight();
+	}
 	client.connectToServer();
     private_message_windows = [];
                                

@@ -11,6 +11,10 @@ class ChatPageView(DetailView):
         context['rooms'] = Room.objects.all()
         return context
 
+class StandaloneChatPageView(DetailView):
+    model = Room
+    template_name = 'client/standalone_room_detail.html'
+
 class PrivateConversationView(TemplateView):
     template_name = 'client/private_conversation.html'
         
