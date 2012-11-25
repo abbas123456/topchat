@@ -22,13 +22,13 @@ class BroadcastServerProtocol(WebSocketServerProtocol):
 
     def onMessage(self, message_text, binary):
         if not binary:
-            match = re.match(":CU ([^\s-]+)", message_text)
+            match = re.match("!CU ([^\s-]+)", message_text, re.IGNORECASE)
             if match is not None:
                 new_username = match.groups()[0]
                 self.factory.change_username_temporarily(self, new_username)
                 return
             
-            match = re.match(":RL ([^\s-]+) ([^\s-]+)", message_text)
+            match = re.match("!RL ([^\s-]+) ([^\s-]+)", message_text, re.IGNORECASE)
             if match is not None:
                 username = match.groups()[0]
                 password = match.groups()[1]

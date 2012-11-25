@@ -41,7 +41,7 @@ class BroadcastServerFactory(WebSocketServerFactory):
             
             room.append(client)
             bot_message = BotMessage("Welcome {0}, to change your username temporarily " 
-            "type ':CU username', to register or login type ':RL username password'".format(
+            "type '!CU username', to register or login type '!RL username password'".format(
                                                                             client.username))
             client.send_direct_message(bot_message)
             
@@ -150,7 +150,7 @@ class BroadcastServerFactory(WebSocketServerFactory):
             client.send_direct_message(private_conversation_send_user_message)
             
         else:
-            private_bot_message = PrivateBotMessage("Your message could not be sent to {0},"
+            private_bot_message = PrivateBotMessage("Your message could not be sent to {0}, "
             "perhaps they have left the room, or changed their username".format(
                                          recipient_username), recipient_username)
             client.send_direct_message(private_bot_message)

@@ -85,8 +85,7 @@ var client = {
 	},
 	openPrivateConversationWindow: function(recipient_username) {
 		url = '/private-conversation/'+recipient_username+'/';
-		window.open(url,'','width=800,height=350');
-		return window;
+		return window.open(url,'','width=800,height=350');
 	}
 }
 
