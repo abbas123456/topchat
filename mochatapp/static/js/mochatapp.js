@@ -35,8 +35,7 @@ var client = {
     		private_message_client.appendUserMessageToChatTextArea(message['username'], message['colour_rgb'], message['message']);
     	} else if (message['type'] == 7) {
     		if (private_message_windows[message['username']] === undefined) {
-    			url = '/private-conversation/'+message['username']+'/';
-    			private_message_window = window.open(url,'','width=800,height=350');
+    			private_message_window = client.openPrivateConversationWindow(message['username']);
     			private_message_window.onload = function () {
     				var private_message_client = private_message_windows[message['username']];
         			private_message_client.appendUserMessageToChatTextArea(message['username'], message['colour_rgb'], message['message']);
@@ -68,8 +67,7 @@ var client = {
 	    $('#chat_text_area').scrollTop(height); 
 	},
 	addUsernameToUserList: function(username, colour_rgb) {
-		var private_conversation_url = "<a class='private_conversation' href='/private-conversation/"+username+"/'>";
-		$('#chat_user_table_body').html($('#chat_user_table_body').html()+"<tr id='"+username+"' name='UserListUsernames'><td style='color: rgb("+ colour_rgb +")'>"+private_conversation_url+"<i class='icon-user icon-white' /></i> "+username+"</a></td></tr>");
+		$('#chat_user_table_body').html($('#chat_user_table_body').html()+"<tr id='"+username+"' class='private_conversation' name='UserListUsernames'><td style='color: rgb("+ colour_rgb +")' recipient_username='"+username+"'><i class='icon-user icon-white' /></i> "+username+"</a></td></tr>");
 	},
 	removeUsernameFromUserList: function(username) {
 		$('#'+username).remove();
@@ -84,6 +82,11 @@ var client = {
 		pixelBuffer = 121;
 		$('#chat_text_area').height(windowHeight-pixelBuffer);
 		$('#scroll_body').height(windowHeight-pixelBuffer);
+	},
+	openPrivateConversationWindow: function(recipient_username) {
+		url = '/private-conversation/'+recipient_username+'/';
+		window.open(url,'','width=800,height=350');
+		return window;
 	}
 }
 
@@ -114,20 +117,14 @@ $(document).ready(function(){
         client.clearAllUsernamesFromUserList();
     });
     
-    $('body').on('click', 'a.private_conversation', function(event) {
-    	event.preventDefault();
-    	url = $(event.target).attr("href");
-    	re = new RegExp(".*\/(.*)\/$");
-		matches = re.exec(url);
-		if (matches == null) {
-			return;
-		} else {
-			recipient_username = matches[1];
-			if (private_message_windows[recipient_username] === undefined) {
-				window.open(url,'','width=800,height=350');				
-			}
+    $('body').on('click', 'tr.private_conversation', function(event) {
+    	recipient_username = $(event.target).attr("recipient_username");
+    	if (recipient_username === undefined) {
+    		return;
+    	}
+		if (private_message_windows[recipient_username] === undefined) {
+			client.openPrivateConversationWindow(recipient_username);
 		}
-    	
     });
     
 });
