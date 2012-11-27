@@ -6,11 +6,11 @@
     </div>
     <p class="lead">{{ object }}</p>
     <div class="row-fluid">
-	    <div class="span10">
+	    <div class="span10 chat_box">
 	       <div id="chat_text_area" class="field span12">
 	       </div> 
 	    </div>
-		<div class="span2">
+		<div class="span2 chat_box">
 		    <div id="scroll_body" class="scrolling">
 		        <table id="chat_user_table" class="scroll_padded table-condensed table-hover">
 		            <tbody id="chat_user_table_body">
@@ -26,7 +26,7 @@
                <input class="field span12" id="chat_input" />
            </div>
            <div class="span2">
-            <button id="chat_send_message_button" class="field span12 btn btn-inverse" type="button">Send message</button>
+            <button id="chat_send_message_button" class="field span12 btn btn-inverse" type="button">Send</button>
             <input type="hidden" id="chat_user_room_number" value="{{ object.id }}" />
         </div>
         </div>

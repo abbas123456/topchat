@@ -55,7 +55,7 @@ input {
 }
 
 #push, #footer {
-    height: 60px;
+    height: 80px;
 }
 
 i.pre-text {
@@ -74,14 +74,13 @@ img.social {
     margin-bottom:20px;
 }
 
-#chat_box {
-    margin-bottom:20px;
-        border: 1px solid white;
- background-color: rgba(255,255,255,0.1);
+.chat_box {
+    border: 1px solid gray;
+    background-color: rgba(255,255,255,0.1);
+    color: white;
 }
 
 #chat_text_area {
-    color: white;
     height: 420px; 
     overflow-x: hidden;
     overflow-y: scroll;
@@ -91,7 +90,6 @@ img.social {
 }
 
 #private_conversation_text_area {
-    color: white;
     height: 220px; 
     overflow-x: hidden;
     overflow-y: scroll;
@@ -145,9 +143,6 @@ img.social {
     height: 420px;
 }
 
-#chat_user_table {
-    color: white;
-}
 
 .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
     background-color: rgba(255,255,255,0.1);

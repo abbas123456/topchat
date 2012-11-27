@@ -6,12 +6,12 @@
 	        <p>Looks like you've been disconnected, <a id="reconnect_button" href="#">click here</a> to re-connect</p>
 	    </div>
 	    <p class="lead">{{ object }}</p>
-	    <div id="chat_box" class="row-fluid">
-		    <div {% if user.is_authenticated %}class="span10"{% else %}class="span9" {% endif %}>
+	    <div class="row-fluid">
+		    <div {% if user.is_authenticated %}class="span10 chat_box"{% else %}class="span9 chat_box" {% endif %}>
 		       <div id="chat_text_area" class="field span12">
 		       </div> 
 		    </div>
-			<div {% if user.is_authenticated %}class="span2"{% else %}class="span3" {% endif %}>
+			<div {% if user.is_authenticated %}class="span2 chat_box"{% else %}class="span3 chat_box" {% endif %}>
 			    <div id="scroll_body" class="scrolling">
 			        <table id="chat_user_table" class="scroll_padded table-condensed table-hover">
 			            <tbody id="chat_user_table_body">
@@ -40,7 +40,7 @@
 	{% if not user.is_authenticated %}
 	<div class="span3 promo">
         <h3>Add to your site</h3>
-        <p class="lead text-info"><strong>3 simple steps:</strong></p>
+        <p class="lead text-info"><strong><u>3 simple steps:</u></strong></p>
         <p class="lead"><span class="badge badge-info">1</span> Register </p>
         <p class="lead"><span class="badge badge-info">2</span> Create a room </p>
         <p class="lead"><span class="badge badge-info">3</span> Add 
