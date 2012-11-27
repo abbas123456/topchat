@@ -62,7 +62,7 @@ var client = {
 	},
 	appendUserMessageToChatTextArea: function(username, colour_rgb, message) {
 		var text_area= $('#chat_text_area');
-    	text_area.html(text_area.html() + "<small><p style='color: rgb("+ colour_rgb +")'>"+ username +": "+ message +"</p></small>");
+    	text_area.html(text_area.html() + "<small><p><span style='color: rgb("+ colour_rgb +")'>"+ username +": </span>"+ message +"</p></small>");
     	var height = $('#chat_text_area')[0].scrollHeight;
 	    $('#chat_text_area').scrollTop(height); 
 	},

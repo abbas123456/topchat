@@ -6,7 +6,7 @@
 	        <p>Looks like you've been disconnected, <a id="reconnect_button" href="#">click here</a> to re-connect</p>
 	    </div>
 	    <p class="lead">{{ object }}</p>
-	    <div class="row-fluid">
+	    <div id="chat_box" class="row-fluid">
 		    <div {% if user.is_authenticated %}class="span10"{% else %}class="span9" {% endif %}>
 		       <div id="chat_text_area" class="field span12">
 		       </div> 

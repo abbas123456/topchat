@@ -74,6 +74,12 @@ img.social {
     margin-bottom:20px;
 }
 
+#chat_box {
+    margin-bottom:20px;
+        border: 1px solid white;
+ background-color: rgba(255,255,255,0.1);
+}
+
 #chat_text_area {
     color: white;
     height: 420px; 
