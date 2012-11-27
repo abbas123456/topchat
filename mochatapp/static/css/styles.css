@@ -14,10 +14,19 @@ input {
     color: white;
 }
 
-h1.banner {
-    font-size: 46px;
+#main_body {
+    margin-top: 20px;
+    margin-bottom: 20px;	
 }
-
+.promo {
+    background-color: rgba(0,0,0,0.3);
+    padding: 14px;
+    margin-top: 50px;
+    border: 1px solid white;
+}
+.promo_button {
+    font-size:150%;	
+}
 .header {
     position: relative;
     padding: 40px 0;
@@ -62,7 +71,6 @@ img.social {
 }
 
 #chat_div {
-    margin-top:20px;
     margin-bottom:20px;
 }
 

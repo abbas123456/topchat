@@ -17,6 +17,11 @@ class StandaloneChatPageView(DetailView):
 
 class PrivateConversationView(TemplateView):
     template_name = 'client/private_conversation.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super(PrivateConversationView, self).get_context_data(**kwargs)
+        context['username'] = kwargs['username']
+        return context
         
 class RoomApiView(generics.RetrieveAPIView):
     model = Room

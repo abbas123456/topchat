@@ -1,44 +1,61 @@
 {% extends "base.html" %}
 {% block primary %}
-<div class="span12" id="chat_div">
-    <div id="disconnected_alert" style="display:none" class="alert alert-error">
-        <p>Looks like you've been disconnected, <a id="reconnect_button" href="#">click here</a> to re-connect</p>
-    </div>
-    <p class="lead">{{ object }}</p>
-    <div class="row-fluid">
-	    <div class="span10">
-	       <div id="chat_text_area" class="field span12">
-	       </div> 
+<div class="row-fluid">
+	<div {% if user.is_authenticated %}class="span12"{% else %}class="span9" {% endif %} id="chat_div">
+	    <div id="disconnected_alert" style="display:none" class="alert alert-error">
+	        <p>Looks like you've been disconnected, <a id="reconnect_button" href="#">click here</a> to re-connect</p>
 	    </div>
-		<div class="span2">
-		    <div id="scroll_body" class="scrolling">
-		        <table id="chat_user_table" class="scroll_padded table-condensed table-hover">
-		            <tbody id="chat_user_table_body">
-		              <tr id="MoBot" name="UserListUsernames"><td><i class="icon-eye-open icon-white" /></i> MoBot</td></tr>
-		            </tbody>
-		        </table>
+	    <p class="lead">{{ object }}</p>
+	    <div class="row-fluid">
+		    <div {% if user.is_authenticated %}class="span10"{% else %}class="span9" {% endif %}>
+		       <div id="chat_text_area" class="field span12">
+		       </div> 
+		    </div>
+			<div {% if user.is_authenticated %}class="span2"{% else %}class="span3" {% endif %}>
+			    <div id="scroll_body" class="scrolling">
+			        <table id="chat_user_table" class="scroll_padded table-condensed table-hover">
+			            <tbody id="chat_user_table_body">
+			              <tr id="MoBot" name="UserListUsernames"><td><i class="icon-eye-open icon-white" /></i> MoBot</td></tr>
+			            </tbody>
+			        </table>
+			    </div>
 		    </div>
 	    </div>
+	    <div class="row-fluid">
+	        <div class="span10">
+	           <div {% if user.is_authenticated %}class="span10"{% else %}class="span9" {% endif %}>
+	               <input class="field span12" id="chat_input" />
+	           </div>
+	           <div class="span2">
+	            <button id="chat_send_message_button" class="field span12 btn btn-inverse" type="button">Send</button>
+	            <input type="hidden" id="chat_user_room_number" value="{{ object.id }}" />
+	            {% if user.is_authenticated %}
+	                <input type="hidden" id="chat_user_username" value="{{ user.username }}" />
+	                <input type="hidden" id="chat_user_password" value="{{ user.password }}" />
+	           {% endif %}
+	        </div>
+	        </div>
+	    </div>
+	</div>
+	{% if not user.is_authenticated %}
+	<div class="span3 promo">
+        <h3>Add to your site</h3>
+        <p class="lead text-info"><strong>3 simple steps:</strong></p>
+        <p class="lead"><span class="badge badge-info">1</span> Register </p>
+        <p class="lead"><span class="badge badge-info">2</span> Create a room </p>
+        <p class="lead"><span class="badge badge-info">3</span> Add 
+            <a id="html_code_tooltip" href="#" rel="tooltip" data-original-title="This will be generated for you in the structure of a html iframe. This should then be copied and pasted to your own website on the page you want the chat room to be.">html</a> code
+        </p>
     </div>
-    <div class="row-fluid">
-        <div class="span10">
-           <div class="span10">
-               <input class="field span12" id="chat_input" />
-           </div>
-           <div class="span2">
-            <button id="chat_send_message_button" class="field span12 btn btn-inverse" type="button">Send message</button>
-            <input type="hidden" id="chat_user_room_number" value="{{ object.id }}" />
-            {% if user.is_authenticated %}
-                <input type="hidden" id="chat_user_username" value="{{ user.username }}" />
-                <input type="hidden" id="chat_user_password" value="{{ user.password }}" />
-           {% endif %}
-        </div>
-        </div>
+    <div class="span3 promo">
+            <a href="{% url register %}" class="field_span12 btn btn-large btn-primary promo_button">Register now</a>
     </div>
+    {% endif %}
 </div>
-<p class="lead">All rooms:</p>
+<div class="row-fluid">
+    <p class="lead">All rooms:</p>
     {% for room in rooms %}
         <small><a href="{{ room.get_absolute_url }}">{{ room }}</a></small><br />
     {% endfor %}
-    <br />
+</div>
 {% endblock %}

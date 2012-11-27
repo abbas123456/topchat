@@ -79,13 +79,13 @@ var client = {
 	},
 	resizeElementsBasedOnPageHeight: function() {
 		windowHeight = $(window).height();
-		pixelBuffer = 121;
+		pixelBuffer = 101;
 		$('#chat_text_area').height(windowHeight-pixelBuffer);
 		$('#scroll_body').height(windowHeight-pixelBuffer);
 	},
 	openPrivateConversationWindow: function(recipient_username) {
 		url = '/private-conversation/'+recipient_username+'/';
-		return window.open(url,'','width=800,height=350');
+		return window.open(url,'','width=800,height=340');
 	}
 }
 
@@ -125,5 +125,6 @@ $(document).ready(function(){
 			client.openPrivateConversationWindow(recipient_username);
 		}
     });
-    
+    var options = {delay: { show: 500, hide: 0 }, placement: 'right', html: true, title: 'What is this'}; 
+    $('#html_code_tooltip').tooltip(options)
 });

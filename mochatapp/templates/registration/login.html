@@ -1,50 +1,56 @@
 {% extends "base.html" %}
 {% block title %} Log in {% endblock %}
+{% block navBarHomeState %}{% endblock %}
+{% block navBarLoginState %} class="active"{% endblock %}
 {% block primary %}
-<div class="span4"></div>
-<div class="span3">
-<br />
-<form method="post" action="{% url django.contrib.auth.views.login %}">
-	{% csrf_token %}
-	{% if form.username.errors %}
-	   <div class="control-group error">
-	       <label class="control-label" for="id_username">Username</label>
-	       <div class="controls">
-	           {{ form.username }}
-	           <span class="help-inline">{{ form.username.errors }}</span>
+<div class="span1"></div>
+<div class="span4">
+	<form method="post" action="{% url django.contrib.auth.views.login %}">
+		{% csrf_token %}
+		{% if form.username.errors %}
+		   <div class="control-group error">
+		       <label class="control-label" for="id_username">Username</label>
+		       <div class="controls">
+		           {{ form.username }}
+		           <span class="help-inline">{{ form.username.errors }}</span>
+		       </div>
+		   </div>
+		{% else %}
+		   <div class="control-group">
+	           <label class="control-label" for="id_username">Username</label>
+	           <div class="controls">
+	               {{ form.username }}
+	           </div>
 	       </div>
-	   </div>
-	{% else %}
-	   <div class="control-group">
-           <label class="control-label" for="id_username">Username</label>
-           <div class="controls">
-               {{ form.username }}
-           </div>
-       </div>
-    {% endif %}
-    {% if form.password.errors %}
-    	<div class="control-group error">
-	       <label class="control-label" for="id_password">Password</label>
-	       <div class="controls">
-	           {{ form.password }}
-	           <span class="help-inline">{{ form.password.errors }}</span>
+	    {% endif %}
+	    {% if form.password.errors %}
+	    	<div class="control-group error">
+		       <label class="control-label" for="id_password">Password</label>
+		       <div class="controls">
+		           {{ form.password }}
+		           <span class="help-inline">{{ form.password.errors }}</span>
+		       </div>
+		   </div>
+		{% else %}
+	       <div class="control-group">
+	           <label class="control-label" for="id_password">Password</label>
+	           <div class="controls">
+	               {{ form.password }}
+	           </div>
 	       </div>
-	   </div>
-	{% else %}
-       <div class="control-group">
-           <label class="control-label" for="id_password">Password</label>
-           <div class="controls">
-               {{ form.password }}
-           </div>
-       </div>
-    {% endif %}      
-	<div class="control-group">
-	    <div class="controls">
-	        <input type="submit" class="btn btn-primary" value="Log in" />
-            <a class="btn btn-inverse" href="{% url home %}">Cancel</a>
-	        <input type="hidden" name="next" value="{{ next }}" />
-	    </div>
-	</div>
-</form>
+	    {% endif %}      
+		<div class="control-group">
+		    <div class="controls">
+		        <input type="submit" class="btn btn-primary" value="Log in" />
+	            <a class="btn btn-inverse" href="{% url home %}">Cancel</a>
+		        <input type="hidden" name="next" value="{{ next }}" />
+		    </div>
+		</div>
+	</form>
+</div>
+<div class="span1"></div>
+<div class="span6">
+    <h2>Don't have an account?</h2>
+    <p class="lead">Click <a href="{% url register %}">here</a> to register.</p>
 </div>
 {% endblock %}
