@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %} Register{% endblock %}
+{% block navBarHomeState %} class="active"{% endblock %}
+{% block navBarAboutState %}{% endblock %}
+{% block primary %}
+<div class="row-fluid">
+    <div class="span1"></div>
+    <div class="span10">
+		<div id="carousel" class="carousel slide">
+		  <!-- Carousel items -->
+		  <div class="carousel-inner">
+		    <div class="active item">
+		       <div class="hero-unit">
+	                <h1 class="hero-unit-header">Welcome to Topchat</h1>
+	                <br />
+	                <p class="lead hero-unit-lead">An online chat application that let's you create and customise chat rooms for your own websites.</p>
+	                <a href="{% url register %}" class="pull-right btn btn-large btn-primary">Getting started</a>
+	           </div>
+		    </div>
+		    <div class="item">
+		       <div class="hero-unit">
+	                <h1 class="hero-unit-header">Take part in the action</h1>
+	                <br />
+	                <p class="lead hero-unit-lead">You can browse through the different chat rooms and pop in to talk to other people around the world, including our bots.</p>
+	                <a href="#" class="pull-right btn btn-large btn-primary">Browse all rooms</a>
+	           </div>
+		    </div>
+		  </div>
+		  <!-- Carousel nav -->
+		  <a class="carousel-control left" href="#carousel" data-slide="prev">&lsaquo;</a>
+		  <a class="carousel-control right" href="#carousel" data-slide="next">&rsaquo;</a>
+		</div>
+    </div>
+</div>
+<div class="row-fluid">
+    <div class="span1"></div>
+    <div class="span3 promo">
+        <h3>Add to your site</h3>
+        <hr />
+        <p class="lead"><span class="badge badge-info">1</span> Register </p>
+        <p class="lead"><span class="badge badge-info">2</span> Create a room </p>
+        <p class="lead"><span class="badge badge-info">3</span> Copy 
+            <a id="html_code_tooltip" href="#" rel="tooltip" data-original-title="This will be generated for you as a html iframe. This should then be copied and pasted to your own website on the page you want the chat room to be.">html</a> code
+        </p>
+        <p class="lead">
+            <a href="{% url register %}" class="field_span12 btn btn-large btn-primary promo_button">Register now</a>
+        </p>
+    </div>
+    <div class="span3 promo">
+        <h3>Why use Topchat</h3>
+        <hr />
+        <p class="lead"><span class="badge badge-success"><i class="icon-ok"></i></span> Free</p>
+        <p class="lead"><span class="badge badge-success"><i class="icon-ok"></i></span> Quick</p>
+        <p class="lead"><span class="badge badge-success"><i class="icon-ok"></i></span> Secure</p>
+        <p class="lead">
+            <a href="{% url register %}" class="field_span12 btn btn-large btn-primary promo_button">Join demo room</a>
+        </p>
+    </div>
+    <div class="span4 promo">
+        <h3>Most active rooms</h3>
+        <hr />
+        {% for room in active_rooms %}
+        <h5><a href="{{ room.get_absolute_url }}" >{{ room.name }}</a><br /><span><small>{{ room.description }}</small></span></h5>
+        {% endfor %}
+        <p class="lead">
+            <a href="#" class="field_span12 btn btn-large btn-primary promo_button">Browse all rooms</a>
+        </p>
+    </div>
+</div>
+{% endblock %}

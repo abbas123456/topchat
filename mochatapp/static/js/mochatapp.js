@@ -127,4 +127,7 @@ $(document).ready(function(){
     });
     var options = {delay: { show: 500, hide: 0 }, placement: 'right', html: true, title: 'What is this'}; 
     $('#html_code_tooltip').tooltip(options)
+    $('.carousel').carousel({
+    	interval: 5000
+    })
 });

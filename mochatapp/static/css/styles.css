@@ -1,32 +1,57 @@
 html, body {
     font-size: 16px;
-    font-family: “Courier New”, Courier, monospace;
+    font-family: Impact, Charcoal, sans-serif;
     background-image:url(../img/shattered.png);
     height: 100%;
 }
 input {
 	font-family: inherit;
 }
+.navbar {
+    margin-left: auto;
+    margin-right: auto;
+    width: 1170px;
+}
+.hero-unit {
+	font-family: Impact, Charcoal, sans-serif;
+    color: #033F5F;
+    background-color: #FFFFFF;
+}
+
+.hero-unit-header {
+    font-size: 300% !important;	
+}
+
+.hero-unit-lead {
+	font-size: 140% !important;
+}
+
 #container {
     border-left: 1px solid black;
     border-right: 1px solid black;
     background-image:url(../img/dark_wall.png);
-    color: white;
+    color: #FFFFFF;
+}
+
+a.brand {
+    margin-left: 10px !important;	
 }
 
 #main_body {
     margin-top: 20px;
     margin-bottom: 20px;	
 }
+
 .promo {
     background-color: rgba(0,0,0,0.3);
     padding: 14px;
-    margin-top: 50px;
     border: 1px solid white;
 }
+
 .promo_button {
-    font-size:150%;	
+    font-size:90%;	
 }
+
 .header {
     position: relative;
     padding: 40px 0;
@@ -40,9 +65,9 @@ input {
     background: -moz-linear-gradient(center top, #CC002C, #CC0000);
     
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#CC002C', endColorstr='#CC0000',GradientType=0 ); /* IE6-9 fallback on horizontal gradient */
-    -webkit-box-shadow: inset 0 3px 7px rgba(0,0,0,.2), inset 0 -3px 7px rgba(0,0,0,.2);
-    -moz-box-shadow: inset 0 3px 7px rgba(0,0,0,.2), inset 0 -3px 7px rgba(0,0,0,.2);
-    box-shadow: inset 0 3px 7px rgba(0,0,0,.2), inset 0 -3px 7px rgba(0,0,0,.2);
+    -webkit-box-shadow: inset 0 3px 7px rgba(0,0,0,.2), inset 0 -10px 7px rgba(0,0,0,.2);
+    -moz-box-shadow: inset 0 3px 7px rgba(0,0,0,.2), inset 0 -10px 7px rgba(0,0,0,.2);
+    box-shadow: inset 0 3px 7px rgba(0,0,0,.2), inset 0 -10px 7px rgba(0,0,0,.2);
   	margin-top:41px;
     padding: 15px;
 }
@@ -147,8 +172,4 @@ img.social {
 .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
     background-color: rgba(255,255,255,0.1);
     cursor: pointer;
-}
-
-.hero-unit {
-    color: black;
 }

@@ -1,13 +1,13 @@
 from django.conf.urls import patterns, url
 from client.views import ChatPageView, PrivateConversationView, StandaloneChatPageView, \
                          RoomApiView
-from mochatapp.views import AboutPageView                        
+from mochatapp.views import HomePageView, AboutPageView                        
 from account.views import UserCreateView, UserDetailView, \
                           UserApiView, UserPasswordApiView, UserListCreateApiView
 from rest_framework.urlpatterns import format_suffix_patterns
 
 urlpatterns = patterns('',
-    url(r'^$', ChatPageView.as_view(), {'pk': 1}, name='home'),
+    url(r'^$', HomePageView.as_view(), name='home'),
     url(r'^room/(?P<slug>[-\w\d]+)/(?P<pk>\d+)/$',
         ChatPageView.as_view(), name='room_detail'),
     url(r'^private-conversation/(?P<username>[^\s-]+)/$',
