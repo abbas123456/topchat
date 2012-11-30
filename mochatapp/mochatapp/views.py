@@ -5,3 +5,6 @@ class HomePageView(TemplateView):
 
 class AboutPageView(TemplateView):
     template_name = 'mochatapp/about.html'
+
+class GettingStartedPageView(TemplateView):
+    template_name = 'mochatapp/getting_started.html'

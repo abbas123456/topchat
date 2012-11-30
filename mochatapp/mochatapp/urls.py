@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, url
 from client.views import ChatPageView, PrivateConversationView, StandaloneChatPageView, \
                          RoomApiView
-from mochatapp.views import HomePageView, AboutPageView                        
+from mochatapp.views import HomePageView, AboutPageView, GettingStartedPageView                        
 from account.views import UserCreateView, UserDetailView, \
                           UserApiView, UserPasswordApiView, UserListCreateApiView
 from rest_framework.urlpatterns import format_suffix_patterns
@@ -15,6 +15,7 @@ urlpatterns = patterns('',
     url(r'^standalone-room/(?P<pk>\d+)/$',
         StandaloneChatPageView.as_view(), name='standalone_room_detail'),
     url(r'^about/$', AboutPageView.as_view(), name='about'),
+    url(r'^getting-started/$', GettingStartedPageView.as_view(), name='getting_started'),
     url(r'^room/(?P<pk>\d+)/$', RoomApiView.as_view(), name='room-detail'),
     url(r'^accounts/register/$', UserCreateView.as_view(), name='register'),
     url(r'^accounts/login/$', 'django.contrib.auth.views.login',
