@@ -35,6 +35,29 @@
 <div class="row-fluid">
     <div class="span1"></div>
     <div class="span3 promo">
+        <h3>Features</h3>
+        <hr />
+        <p class="lead"><span class="badge badge-success"><i class="icon-ok"></i></span> Free</p>
+        <p class="lead"><span class="badge badge-success"><i class="icon-ok"></i></span> Secure</p>
+        <p class="lead"><span class="badge badge-success"><i class="icon-ok"></i></span> Browser based</p>
+        <p class="lead">
+            <a href="{% url register %}" class="field_span12 btn btn-large btn-primary promo_button">Join demo room</a>
+        </p>
+    </div>
+    <div class="span4 promo">
+	    <h3>Why use Topchat?</h3>
+	    <hr />
+	    <blockquote>
+	        <p>My site wasn't getting many hits, adding a Topchat room gave people more of an incentive to use my site. </p>
+	        <small>solocover.com webmaster</small>
+	    </blockquote>
+	    <br />
+	    <blockquote>
+	        <p>Fast and easy installation</p>
+	        <small>Mohammad Abbas</small>
+	    </blockquote>
+    </div>
+    <div class="span3 promo">
         <h3>Add to your site</h3>
         <hr />
         <p class="lead"><span class="badge badge-info">1</span> Register </p>
@@ -44,26 +67,6 @@
         </p>
         <p class="lead">
             <a href="{% url register %}" class="field_span12 btn btn-large btn-primary promo_button">Register now</a>
-        </p>
-    </div>
-    <div class="span3 promo">
-        <h3>Why use Topchat</h3>
-        <hr />
-        <p class="lead"><span class="badge badge-success"><i class="icon-ok"></i></span> Free</p>
-        <p class="lead"><span class="badge badge-success"><i class="icon-ok"></i></span> Quick</p>
-        <p class="lead"><span class="badge badge-success"><i class="icon-ok"></i></span> Secure</p>
-        <p class="lead">
-            <a href="{% url register %}" class="field_span12 btn btn-large btn-primary promo_button">Join demo room</a>
-        </p>
-    </div>
-    <div class="span4 promo">
-        <h3>Most active rooms</h3>
-        <hr />
-        {% for room in active_rooms %}
-        <h5><a href="{{ room.get_absolute_url }}" >{{ room.name }}</a><br /><span><small>{{ room.description }}</small></span></h5>
-        {% endfor %}
-        <p class="lead">
-            <a href="#" class="field_span12 btn btn-large btn-primary promo_button">Browse all rooms</a>
         </p>
     </div>
 </div>
