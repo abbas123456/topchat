@@ -1,7 +1,7 @@
 html, body {
     font-size: 16px;
-    font-family: Impact, Charcoal, sans-serif;
-    background-image:url(../img/shattered.png);
+    font-family: Helvetica Neue, Arial, Helvetica, sans-serif;
+    background-image:url(../img/white_wall.png);
     height: 100%;
 }
 input {
