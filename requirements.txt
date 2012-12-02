@@ -8,5 +8,7 @@ greenlet==0.4.0
 ipdb==0.7
 ipython==0.13.1
 psycopg2==2.4.5
+pyOpenSSL==0.13
+pycurl==7.19.0
 wsgiref==0.1.2
 zope.interface==4.0.1
