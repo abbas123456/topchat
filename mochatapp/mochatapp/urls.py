@@ -5,6 +5,12 @@ from mochatapp.views import HomePageView, AboutPageView, GettingStartedPageView,
 from account.views import UserCreateView, UserDetailView, \
                           UserApiView, UserPasswordApiView, UserListCreateApiView
 from rest_framework.urlpatterns import format_suffix_patterns
+from django.contrib.sitemaps import FlatPageSitemap, GenericSitemap
+from mochatapp.sitemap import StaticSitemap
+
+sitemaps = {
+    'main': StaticSitemap,
+}
 
 urlpatterns = patterns('',
     url(r'^$', HomePageView.as_view(), name='home'),
@@ -30,6 +36,8 @@ urlpatterns = patterns('',
         UserPasswordApiView.as_view(), name='user-password-detail'),
     url(r'^users/$',
         UserListCreateApiView.as_view(), name='users'),
+    url(r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap',
+        {'sitemaps': sitemaps}),
 )
 
 urlpatterns = format_suffix_patterns(urlpatterns, allowed=['json', 'api'])
