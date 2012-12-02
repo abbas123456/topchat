@@ -1,4 +1,4 @@
-# Django settings for mochatapp project.
+# Django settings for topchat project.
 
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
@@ -98,10 +98,10 @@ MIDDLEWARE_CLASSES = (
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'mochatapp.urls'
+ROOT_URLCONF = 'topchat.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
-WSGI_APPLICATION = 'mochatapp.wsgi.application'
+WSGI_APPLICATION = 'topchat.wsgi.application'
 
 TEMPLATE_DIRS = (
      '/var/www/topchat/builds/live/production/templates',

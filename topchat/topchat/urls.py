@@ -1,12 +1,12 @@
 from django.conf.urls import patterns, url
 from client.views import ChatPageView, PrivateConversationView, StandaloneChatPageView, \
                          RoomApiView
-from mochatapp.views import HomePageView, AboutPageView, GettingStartedPageView, HoldingPageView                        
+from topchat.views import HomePageView, AboutPageView, GettingStartedPageView, HoldingPageView                        
 from account.views import UserCreateView, UserDetailView, \
                           UserApiView, UserPasswordApiView, UserListCreateApiView
 from rest_framework.urlpatterns import format_suffix_patterns
 from django.contrib.sitemaps import FlatPageSitemap, GenericSitemap
-from mochatapp.sitemap import StaticSitemap
+from topchat.sitemap import StaticSitemap
 
 sitemaps = {
     'main': StaticSitemap,

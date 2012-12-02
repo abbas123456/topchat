@@ -1,4 +1,4 @@
-# Django settings for mochatapp project.
+# Django settings for topchat project.
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -64,7 +64,7 @@ STATIC_URL = '/static/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
-    '/var/www/mochatapp/static',
+    '/var/www/topchat/static',
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -98,13 +98,13 @@ MIDDLEWARE_CLASSES = (
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'mochatapp.urls'
+ROOT_URLCONF = 'topchat.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
-WSGI_APPLICATION = 'mochatapp.wsgi.application'
+WSGI_APPLICATION = 'topchat.wsgi.application'
 
 TEMPLATE_DIRS = (
-     '/var/www/mochatapp/templates',
+     '/var/www/topchat/templates',
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.

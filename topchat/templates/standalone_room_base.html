@@ -12,18 +12,16 @@
     </head>
 
     <body>
-        <div id="wrap">
-            <div id="container">
-                <div class="container-fluid">
-                    <div class="row-fluid">
-                        {% block primary %}{% endblock %}
-                    </div>
+        <div id="container">
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    {% block primary %}{% endblock %}
                 </div>
-                <!--[if lt IE 9]><script type="text/javascript" src="{{ STATIC_URL }}js/excanvas.js"></script><![endif]-->
-                <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
-                <script src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
-                <script src="{{ STATIC_URL }}js/mochatapp_private_conversation.js"></script>
             </div>
+            <!--[if lt IE 9]><script type="text/javascript" src="{{ STATIC_URL }}js/excanvas.js"></script><![endif]-->
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
+            <script src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
+            <script src="{{ STATIC_URL }}js/topchat.js"></script>
         </div>
     </body>
 </html>
