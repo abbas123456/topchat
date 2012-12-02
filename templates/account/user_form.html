@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block title %} Register{% endblock %}
+{% block navBarHomeState %}{% endblock %}
+{% block navBarRegisterState %} class="active"{% endblock %}
+{% block primary %}
+<div class="span5">
+<br />
+	<form id="register_form" method="post" action="." class="form-horizontal">
+	    {% csrf_token %}
+	    {% if form.username.errors %}
+	   <div class="control-group error">
+	       <label class="control-label" for="id_username">Username</label>
+	       <div class="controls">
+	           {{ form.username }}
+	           <span class="help-inline">{{ form.username.errors }}</span>
+	       </div>
+	   </div>
+	{% else %}
+	   <div class="control-group">
+	       <label class="control-label" for="id_username">Username</label>
+	       <div class="controls">
+	           {{ form.username }}
+	       </div>
+	   </div>
+	{% endif %}
+	{% if form.password.errors %}
+	    <div class="control-group error">
+	       <label class="control-label" for="id_password">Password</label>
+	       <div class="controls">
+	           {{ form.password }}
+	           <span class="help-inline">{{ form.password.errors }}</span>
+	       </div>
+	   </div>
+	{% else %}
+	   <div class="control-group">
+	       <label class="control-label" for="id_password">Password</label>
+	       <div class="controls">
+	           {{ form.password }}
+	       </div>
+	   </div>
+	{% endif %}
+	{% if form.non_field_errors %}
+	    <div class="control-group error">
+	       <label class="control-label" for="id_password_confirm">Confirm password</label>
+	       <div class="controls">
+	           {{ form.password_confirm }}
+	           <span class="help-inline">{{ form.non_field_errors }}</span>
+	       </div>
+	   </div>
+	{% else %}
+	   <div class="control-group">
+	       <label class="control-label" for="id_password_confirm">Confirm password</label>
+	       <div class="controls">
+	           {{ form.password_confirm }}
+	       </div>
+	   </div>
+	{% endif %}      
+	<div class="control-group">
+	    <div class="controls">
+	        <input type="submit" class="btn btn-primary" value="Register" />
+	        <a class="btn btn-inverse" href="{% url home %}">Cancel</a>
+	    </div>
+	</div>
+	</form>
+</div>
+<div class="span1"></div>
+<div class="span5">
+    <h2>Why register?</h2>
+    <p class="lead"><span class="badge badge-success"><i class="icon-ok"></i></span> Create your own chat rooms</p>
+    <p class="lead"><span class="badge badge-success"><i class="icon-ok"></i></span> Add chat rooms to your own site </p>
+    <p class="lead"><span class="badge badge-success"><i class="icon-ok"></i></span> Manage your room administrators</p>
+    <p class="lead"><span class="badge badge-success"><i class="icon-ok"></i></span> Customize how your room looks</p>
+    <p class="lead"><span class="badge badge-success"><i class="icon-ok"></i></span> Have your own username </p>
+</div>
+{% endblock %}

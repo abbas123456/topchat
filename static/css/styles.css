@@ -1,0 +1,182 @@
+html, body {
+    font-size: 16px;
+    font-family: Helvetica Neue, Arial, Helvetica, sans-serif;
+    background-image:url(../img/white_wall.png);
+    height: 100%;
+}
+input {
+	font-family: inherit;
+}
+.navbar {
+    margin-left: auto;
+    margin-right: auto;
+    width: 1170px;
+}
+.hero-unit {
+	font-family: Impact, Charcoal, sans-serif;
+    color: #033F5F;
+    background-color: #FFFFFF;
+    -webkit-box-shadow: inset 0 10px 10px rgba(0,0,0,.2), inset 0 -10px 10px rgba(0,0,0,.2);
+    -moz-box-shadow: inset 0 10px 10px rgba(0,0,0,.2), inset 0 -10px 10px rgba(0,0,0,.2);
+    box-shadow: inset 0 10px 10px rgba(0,0,0,.2), inset 0 -10px 10px rgba(0,0,0,.2);
+}
+
+.hero-unit-header {
+    font-size: 300% !important;	
+}
+
+.hero-unit-lead {
+	font-size: 140% !important;
+}
+
+#container {
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    background-image:url(../img/cartographer.png);
+    color: #FFFFFF;
+}
+
+#holding_body {
+	background-image:url(../img/cartographer.png);
+}
+
+a.brand {
+    margin-left: 10px !important;	
+}
+
+#main_body {
+    margin-top: 20px;
+    margin-bottom: 20px;	
+}
+
+.promo {
+    background-color: rgba(0,0,0,0.3);
+    padding: 14px;
+    border: 1px solid white;
+}
+
+.promo_button {
+    font-size:90%;	
+}
+
+.header {
+    position: relative;
+    padding: 40px 0;
+    background: #CC0000; /* Old browsers */
+    background: -moz-linear-gradient(270deg,  #CC002C 0%, #CC0000 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, center top, bottom top, color-stop(0%,#CC002C), color-stop(100%,#CC0000)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(270deg,  #CC002C 0%,#CC0000 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(270deg,  #CC002C 0%,#CC0000 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(270deg,  #CC002C 0%,#CC0000 100%); /* IE10+ */
+    background: linear-gradient(270deg,  #CC002C 0%,#CC0000 100%); /* W3C */
+    background: -moz-linear-gradient(center top, #CC002C, #CC0000);
+    
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#CC002C', endColorstr='#CC0000',GradientType=0 ); /* IE6-9 fallback on horizontal gradient */
+    -webkit-box-shadow: inset 0 3px 7px rgba(0,0,0,.2), inset 0 -10px 7px rgba(0,0,0,.2);
+    -moz-box-shadow: inset 0 3px 7px rgba(0,0,0,.2), inset 0 -10px 7px rgba(0,0,0,.2);
+    box-shadow: inset 0 3px 7px rgba(0,0,0,.2), inset 0 -10px 7px rgba(0,0,0,.2);
+  	margin-top:41px;
+    padding: 15px;
+}
+
+#wrap {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin: 0 auto -60px;
+}
+
+#push, #footer {
+    height: 80px;
+}
+
+i.pre-text {
+    padding: 0 10px 0 0;
+}
+
+div .span2_tight {
+    width: 6% !important
+}
+
+img.social {
+    background-color: rgba(0,0,0,0.2);
+}
+
+#chat_div {
+    margin-bottom:20px;
+}
+
+.chat_box {
+    border: 1px solid gray;
+    background-color: rgba(255,255,255,0.1);
+    color: white;
+}
+
+#chat_text_area {
+    height: 420px; 
+    overflow-x: hidden;
+    overflow-y: scroll;
+    border-left: 1px solid white;
+    border-top: 1px solid white;
+    border-bottom: 1px solid white;
+}
+
+#private_conversation_text_area {
+    height: 220px; 
+    overflow-x: hidden;
+    overflow-y: scroll;
+    border-left: 1px solid white;
+    border-top: 1px solid white;
+    border-bottom: 1px solid white;	
+}
+
+/* Chat user table */
+
+.scrolling {
+    overflow-y: scroll;
+}
+
+.scroll_headers {
+    padding-right: 16px;
+}
+
+.scroll_padded {
+	width:99%;
+    margin-left: 5px;
+    table-layout: fixed;
+}
+
+.scroll_padded th {
+    padding: 0 0 0 5px;
+    text-align: left;
+}
+
+.scroll_padded td {
+    padding: 0 0 0 5px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    text-align: left;
+}
+
+.scroll_padded th.amount {
+    padding: 0 5px 0 0;
+    text-align: right;
+}
+
+.scroll_padded td.amount {
+    padding: 0 5px 0 0;
+    text-align: right;
+}
+
+#scroll_body {
+    border-left: 1px solid white;
+    border-top: 1px solid white;
+    height: 420px;
+}
+
+
+.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+    background-color: rgba(255,255,255,0.1);
+    cursor: pointer;
+}
