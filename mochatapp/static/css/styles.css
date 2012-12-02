@@ -36,6 +36,10 @@ input {
     color: #FFFFFF;
 }
 
+#holding_body {
+	background-image:url(../img/cartographer.png);
+}
+
 a.brand {
     margin-left: 10px !important;	
 }

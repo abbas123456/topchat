@@ -8,3 +8,6 @@ class AboutPageView(TemplateView):
 
 class GettingStartedPageView(TemplateView):
     template_name = 'mochatapp/getting_started.html'
+
+class HoldingPageView(TemplateView):
+    template_name = 'mochatapp/holding.html'
