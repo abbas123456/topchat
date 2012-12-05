@@ -1,0 +1,73 @@
+<!DOCTYPE html> 
+<html>
+    <head>
+        <link rel="shortcut icon" href="{{ STATIC_URL }}favicon.ico" />
+        <title>Topchat</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+        <meta name="description" content="An online chat application that also lets you create and customise chat rooms for your own websites.">  
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap.min.css" />
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/styles.css" />
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap-responsive.min.css" />
+        <script type="text/javascript">
+			var _gaq = _gaq || [];
+			_gaq.push(['_setAccount', 'UA-36759104-1']);
+			_gaq.push(['_trackPageview']);
+			
+			(function() {
+			  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+			})();
+        </script>
+    </head>
+
+    <body id="holding_body">
+        <div id="container" class="container_holding">
+            <br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+            <div class="container">
+                <div class="row-fluid">
+                    <div class="offset2 span12">
+	                    <div class="span2_tight">
+	                        <img width="70" height="107" src="{{STATIC_URL}}img/logo.png" />
+	                    </div>
+	                    <br />
+	                    <div class="span5">
+	                        <div class="page-header">
+	                            <h1>Topchat <small> online chat</small></h1>
+	                        </div>
+	                        <p class="lead"><strong>Coming soon</strong>, the online chat application that also lets you create and customise chat rooms for your own websites...</p>
+	                    </div>
+                    </div>
+                </div>
+                <div class="row-fluid">
+                	<div class="offset2 span12">
+                		<div class="span2_tight"></div>
+                		<div class="span5">
+                			<p class="lead">Enter your email address and we will notify you when we launch:</p>
+							<form class="form-inline" method="POST">
+								{% csrf_token %}
+								<input id="id_email_address" name="email_address" type="text" class="input" placeholder="Enter your email here">
+								<button type="submit" class="btn btn-inverse">Notify me</button>
+								<span class="help-inline">{{ form.email_address.errors }}</span>
+							</form>
+						</div>
+					</div>
+                </div>
+                <div class="row-fluid">
+                	<div class="offset2 span12">
+                		<div class="span2_tight"></div>
+                		<div class="span5">
+			                {% if messages %}
+		    					{% for message in messages %}
+		    						<div class="alert alert-info">
+		    						<p> {{ message }} </p>
+		    					{% endfor %}
+							{% endif %}
+						</div>
+					</div>
+				</div>
+            </div>
+        </div>
+    </body>
+</html>

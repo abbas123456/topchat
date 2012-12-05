@@ -118,6 +118,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'client',
+    'topchat',
     'south',
     'rest_framework',
     'django.contrib.sitemaps',
