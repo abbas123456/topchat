@@ -10,8 +10,8 @@ class HomePageView(TemplateView):
 class AboutPageView(TemplateView):
     template_name = 'topchat/about.html'
 
-class GettingStartedPageView(TemplateView):
-    template_name = 'topchat/getting_started.html'
+class GetStartedPageView(TemplateView):
+    template_name = 'topchat/get_started.html'
 
 class HoldingPageView(CreateView):
     model = HoldingPageNotification 
