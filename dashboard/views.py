@@ -1,9 +1,5 @@
-from django.views.generic import ListView
-from client.models import Room
+from django.views.generic import TemplateView
 
 
-class HomePageView(ListView):
+class HomePageView(TemplateView):
     template_name = 'dashboard/home_page.html'
-
-    def get_queryset(self):
-        return Room.objects.filter(created_by=self.request.user)

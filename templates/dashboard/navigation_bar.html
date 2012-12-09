@@ -1,0 +1,27 @@
+<div class="row-fluid">
+	<div class="row-fluid">
+		<select class="pull-right">
+			<option>Choose a room...</option>
+			{% for room in rooms %}
+		  		<option value="{{ room.id }}">{{ room.name }}</option>
+			{% endfor %}
+		</select>
+	</div>
+	<div class="row-fluid">
+		<a href="#" class="pull-right btn btn-primary"><i class="icon-white icon-plus pre-text"></i> New room</a>
+	</div>
+</div>
+<div class="row-fluid">
+<ul class="nav nav-pills">
+  <li class="active">
+    <a href="#">General settings</a>
+  </li>
+  <li>
+    <a href="#">Appearance</a>
+  </li>
+  <li>
+    <a href="#">Administrators</a>
+  </li>
+</ul>
+</div>
+<p class="lead">Choose a room to manage or <a href="#">create</a> a new room</p>
