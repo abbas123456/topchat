@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block navBarHomeState %}{% endblock %}
+{% block navBarDashboardState %} class="active"{% endblock %}
+{% block dashboard_alert_bar %}{% endblock %}
+{% block primary %}
+{% load navigation %}
+{% render_navigation_bar %}
+{{ form.as_p }}
+{% endblock %}

@@ -8,20 +8,20 @@
 		</select>
 	</div>
 	<div class="row-fluid">
-		<a href="#" class="pull-right btn btn-primary"><i class="icon-white icon-plus pre-text"></i> New room</a>
+		<a href="{% url create_room %}" class="pull-right btn btn-primary"><i class="icon-white icon-plus pre-text"></i> New room</a>
 	</div>
 </div>
 <div class="row-fluid">
 <ul class="nav nav-pills">
-  <li class="active">
-    <a href="#">General settings</a>
+  <li class="{% if current_url == 'dashboard_general' %}active{% endif %}">
+    <a href="{% url dashboard_general %}">General settings</a>
   </li>
-  <li>
-    <a href="#">Appearance</a>
+  <li class="{% if current_url == 'dashboard_appearance' %}active{% endif %}">
+    <a href="{% url dashboard_appearance %}">Appearance</a>
   </li>
-  <li>
-    <a href="#">Administrators</a>
+  <li class="{% if current_url == 'dashboard_administrators' %}active{% endif %}">
+    <a href="{% url dashboard_administrators %}">Administrators</a>
   </li>
 </ul>
 </div>
-<p class="lead">Choose a room to manage or <a href="#">create</a> a new room</p>
+<p class="lead">Choose a room to manage or <a href="{% url create_room %}">create</a> a new room</p>

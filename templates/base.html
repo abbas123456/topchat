@@ -21,7 +21,7 @@
                             <li{% block navBarHomeState %} class="active"{% endblock %}><a href="{% url home %}">Home</a></li>
                             {% if user.is_authenticated %}
                             	<li class="divider-vertical"></li>
-                            	<li{% block navBarDashboardState %}{% endblock %}><a href="{% url dashboard_home %}">Dashboard</a></li>
+                            	<li{% block navBarDashboardState %}{% endblock %}><a href="{% url dashboard_general %}">Dashboard</a></li>
                             {% endif %}
                             <li class="divider-vertical"></li>
                             <li{% block navBarGettingStartedState %}{% endblock %}><a href="{% url get_started %}">Get started</a></li>
@@ -64,7 +64,7 @@
 	                	<div class="row-fluid">
 	                		<div class="alert alert-info">
 	                			<button type="button" class="close" data-dismiss="alert">×</button>
-		        				<p align="center"><a href="{% url dashboard_home %}">Create, customise and manage your own rooms</a>.</p>
+		        				<p align="center"><a href="{% url dashboard_general %}">Create, customise and manage your own rooms</a>.</p>
 		    				</div>
 	                	</div>
                		{% endif %}

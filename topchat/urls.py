@@ -6,7 +6,7 @@ from topchat.views import HomePageView, AboutPageView, GetStartedPageView, \
 from account.views import UserCreateView, UserDetailView, \
     UserApiView, UserPasswordApiView, \
     UserListCreateApiView
-from dashboard.views import HomePageView as DashboardHomePageView
+from dashboard import views as dashboard_views
 
 from rest_framework.urlpatterns import format_suffix_patterns
 from topchat.sitemap import StaticSitemap
@@ -23,9 +23,14 @@ urlpatterns = patterns('',
         PrivateConversationView.as_view(), name='private_conversation'),
     url(r'^standalone-room/(?P<pk>\d+)/$',
         StandaloneChatPageView.as_view(), name='standalone_room_detail'),
-    url(r'^dashboard/$', DashboardHomePageView.as_view(),
-        name='dashboard_home'),
-
+    url(r'^dashboard/$', dashboard_views.GeneralPageView.as_view(),
+        name='dashboard_general'),
+    url(r'^appearance/$', dashboard_views.AppearancePageView.as_view(),
+        name='dashboard_appearance'),
+    url(r'^administrators/$', dashboard_views.AdministratorsPageView.as_view(),
+        name='dashboard_administrators'),
+    url(r'^create-room/$', dashboard_views.CreateRoomView.as_view(),
+        name='create_room'),
     # Static
     url(r'^about/$', AboutPageView.as_view(), name='about'),
     url(r'^get-started/$', GetStartedPageView.as_view(), name='get_started'),
