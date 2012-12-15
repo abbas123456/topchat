@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}Create room{% endblock %}
+{% block dashboard_alert_bar %}{% endblock %}
+{% block primary %}
+<h2>Create a new room</h2>
+<div class="span5">
+<br />
+	<form id="register_form" method="post" action="." class="form-horizontal">
+	    {% csrf_token %}
+	    {% if form.name.errors %}
+	   <div class="control-group error">
+	       <label class="control-label" for="id_name">Name</label>
+	       <div class="controls">
+	           {{ form.name }}
+	           <span class="help-inline">{{ form.name.errors }}</span>
+	       </div>
+	   </div>
+	{% else %}
+	   <div class="control-group">
+	       <label class="control-label" for="id_name">Name</label>
+	       <div class="controls">
+	           {{ form.name }}
+	       </div>
+	   </div>
+	{% endif %}
+	{% if form.description.errors %}
+	    <div class="control-group error">
+	       <label class="control-label" for="id_description">Description</label>
+	       <div class="controls">
+	           {{ form.description }}
+	           <span class="help-inline">{{ form.description.errors }}</span>
+	       </div>
+	   </div>
+	{% else %}
+	   <div class="control-group">
+	       <label class="control-label" for="id_description">Description</label>
+	       <div class="controls">
+	           {{ form.description }}
+	       </div>
+	   </div>
+	{% endif %}
+	{% if form.category.errors %}
+	    <div class="control-group error">
+	       <label class="control-label" for="id_category">Category</label>
+	       <div class="controls">
+	           {{ form.category }}
+	           <span class="help-inline">{{ form.category.errors }}</span>
+	       </div>
+	   </div>
+	{% else %}
+	   <div class="control-group">
+	       <label class="control-label" for="id_category">Category</label>
+	       <div class="controls">
+	           {{ form.category }}
+	       </div>
+	   </div>
+	{% endif %}
+	<div class="control-group">
+	    <label class="control-label" for="id_is_private">Private room</label>
+	    <div class="controls">
+	        {{ form.is_private }}
+	        <span class="help-block"><a id="private_room_tooltip" href="#" rel="tooltip" data-original-title="Ticking this will mean your room will not be browsable or searchable on www.topch.at. This is useful if you are adding this room to your own website.">What is this?</a></span>
+	    </div>
+	</div>
+	<div class="control-group">
+	    <div class="controls">
+	        <input type="submit" class="btn btn-primary" value="Create room" />
+	        <a class="btn btn-inverse" href="{% url dashboard_general %}">Cancel</a>
+	    </div>
+	</div>
+	</form>
+</div>
+{% endblock %}

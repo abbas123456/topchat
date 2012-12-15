@@ -17,6 +17,7 @@ DATABASES = {
         'PASSWORD': 'mochatapp', # Not used with sqlite3.
         'HOST': 'localhost', # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '5432', # Set to empty string for default. Not used with sqlite3.
+        'OPTIONS': { 'autocommit': True, }
     }
 }
 
@@ -174,5 +175,9 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.contrib.messages.context_processors.messages",
     "django.core.context_processors.request",
 )
+
+DEBUG_TOOLBAR_CONFIG = {
+    'INTERCEPT_REDIRECTS': False,               
+}
 
 INTERNAL_IPS = ('127.0.0.1',)

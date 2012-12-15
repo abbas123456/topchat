@@ -12,8 +12,3 @@ class AppearancePageView(generic.TemplateView):
 
 class AdministratorsPageView(generic.TemplateView):
     template_name = 'dashboard/administrators_page.html'
-
-
-class CreateRoomView(generic.CreateView):
-    template_name = 'dashboard/create_room.html'
-    model = models.Room
