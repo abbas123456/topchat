@@ -6,7 +6,7 @@ from django.core.urlresolvers import reverse
 from django.contrib import messages
 
 
-class DashboardMixin(object):
+class DashboardViewMixin(object):
 
     def get_room_from_url(self):
         if 'room' in self.request.GET:
@@ -25,7 +25,7 @@ class DashboardMixin(object):
         room = self.get_room_from_url()
         if room is not None and room.created_by != request.user:
             return http.HttpResponseForbidden()
-        return super(DashboardMixin, self).get(request, *args, **kwargs)
+        return super(DashboardViewMixin, self).get(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         room = self.get_room_from_url()
@@ -33,10 +33,10 @@ class DashboardMixin(object):
             return http.HttpResponseRedirect(reverse('dashboard_general'))
         elif room is None:
             return http.HttpResponseRedirect(reverse('dashboard_general'))
-        return super(DashboardMixin, self).post(request, *args, **kwargs)
+        return super(DashboardViewMixin, self).post(request, *args, **kwargs)
 
 
-class GeneralPageView(DashboardMixin, generic.UpdateView):
+class GeneralPageView(DashboardViewMixin, generic.UpdateView):
     template_name = 'dashboard/general_page.html'
     form_class = RoomForm
 
@@ -55,3 +55,18 @@ class AppearancePageView(generic.TemplateView):
 
 class AdministratorsPageView(generic.TemplateView):
     template_name = 'dashboard/administrators_page.html'
+
+
+class UserManagementPageView(generic.TemplateView):
+    template_name = 'dashboard/user_management_page.html'
+
+
+class YourWebsitePageView(generic.TemplateView):
+    template_name = 'dashboard/your_website_page.html'
+
+
+class DeleteRoomView(DashboardViewMixin, generic.DeleteView):
+    template_name = 'dashboard/delete_room.html'
+
+    def get_success_url(self):
+        return reverse('dashboard_general')

@@ -37,6 +37,27 @@
    		<a href="{% url dashboard_administrators %}"><i class="icon-white icon-eye-open pre-text"></i> Administrators</a>
    	{% endif %}
   </li>
+  <li class="{% if current_url == 'dashboard_user_management' %}active{% endif %}">
+  	{% if has_room_selected %}
+    	<a href="{% url dashboard_user_management %}?room={{ current_room }}"><i class="icon-white icon-user pre-text"></i> User management</a>
+   	{% else %}
+   		<a href="{% url dashboard_user_management %}"><i class="icon-white icon-user pre-text"></i> User management</a>
+   	{% endif %}
+  </li>
+  <li class="{% if current_url == 'dashboard_your_website' %}active{% endif %}">
+  	{% if has_room_selected %}
+    	<a href="{% url dashboard_your_website %}?room={{ current_room }}"><i class="icon-white icon-globe pre-text"></i> Your website</a>
+   	{% else %}
+   		<a href="{% url dashboard_your_website %}"><i class="icon-white icon-globe pre-text"></i> Your website</a>
+   	{% endif %}
+  </li>
+  <li class="{% if current_url == 'dashboard_delete_room' %}active{% endif %}">
+  	{% if has_room_selected %}
+    	<a href="{% url dashboard_delete_room %}?room={{ current_room }}"><i class="icon-white icon-trash pre-text"></i> Delete room</a>
+   	{% else %}
+   		<a href="{% url dashboard_delete_room %}"><i class="icon-white icon-trash pre-text"></i> Delete room</a>
+   	{% endif %}
+  </li>
 </ul>
 </div>
 {% if not has_room_selected %}

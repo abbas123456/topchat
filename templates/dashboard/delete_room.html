@@ -1,0 +1,16 @@
+{% extends "dashboard/base.html" %}
+{% block content %}
+<h1>Warning! This will delete your room permanently!</h1>
+<p class="lead">To deactivate your room temporarily go to general settings.</p>
+<p class="lead">Are you sure you want to do this? </p>
+<form action="" method="POST">
+	{% csrf_token %}
+	<div class="control-group">
+	    <div class="controls">
+	        <input type="submit" class="btn btn-primary" value="Delete" />
+	        <a class="btn btn-inverse" href="{% url dashboard_general %}">Woah, cancel</a>
+	    </div>
+	</div>
+</form>
+
+{% endblock %}
