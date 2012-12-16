@@ -5,6 +5,7 @@ from client.serializers import RoomSerializer
 from client import forms
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
+from django.contrib import messages
 
 
 class ChatPageView(generic.DetailView):
@@ -42,6 +43,7 @@ class CreateRoomView(generic.CreateView):
     def form_valid(self, form):
         form.instance.created_by = self.request.user
         form.save()
+        messages.success(self.request, "Your room has been created")
         return HttpResponseRedirect(self.get_success_url(form.instance))
 
     def get_success_url(self, room):

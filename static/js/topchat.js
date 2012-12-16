@@ -137,4 +137,8 @@ $(document).ready(function(){
     $('.carousel').carousel({
     	interval: 5000
     })
+    
+    setTimeout(function() {
+    			$(".timed_alert").alert('close');
+	} ,3000);
 });

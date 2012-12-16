@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block navBarHomeState %}{% endblock %}
+{% block navBarDashboardState %} class="active"{% endblock %}
+{% block dashboard_alert_bar %}{% endblock %}
+{% block primary %}
+	{% load navigation %}
+	{% render_navigation_bar %}
+	{% if has_room_selected %}
+		{% if messages %}
+			{% for message in messages %}
+				<div class="timed_alert alert">
+					<button type="button" class="close" data-dismiss="alert">×</button>
+					<p align="center">{{ message }}</p>
+				</div>
+			{% endfor %}
+		{% endif %}
+		{% block content %}
+		{% endblock %}
+	{% endif %}
+{% endblock %}

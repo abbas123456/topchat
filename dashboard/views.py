@@ -3,6 +3,7 @@ from client import models
 from django import http
 from client.forms import RoomForm
 from django.core.urlresolvers import reverse
+from django.contrib import messages
 
 
 class DashboardMixin(object):
@@ -38,6 +39,10 @@ class DashboardMixin(object):
 class GeneralPageView(DashboardMixin, generic.UpdateView):
     template_name = 'dashboard/general_page.html'
     form_class = RoomForm
+
+    def form_valid(self, form):
+        messages.success(self.request, "Your changes have been saved")
+        return super(GeneralPageView, self).form_valid(form)
 
     def get_success_url(self):
         return "{0}?room={1}".format(reverse('dashboard_general'),
