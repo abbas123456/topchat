@@ -184,3 +184,16 @@ img.social {
 i.pre-text {
     padding: 0 8px 0 0;
 }
+
+.nav-pills > li > a {
+	border: 1px solid white;
+}
+
+.nav > li > a:hover {
+	background-color: #B4C7D1;
+}
+
+.nav-tabs > li > a, .nav-pills > li > a {
+	margin-right: 5px;
+	padding-right: 15px;
+}

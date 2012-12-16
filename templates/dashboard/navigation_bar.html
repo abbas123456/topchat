@@ -13,27 +13,28 @@
 		<a href="{% url create_room %}" class="pull-right btn btn-primary"><i class="icon-white icon-plus pre-text"></i> New room</a>
 	</div>
 </div>
+<hr />
 <div class="row-fluid">
 <ul class="nav nav-pills">
   <li class="{% if current_url == 'dashboard_general' %}active{% endif %}">
   	{% if has_room_selected %}
-    	<a href="{% url dashboard_general %}?room={{ current_room }}">General settings</a>
+    	<a href="{% url dashboard_general %}?room={{ current_room }}"><i class="icon-white icon-wrench pre-text"></i> General settings</a>
     {% else %}
-		<a href="{% url dashboard_general %}">General settings</a>    
+		<a href="{% url dashboard_general %}"><i class="icon-white icon-wrench pre-text"></i> General settings</a>    
     {% endif %}
   </li>
   <li class="{% if current_url == 'dashboard_appearance' %}active{% endif %}">
   	{% if has_room_selected %}
-    	<a href="{% url dashboard_appearance %}?room={{ current_room }}">Appearance</a>
+    	<a href="{% url dashboard_appearance %}?room={{ current_room }}"><i class="icon-white icon-picture pre-text"></i> Appearance</a>
     {% else %}
-    	<a href="{% url dashboard_appearance %}">Appearance</a>
+    	<a href="{% url dashboard_appearance %}"><i class="icon-white icon-picture pre-text"></i> Appearance</a>
     {% endif %}
   </li>
   <li class="{% if current_url == 'dashboard_administrators' %}active{% endif %}">
   	{% if has_room_selected %}
-    	<a href="{% url dashboard_administrators %}?room={{ current_room }}">Administrators</a>
+    	<a href="{% url dashboard_administrators %}?room={{ current_room }}"><i class="icon-white icon-eye-open pre-text"></i> Administrators</a>
    	{% else %}
-   		<a href="{% url dashboard_administrators %}">Administrators</a>
+   		<a href="{% url dashboard_administrators %}"><i class="icon-white icon-eye-open pre-text"></i> Administrators</a>
    	{% endif %}
   </li>
 </ul>
