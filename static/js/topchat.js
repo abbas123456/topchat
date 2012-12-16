@@ -125,6 +125,12 @@ $(document).ready(function(){
 			client.openPrivateConversationWindow(recipient_username);
 		}
     });
+    
+    $('body').on('change', '#navigation_room_dropdown', function(event) {
+    	if ($(event.target).val() !== '0') {
+			$(event.target).parent("form").submit();		
+    	}
+    });
     var options = {delay: { show: 500, hide: 0 }, placement: 'right', html: true, title: 'What is this'}; 
     $('#html_code_tooltip').tooltip(options)
     $('#private_room_tooltip').tooltip(options)
