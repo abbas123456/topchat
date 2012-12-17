@@ -61,8 +61,17 @@ class UserManagementPageView(generic.TemplateView):
     template_name = 'dashboard/user_management_page.html'
 
 
-class YourWebsitePageView(generic.TemplateView):
+class YourWebsitePageView(DashboardViewMixin, generic.DetailView):
     template_name = 'dashboard/your_website_page.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(YourWebsitePageView, self).get_context_data(**kwargs)
+        if self.get_object().id is not None:
+            hostname = self.request.get_host()
+            path = reverse('standalone_room_detail',
+                           kwargs={'pk': self.get_object().id})
+            context['room_standalone_url'] = "{0}{1}".format(hostname, path)
+        return context
 
 
 class DeleteRoomView(DashboardViewMixin, generic.DeleteView):
