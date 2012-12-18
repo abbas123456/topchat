@@ -7,7 +7,8 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.contrib.auth import authenticate, login, hashers
 from rest_framework import generics
-from account.serializers import UserSerializer
+from account.serializers import UserSerializer, UserSearchSerializer
+from django.db.models.query import QuerySet
 
 
 class UserCreateView(CreateView):
@@ -64,3 +65,17 @@ class UserPasswordApiView(generics.RetrieveAPIView):
 class UserListCreateApiView(generics.ListCreateAPIView):
     model = User
     serializer_class = UserSerializer
+
+
+class UserListApiView(generics.ListAPIView):
+    model = User
+    serializer_class = UserSearchSerializer
+
+    def filter_queryset(self, queryset):
+        search_query = self.kwargs['search_query']
+        limit = self.kwargs['limit']
+        exclude_usernames = ['admin', 'anonymous']
+        users = User.objects.filter(username__icontains=search_query)
+        for exclude_username in exclude_usernames:
+            users = users.exclude(username=exclude_username)
+        return users[0:limit]

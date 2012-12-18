@@ -1,4 +1,26 @@
 {% extends "dashboard/base.html" %}
+{% block extrascripts %}
+<script type="text/javascript">
+$('#username_search').typeahead({
+    source: function(query, typeahead) {
+        $.ajax({
+            url: "/user-list/"+query+"/8/",
+            dataType: "json",
+            type: "GET",
+            success: function(data) {
+                var return_list = [], i = data.length;
+                while (i--) {
+                    return_list[i] = data[i].username.toString();
+                }
+                return typeahead(return_list);
+            }
+        });
+    },
+});
+</script>
+{% endblock %}
 {% block content %}
-
+<form action="" method="post">
+    <input type="text" name="username_search" value="" id="username_search" data-provide="typeahead" data-source="[]" maxlength="30" autocomplete="off"  />
+</form>
 {% endblock %}

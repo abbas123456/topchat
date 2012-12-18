@@ -2,9 +2,7 @@ from django.conf.urls import patterns, url
 from client import views as client_views
 from topchat.views import HomePageView, AboutPageView, GetStartedPageView, \
     HoldingPageView
-from account.views import UserCreateView, UserDetailView, \
-    UserApiView, UserPasswordApiView, \
-    UserListCreateApiView
+from account import views as account_views
 from dashboard import views as dashboard_views
 
 from rest_framework.urlpatterns import format_suffix_patterns
@@ -53,22 +51,29 @@ urlpatterns = patterns('',
     url(r'^holding/$', HoldingPageView.as_view(), name='holding'),
 
     # Authentication
-    url(r'^accounts/register/$', UserCreateView.as_view(), name='register'),
+    url(r'^accounts/register/$', account_views.UserCreateView.as_view(),
+        name='register'),
     url(r'^accounts/login/$', 'django.contrib.auth.views.login',
         name='login'),
-    url(r'^accounts/profile/$', UserDetailView.as_view(), name='profile'),
+    url(r'^accounts/profile/$', account_views.UserDetailView.as_view(),
+        name='profile'),
     url(r'^accounts/logout/$', 'django.contrib.auth.views.logout',
         name='logout'),
 
     # REST api
     url(r'^room/(?P<pk>\d+)/$', client_views.RoomApiView.as_view(),
         name='room-detail'),
-    url(r'^user/(?P<username>[-\w\d]+)/$', UserApiView.as_view(),
+    url(r'^user/(?P<username>[-\w\d]+)/$', account_views.UserApiView.as_view(),
         name='user-detail'),
     url(r'^user/(?P<username>[-\w\d]+)/(?P<password>[-\w\d]+)/$',
-        UserPasswordApiView.as_view(), name='user-password-detail'),
+        account_views.UserPasswordApiView.as_view(),
+        name='user-password-detail'),
     url(r'^users/$',
-        UserListCreateApiView.as_view(), name='users'),
+        account_views.UserListCreateApiView.as_view(),
+        name='users'),
+    url(r'^user-list/(?P<search_query>[-\w\d]+)/(?P<limit>\d+)/$',
+        account_views.UserListApiView.as_view(),
+        name='user-list'),
     url(r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap',
         {'sitemaps': sitemaps}),
 )
