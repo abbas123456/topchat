@@ -6,11 +6,11 @@
     </div>
     <p class="lead">{{ object }}</p>
     <div class="row-fluid">
-	    <div class="span10 chat_box" style="background-color:#{{ object.appearance.background_colour}};color:#{{ object.appearance.text_colour}};">
+	    <div class="span9 chat_box" style="background-color:#{{ object.appearance.background_colour}};color:#{{ object.appearance.text_colour}};">
 	       <div id="chat_text_area" class="field span12">
 	       </div> 
 	    </div>
-		<div class="span2 chat_box" style="background-color:#{{ object.appearance.background_colour}};color:#{{ object.appearance.text_colour}};">
+		<div class="span3 chat_box" style="background-color:#{{ object.appearance.background_colour}};color:#{{ object.appearance.text_colour}};">
 		    <div id="scroll_body" class="scrolling">
 		        <table id="chat_user_table" class="scroll_padded table-condensed table-hover">
 		            <tbody id="chat_user_table_body">
@@ -21,14 +21,28 @@
 	    </div>
     </div>
     <div class="row-fluid">
-        <div class="span10">
-           <div class="span10">
+        <div class="span9">
+           <div class="span9">
                <input class="field span12" id="chat_input" />
            </div>
-           <div class="span2">
+           <div class="span3">
             <button id="chat_send_message_button" class="field span12 btn btn-inverse" type="button">Send</button>
             <input type="hidden" id="chat_user_room_number" value="{{ object.id }}" />
         </div>
+        </div>
+        <div class="span3">
+        	<div class="row-fluid">
+        		<div class="span6">
+        			<button id="change_username_popover" rel="popover" class="field span12 btn btn-mini btn-primary" type="button"
+        			data-content="<form class='popover_form form-inline'><input id='change_username_username' type='text' class='input-small' placeholder='username'><button id='change_username_button' class='btn btn-small btn-inverse'>Change</button></form>"
+        			> Change username</button>
+        		</div>
+        		<div class="span6">
+        			<button id="login_register_popover" rel="popover" class="field span12 btn btn-mini btn-primary" type="button"
+        			data-content="<form class='popover_form form-inline'><input id='login_register_username' type='text' class='input-mini' placeholder='username'><input id='login_register_password' type='password' class='input-mini' placeholder='password'><button id='login_register_button' class='btn btn-small btn-inverse'>Submit</button></form>"
+        			> Login / Register</button>
+        		</div>
+        	</div>
         </div>
     </div>
 </div>

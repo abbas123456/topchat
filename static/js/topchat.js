@@ -49,11 +49,6 @@ var client = {
 	webSocketOnCloseHandler: function(e) {
 		$('#disconnected_alert').show();
 	},
-	sendMessageToServer: function(webSocket) {
-		message = $('#chat_input').val();
-		$('#chat_input').val("")
-		webSocket.send(message);
-	},
 	appendBotMessageToChatTextArea: function(username, message) {
 		var text_area= $('#chat_text_area');
     	text_area.html(text_area.html() + "<small><p>"+ username +": "+message+"</p></small>");
@@ -79,7 +74,7 @@ var client = {
 	},
 	resizeElementsBasedOnPageHeight: function() {
 		windowHeight = $(window).height();
-		pixelBuffer = 101;
+		pixelBuffer = 103;
 		$('#chat_text_area').height(windowHeight-pixelBuffer);
 		$('#scroll_body').height(windowHeight-pixelBuffer);
 	},
@@ -87,7 +82,19 @@ var client = {
 		roomNumber = $('#chat_user_room_number').val();
 		url = '/private-conversation/'+roomNumber+'/'+recipientUsername+'/';
 		return window.open(url,'','width=800,height=340');
-	}
+	},
+	sendMessageToServer: function(text) {
+		request = {'type':1, 'text': text};
+		webSocket.send(JSON.stringify(request));
+	},
+	sendChangeUsernameRequestToServer: function(username) {
+		request = {'type':2, 'username': username};
+		webSocket.send(JSON.stringify(request));
+	},
+	sendLoginRegisterRequestToServer: function(username, password) {
+		request = {'type':3, 'username': username, 'password': password};
+		webSocket.send(JSON.stringify(request));
+	},
 }
 
 $(document).ready(function(){
@@ -102,12 +109,16 @@ $(document).ready(function(){
                                
     $('body').on('keyup','#chat_input', function(event) {
         if(event.keyCode == 13){
-            client.sendMessageToServer(webSocket);
+        	message = $('#chat_input').val();
+    		$('#chat_input').val("")
+            client.sendMessageToServer(message);
         }
     });
     
     $('body').on('click','#chat_send_message_button', function(event) {
-    	client.sendMessageToServer(webSocket);
+    	message = $('#chat_input').val();
+		$('#chat_input').val("")
+        client.sendMessageToServer(message);
     });
     
     $('body').on('click','#reconnect_button', function(event) {
@@ -132,9 +143,9 @@ $(document).ready(function(){
 			$(event.target).parent("form").submit();		
     	}
     });
-    var options = {delay: { show: 500, hide: 0 }, placement: 'right', html: true, title: 'What is this'}; 
-    $('#html_code_tooltip').tooltip(options)
-    $('#private_room_tooltip').tooltip(options)
+    var tooltip_options = {delay: { show: 500, hide: 0 }, placement: 'right', html: true, title: 'What is this'}; 
+    $('#html_code_tooltip').tooltip(tooltip_options)
+    $('#private_room_tooltip').tooltip(tooltip_options)
     $('.carousel').carousel({
     	interval: 5000
     })
@@ -142,4 +153,24 @@ $(document).ready(function(){
     setTimeout(function() {
     			$(".timed_alert").alert('close');
 	} ,3000);
+    
+    var popover_options = {placement: 'left', html: true};
+    $('#change_username_popover').popover(popover_options)
+    
+    $('body').on('click', '#change_username_button', function(event) {
+    	event.preventDefault();
+    	if ($('#change_username_username').val() !== "") {
+    		client.sendChangeUsernameRequestToServer($('#change_username_username').val());
+    		$('#change_username_popover').popover('hide');
+    	}
+    });
+    $('#login_register_popover').popover(popover_options)
+    
+    $('body').on('click', '#login_register_button', function(event) {
+    	event.preventDefault();
+    	if ($('#login_register_username').val() !== "" && $('#login_register_password').val() !== "") {
+    		client.sendLoginRegisterRequestToServer($('#login_register_username').val(), $('#login_register_password').val());
+    		$('#login_register_popover').popover('hide');
+    	}
+    });
 });

@@ -197,3 +197,11 @@ i.pre-text {
 	margin-right: 5px;
 	padding-right: 15px;
 }
+
+.popover-title {
+	padding: 0 0;
+}
+
+.popover_form {
+	margin: 0 0 0;
+}

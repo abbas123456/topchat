@@ -1,8 +1,7 @@
 var client = {
-	sendMessageToServer: function(webSocket, recipient_username) {
-		message = '<'+recipient_username+'>'+ $('#chat_input').val();
-		$('#chat_input').val("")
-		webSocket.send(message);
+	sendMessageToServer: function(webSocket, recipient_username, text) {
+		request = {'type':4, 'recipient_username': recipient_username, 'text': text};
+		webSocket.send(JSON.stringify(request));
 	},
 	appendBotMessageToChatTextArea: function(username, message) {
 		var text_area= $('#private_conversation_text_area');
@@ -36,11 +35,15 @@ $(document).ready(function() {
 
 	$('body').on('keyup','#chat_input', function(event) {
         if(event.keyCode == 13){
-            client.sendMessageToServer(window.opener.webSocket, client.getRecipientUsernameFromUrl());
+        	message = $('#chat_input').val();
+    		$('#chat_input').val("")
+        	client.sendMessageToServer(window.opener.webSocket, client.getRecipientUsernameFromUrl(), message);
         }
     });
     
     $('body').on('click','#chat_send_message_button', function(event) {
-    	client.sendMessageToServer(window.opener.webSocket, client.getRecipientUsernameFromUrl());
+    	message = $('#chat_input').val();
+		$('#chat_input').val("")
+    	client.sendMessageToServer(window.opener.webSocket, client.getRecipientUsernameFromUrl(), message);
     });
 });
