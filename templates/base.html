@@ -2,13 +2,14 @@
 <html>
     <head>
         <link rel="shortcut icon" href="{{ STATIC_URL }}favicon.ico" />
-        <title>Topchat - {% block title %}Home{% endblock %}</title>
+        <title>Topchat - {% block title %}{% endblock %}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
         <meta name="description" content="An online chat application that also lets you create and customise chat rooms for your own websites.">  
         <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap.min.css" />
         <link rel="stylesheet" href="{{ STATIC_URL }}css/styles.css" />
         <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap-responsive.min.css" />
+        {% block extrahead %}{% endblock %}
     </head>
 
     <body>
@@ -80,6 +81,7 @@
                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
                 <script src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
                 <script src="{{ STATIC_URL }}js/topchat.js"></script>
+                {% block extrascripts %}{% endblock %}
             </div>
             <div class="footer-wrap" id="push"></div>
         </div>

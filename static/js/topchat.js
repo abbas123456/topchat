@@ -83,8 +83,9 @@ var client = {
 		$('#chat_text_area').height(windowHeight-pixelBuffer);
 		$('#scroll_body').height(windowHeight-pixelBuffer);
 	},
-	openPrivateConversationWindow: function(recipient_username) {
-		url = '/private-conversation/'+recipient_username+'/';
+	openPrivateConversationWindow: function(recipientUsername) {
+		roomNumber = $('#chat_user_room_number').val();
+		url = '/private-conversation/'+roomNumber+'/'+recipientUsername+'/';
 		return window.open(url,'','width=800,height=340');
 	}
 }

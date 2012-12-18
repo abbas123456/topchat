@@ -1,9 +1,11 @@
 from django.views import generic
 from client import models
 from django import http
-from client.forms import RoomForm
+from dashboard import forms
+from client.models import Room
 from django.core.urlresolvers import reverse
 from django.contrib import messages
+from django.http import HttpResponseRedirect
 
 
 class DashboardViewMixin(object):
@@ -35,22 +37,33 @@ class DashboardViewMixin(object):
             return http.HttpResponseRedirect(reverse('dashboard_general'))
         return super(DashboardViewMixin, self).post(request, *args, **kwargs)
 
+    def form_valid(self, form):
+        messages.success(self.request, "Your changes have been saved")
+        return super(DashboardViewMixin, self).form_valid(form)
+
 
 class GeneralPageView(DashboardViewMixin, generic.UpdateView):
     template_name = 'dashboard/general_page.html'
-    form_class = RoomForm
-
-    def form_valid(self, form):
-        messages.success(self.request, "Your changes have been saved")
-        return super(GeneralPageView, self).form_valid(form)
+    form_class = forms.RoomForm
 
     def get_success_url(self):
         return "{0}?room={1}".format(reverse('dashboard_general'),
                                      self.get_object().id)
 
 
-class AppearancePageView(generic.TemplateView):
+class AppearancePageView(DashboardViewMixin, generic.UpdateView):
     template_name = 'dashboard/appearance_page.html'
+
+    def get_object(self, queryset=None):
+        room = super(AppearancePageView, self).get_object()
+        if room.id is not None:
+            return room.appearance
+        return super(AppearancePageView, self).get_object()
+
+    def get_success_url(self):
+        return "{0}?room={1}".format(reverse('dashboard_appearance'),
+                                     super(AppearancePageView,
+                                           self).get_object().id)
 
 
 class AdministratorsPageView(generic.TemplateView):
@@ -79,3 +92,20 @@ class DeleteRoomView(DashboardViewMixin, generic.DeleteView):
 
     def get_success_url(self):
         return reverse('dashboard_general')
+
+
+class CreateRoomView(generic.CreateView):
+    model = Room
+    form_class = forms.RoomForm
+
+    def form_valid(self, form):
+        form.instance.created_by = self.request.user
+        appearance = models.RoomAppearance()
+        appearance.save()
+        form.instance.appearance = appearance
+        form.save()
+        messages.success(self.request, "Your room has been created")
+        return HttpResponseRedirect(self.get_success_url(form.instance))
+
+    def get_success_url(self, room):
+        return "{0}?room={1}".format(reverse('dashboard_general'), room.id)

@@ -1,7 +1,10 @@
 {% extends "base.html" %}
+{% block title %} Dashboard{% endblock %}
 {% block navBarHomeState %}{% endblock %}
 {% block navBarDashboardState %} class="active"{% endblock %}
 {% block dashboard_alert_bar %}{% endblock %}
+{% block extrahead %}{% endblock %}
+{% block extrascripts %}{% endblock %}
 {% block primary %}
 	{% load navigation %}
 	{% if messages %}

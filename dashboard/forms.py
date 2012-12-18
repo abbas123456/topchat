@@ -8,4 +8,4 @@ class RoomForm(forms.ModelForm):
 
     class Meta:
         model = models.Room
-        exclude=('created_by', 'created_date', 'slug')
+        exclude = ('created_by', 'created_date', 'slug', 'appearance')

@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
+from django.db.models.signals import post_delete
+from django.dispatch import receiver
 
 
 class RoomCategory(models.Model):
@@ -13,6 +15,11 @@ class RoomCategory(models.Model):
         return self.name
 
 
+class RoomAppearance(models.Model):
+    background_colour = models.CharField(max_length=8, default='033F5F')
+    text_colour = models.CharField(max_length=8, default='FFFFFF')
+
+
 class Room(models.Model):
     name = models.CharField(max_length=128, unique=True)
     description = models.CharField(max_length=512)
@@ -20,6 +27,7 @@ class Room(models.Model):
     created_by = models.ForeignKey(User)
     created_date = models.DateTimeField(auto_now_add=True)
     category = models.ForeignKey(RoomCategory)
+    appearance = models.ForeignKey(RoomAppearance)
     slug = models.SlugField()
 
     def __unicode__(self):
@@ -35,3 +43,8 @@ class Room(models.Model):
             'slug': self.slug,
             'pk': self.id,
         })
+
+
+@receiver(post_delete, sender=Room)
+def delete_appearance(sender, instance, **kwargs):
+    instance.appearance.delete()
