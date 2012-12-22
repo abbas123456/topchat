@@ -8,7 +8,7 @@ from django.template import RequestContext
 from django.contrib.auth import authenticate, login, hashers
 from rest_framework import generics
 from account.serializers import UserSerializer, UserSearchSerializer
-from django.db.models.query import QuerySet
+from rest_framework.permissions import IsAuthenticated
 
 
 class UserCreateView(CreateView):
@@ -70,7 +70,8 @@ class UserListCreateApiView(generics.ListCreateAPIView):
 class UserListApiView(generics.ListAPIView):
     model = User
     serializer_class = UserSearchSerializer
-
+    permission_classes = (IsAuthenticated,)
+    
     def filter_queryset(self, queryset):
         search_query = self.kwargs['search_query']
         limit = self.kwargs['limit']

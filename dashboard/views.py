@@ -6,6 +6,8 @@ from client.models import Room
 from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.http import HttpResponseRedirect
+from django.forms.models import modelformset_factory
+from django.core.exceptions import ValidationError
 
 
 class DashboardViewMixin(object):
@@ -66,8 +68,48 @@ class AppearancePageView(DashboardViewMixin, generic.UpdateView):
                                            self).get_object().id)
 
 
-class AdministratorsPageView(generic.TemplateView):
+class AdministratorsPageView(DashboardViewMixin, generic.TemplateView):
     template_name = 'dashboard/administrators_page.html'
+    AdministratorFormSet = modelformset_factory(models.RoomAdministrator,
+                                                form=forms.RoomAdministratorForm,
+                                                can_delete=True)
+
+    def get_context_data(self, **kwargs):
+        context = super(AdministratorsPageView, self).get_context_data(**kwargs)
+        room = self.get_object()
+        if room.id is not None:
+            queryset = models.RoomAdministrator.objects.filter(room_id=room.id)
+            context['formset'] = self.AdministratorFormSet(queryset=queryset)
+        return context
+
+    def post(self, request, *args, **kwargs):
+        room = self.get_room_from_url()
+        if room is not None and room.created_by != request.user:
+            return http.HttpResponseRedirect(reverse('dashboard_general'))
+        elif room is None:
+            return http.HttpResponseRedirect(reverse('dashboard_general'))
+        formset = self.AdministratorFormSet(request.POST, request.FILES)
+        if formset.is_valid():
+            administrators = formset.save(commit=False)
+            for administrator in administrators:
+                administrator.room = room
+                try:
+                    administrator.full_clean()
+                    administrator.save()
+                except ValidationError as e:
+                    messages.error(self.request, e.message_dict['__all__'][0])
+                    return http.HttpResponseRedirect(self.get_success_url())
+
+            messages.success(self.request, "Your changes have been saved")
+        else:
+            messages.error(self.request, "Your changes could not be saved")
+
+        return http.HttpResponseRedirect(self.get_success_url())
+
+    def get_success_url(self):
+        return "{0}?room={1}".format(reverse('dashboard_administrators'),
+                                     super(AdministratorsPageView,
+                                           self).get_object().id)
 
 
 class UserManagementPageView(generic.TemplateView):
@@ -103,9 +145,13 @@ class CreateRoomView(generic.CreateView):
         appearance = models.RoomAppearance()
         appearance.save()
         form.instance.appearance = appearance
-        form.save()
+        room = form.save()
+        room_administrator = models.RoomAdministrator()
+        room_administrator.room = room
+        room_administrator.administrator = room.created_by
+        room_administrator.save()
         messages.success(self.request, "Your room has been created")
-        return HttpResponseRedirect(self.get_success_url(form.instance))
+        return HttpResponseRedirect(self.get_success_url(room))
 
     def get_success_url(self, room):
         return "{0}?room={1}".format(reverse('dashboard_general'), room.id)

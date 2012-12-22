@@ -173,4 +173,10 @@ $(document).ready(function(){
     		$('#login_register_popover').popover('hide');
     	}
     });
+    
+    $('body').on('click', '.delete_administrator_buttons', function(event) {
+    	event.preventDefault();
+    	$($(event.target).parents("div")[0]).children("div").children("input").attr("checked","checked");
+    	$(event.target).parents("form").submit();
+    });
 });

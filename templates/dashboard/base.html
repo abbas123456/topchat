@@ -9,7 +9,7 @@
 	{% load navigation %}
 	{% if messages %}
 		{% for message in messages %}
-			<div class="timed_alert alert">
+			<div class="timed_alert alert{% if message.tags == 'error' %} alert-error{% endif %}">
 				<button type="button" class="close" data-dismiss="alert">×</button>
 				<p align="center">{{ message }}</p>
 			</div>

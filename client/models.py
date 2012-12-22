@@ -45,6 +45,14 @@ class Room(models.Model):
         })
 
 
+class RoomAdministrator(models.Model):
+    administrator = models.ForeignKey(User)
+    room = models.ForeignKey(Room)
+
+    class Meta:
+        unique_together = ('administrator', 'room',)
+
+
 @receiver(post_delete, sender=Room)
 def delete_appearance(sender, instance, **kwargs):
     instance.appearance.delete()

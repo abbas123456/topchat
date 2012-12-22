@@ -1,7 +1,7 @@
 {% extends "dashboard/base.html" %}
 {% block extrascripts %}
 <script type="text/javascript">
-$('#username_search').typeahead({
+$('input[type="text"]').typeahead({
     source: function(query, typeahead) {
         $.ajax({
             url: "/user-list/"+query+"/8/",
@@ -16,11 +16,44 @@ $('#username_search').typeahead({
             }
         });
     },
-});
+}).blur(deleteIfNotInList);
+
+function deleteIfNotInList() {
+	names = new Array();
+	$('.dropdown-menu').children("li").each(function(k, v){
+		names.push($(v).attr('data-value'))
+	});
+    if ($.inArray($(this).val(), names) == -1 && names.length > 0) {
+		$(this).val("")
+    }
+};
 </script>
 {% endblock %}
 {% block content %}
-<form action="" method="post">
-    <input type="text" name="username_search" value="" id="username_search" data-provide="typeahead" data-source="[]" maxlength="30" autocomplete="off"  />
-</form>
+<div class="span6">
+	<br />
+	<form action="" method="post" class="form-horizontal">
+		{% csrf_token %}
+	    {{ formset.management_form }}
+	    {% for form in formset %}
+	    	<div class="control-group">
+	    		<label class="control-label">Username</label>
+		    	<div class="controls">
+	        		{{ form.id }}
+	        		{{ form.administrator|safe }}
+	        		{% if form.instance.id %}
+	        			<a class="delete_administrator_buttons" href=""><i class="icon-white icon-trash pre-text"></i></a>
+	        		{% endif %}
+	        		<div style="display:none">{{ form.DELETE }}</div>
+	       		</div>
+	   		</div>
+	    {% endfor %}
+	    <div class="control-group">
+		    <div class="controls">
+		        <input type="submit" class="btn btn-primary" value="Save" />
+	            <a class="btn btn-inverse" href="">Reset</a>
+		    </div>
+		</div>
+	</form>
+</div>
 {% endblock %}
