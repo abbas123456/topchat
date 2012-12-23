@@ -142,6 +142,7 @@ class CreateRoomView(generic.CreateView):
 
     def form_valid(self, form):
         form.instance.created_by = self.request.user
+        form.instance.is_active = True
         appearance = models.RoomAppearance()
         appearance.save()
         form.instance.appearance = appearance

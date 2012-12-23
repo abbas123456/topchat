@@ -1,70 +1,86 @@
 {% extends "dashboard/base.html" %}
 {% block content %}
-<div class="span5">
-<br />
-	<form id="register_form" method="post" action="" class="form-horizontal">
-	    {% csrf_token %}
-	    {% if form.name.errors %}
-	   <div class="control-group error">
-	       <label class="control-label" for="id_name">Name</label>
-	       <div class="controls">
-	           {{ form.name }}
-	           <span class="help-inline">{{ form.name.errors }}</span>
-	       </div>
-	   </div>
-	{% else %}
-	   <div class="control-group">
-	       <label class="control-label" for="id_name">Name</label>
-	       <div class="controls">
-	           {{ form.name }}
-	       </div>
-	   </div>
-	{% endif %}
-	{% if form.description.errors %}
-	    <div class="control-group error">
-	       <label class="control-label" for="id_description">Description</label>
-	       <div class="controls">
-	           {{ form.description }}
-	           <span class="help-inline">{{ form.description.errors }}</span>
-	       </div>
-	   </div>
-	{% else %}
-	   <div class="control-group">
-	       <label class="control-label" for="id_description">Description</label>
-	       <div class="controls">
-	           {{ form.description }}
-	       </div>
-	   </div>
-	{% endif %}
-	{% if form.category.errors %}
-	    <div class="control-group error">
-	       <label class="control-label" for="id_category">Category</label>
-	       <div class="controls">
-	           {{ form.category }}
-	           <span class="help-inline">{{ form.category.errors }}</span>
-	       </div>
-	   </div>
-	{% else %}
-	   <div class="control-group">
-	       <label class="control-label" for="id_category">Category</label>
-	       <div class="controls">
-	           {{ form.category }}
-	       </div>
-	   </div>
-	{% endif %}
-	<div class="control-group">
-	    <label class="control-label" for="id_is_private">Private room</label>
-	    <div class="controls">
-	        {{ form.is_private }}
-	        <span class="help-block"><a id="private_room_tooltip" href="#" rel="tooltip" data-original-title="Ticking this will mean your room will not be browsable or searchable on www.topch.at. This is useful if you are adding this room to your own website.">What is this?</a></span>
-	    </div>
+<div class="row-fluid">
+	<br />
+	<div class="span5">
+		<form id="general_settings_form" method="post" action="" class="form-horizontal">
+		    {% csrf_token %}
+		    {% if form.name.errors %}
+		   <div class="control-group error">
+		       <label class="control-label" for="id_name">Name</label>
+		       <div class="controls">
+		           {{ form.name }}
+		           <span class="help-inline">{{ form.name.errors }}</span>
+		       </div>
+		   </div>
+		{% else %}
+		   <div class="control-group">
+		       <label class="control-label" for="id_name">Name</label>
+		       <div class="controls">
+		           {{ form.name }}
+		       </div>
+		   </div>
+		{% endif %}
+		{% if form.description.errors %}
+		    <div class="control-group error">
+		       <label class="control-label" for="id_description">Description</label>
+		       <div class="controls">
+		           {{ form.description }}
+		           <span class="help-inline">{{ form.description.errors }}</span>
+		       </div>
+		   </div>
+		{% else %}
+		   <div class="control-group">
+		       <label class="control-label" for="id_description">Description</label>
+		       <div class="controls">
+		           {{ form.description }}
+		       </div>
+		   </div>
+		{% endif %}
+		{% if form.category.errors %}
+		    <div class="control-group error">
+		       <label class="control-label" for="id_category">Category</label>
+		       <div class="controls">
+		           {{ form.category }}
+		           <span class="help-inline">{{ form.category.errors }}</span>
+		       </div>
+		   </div>
+		{% else %}
+		   <div class="control-group">
+		       <label class="control-label" for="id_category">Category</label>
+		       <div class="controls">
+		           {{ form.category }}
+		       </div>
+		   </div>
+		{% endif %}
+		<div class="control-group">
+		    <label class="control-label" for="id_is_private">Private room</label>
+		    <div class="controls">
+		        {{ form.is_private }}
+		        <span class="help-block"><a id="private_room_tooltip" href="#" rel="tooltip" data-original-title="Ticking this will mean your room will not be browsable or searchable on www.topch.at. This is useful if you are adding this room to your own website.">What is this?</a></span>
+		    </div>
+		</div>
+		<div style="display:none">
+			{{ form.is_active }}
+		</div>
+		<div class="control-group">
+		    <div class="controls">
+		        <input type="submit" class="btn btn-primary" value="Save" />
+		        <a class="btn btn-inverse" href="">Reset</a>
+		    </div>
+		</div>
+		</form>
 	</div>
-	<div class="control-group">
-	    <div class="controls">
-	        <input type="submit" class="btn btn-primary" value="Save" />
-	        <a class="btn btn-inverse" href="">Reset</a>
-	    </div>
+	<div class="span1"></div>
+	<div class="span4">
+		{% if object.is_active %}
+			<button id="deactivate_room_button" class="activate_room_buttons field span12 btn btn-danger btn-large">Deactivate room</button>
+			<div>&nbsp;</div>
+			<p class="lead">Why would you want to do this?</p>
+			<p>If your room is a customer support room for example, you may want to deactivate your room outside of work hours.</p>
+		{% else %}
+			<button id="activate_room_button" class="activate_room_buttons field span12 btn btn-success btn-large">Activate room</button>
+		{% endif %}
 	</div>
-	</form>
 </div>
 {% endblock %}
