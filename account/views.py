@@ -71,12 +71,10 @@ class UserListApiView(generics.ListAPIView):
     model = User
     serializer_class = UserSearchSerializer
     permission_classes = (IsAuthenticated,)
-    
+    queryset = User.objects.exclude(username='admin').exclude(username='anonymous')
+
     def filter_queryset(self, queryset):
         search_query = self.kwargs['search_query']
         limit = self.kwargs['limit']
-        exclude_usernames = ['admin', 'anonymous']
-        users = User.objects.filter(username__icontains=search_query)
-        for exclude_username in exclude_usernames:
-            users = users.exclude(username=exclude_username)
+        users = queryset.filter(username__icontains=search_query)
         return users[0:limit]

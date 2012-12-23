@@ -40,14 +40,22 @@ function deleteIfNotInList() {
 	    		<label class="control-label">Username</label>
 		    	<div class="controls">
 	        		{{ form.id }}
-	        		{{ form.administrator|safe }}
+	        		<div class="input-append">
+	        			{{ form.administrator }}
+	        			<span class="add-on"><i class="icon-search"></i></span>
+	        		</div>
 	        		{% if form.instance.id %}
-	        			<a class="delete_administrator_buttons" href=""><i class="icon-white icon-trash pre-text"></i></a>
+	        			<a class="delete_administrator_buttons" title="Delete administrator" href=""><i class="icon-white icon-trash pre-text"></i></a>
 	        		{% endif %}
 	        		<div style="display:none">{{ form.DELETE }}</div>
 	       		</div>
 	   		</div>
 	    {% endfor %}
+	    <div class="control-group">
+	    	<div class="controls">
+	    <span class="help-block"><small><p>If you can't find the administrator you are looking for, make sure they have a user account on www.topch.at</p></small></span>
+	    </div>
+	    </div>
 	    <div class="control-group">
 		    <div class="controls">
 		        <input type="submit" class="btn btn-primary" value="Save" />
