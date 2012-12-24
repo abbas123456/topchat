@@ -32,3 +32,9 @@ class PrivateConversationView(generic.DetailView):
 class RoomApiView(generics.RetrieveAPIView):
     model = Room
     serializer_class = RoomSerializer
+
+
+class RoomListApiView(generics.ListAPIView):
+    model = Room
+    serializer_class = RoomSerializer
+    queryset = Room.objects.all()
