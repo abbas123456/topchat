@@ -30,20 +30,34 @@
             <input type="hidden" id="chat_user_room_number" value="{{ object.id }}" />
         </div>
         </div>
-        <div class="span3">
-        	<div class="row-fluid">
-        		<div class="span6">
-        			<button id="change_username_popover" rel="popover" class="field span12 btn btn-mini btn-primary" type="button"
-        			data-content="<form class='popover_form form-inline'><input id='change_username_username' type='text' class='input-small' placeholder='username'><button id='change_username_button' class='btn btn-small btn-inverse'>Change</button></form>"
-        			> Change username</button>
-        		</div>
-        		<div class="span6">
-        			<button id="login_register_popover" rel="popover" class="field span12 btn btn-mini btn-primary" type="button"
-        			data-content="<form class='popover_form form-inline'><input id='login_register_username' type='text' class='input-mini' placeholder='username'><input id='login_register_password' type='password' class='input-mini' placeholder='password'><button id='login_register_button' class='btn btn-small btn-inverse'>Submit</button></form>"
-        			> Login / Register</button>
-        		</div>
-        	</div>
-        </div>
     </div>
+</div>
+<div id="login_register_modal" class="modal hide fade">
+  <div class="modal-header">
+    <h3 id="myModalLabel">Login or Register</h3>
+  </div>
+  <div class="modal-body">
+		<form class="form-horizontal">
+			<div class="control-group">
+				<label class="control-label" for="login_register_username">Username</label>
+				<div class="controls">
+					<input type="text" id="login_register_username" placeholder="Username" value="{{ user.username }}">
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="login_register_username">Password</label>
+				<div class="controls">
+					<input type="password" id="login_register_password" placeholder="Password">
+					<span id="login_register_error" style="display:none" class="help-inline">Username already taken / incorrect password</span>
+				</div>
+			</div>
+			<div class="control-group">
+				<div class="controls">
+					<button id="login_register_button" type="submit" class="btn btn-primary">Login / Register</button>
+					<button id="login_as_a_guest_button" type="submit" class="btn btn-inverse">Login as guest</button>
+				</div>
+			</div>
+		</form>
+  </div>
 </div>
 {% endblock %}

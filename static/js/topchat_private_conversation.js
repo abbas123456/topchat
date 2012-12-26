@@ -1,6 +1,6 @@
 var client = {
 	sendMessageToServer: function(webSocket, recipient_username, text) {
-		request = {'type':4, 'recipient_username': recipient_username, 'text': text};
+		request = {'type':2, 'recipient_username': recipient_username, 'text': text};
 		webSocket.send(JSON.stringify(request));
 	},
 	appendBotMessageToChatTextArea: function(username, message) {

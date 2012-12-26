@@ -209,3 +209,7 @@ i.pre-text {
 .carousel-control {
 	display: none;
 }
+
+.modal {
+	color: #033F5F;	
+}

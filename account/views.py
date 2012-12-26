@@ -1,17 +1,20 @@
+import json
+import uuid
+
+from django.core import urlresolvers, serializers
 from django.contrib.auth.models import User
-from django.views.generic import CreateView, DetailView
-from account.forms import UserForm
-from django.http import HttpResponseRedirect, Http404
-from django.core.urlresolvers import reverse
+from django.contrib.auth import authenticate, login, hashers
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from django.contrib.auth import authenticate, login, hashers
-from rest_framework import generics
-from account.serializers import UserSerializer, UserSearchSerializer
-from rest_framework.permissions import IsAuthenticated
+from django.views import generic
+from rest_framework import generics, permissions
+from account.serializers import UserSearchSerializer, AuthenticationTokenSerializer
+from account.models import AuthenticationToken
+from account.forms import UserForm
 
 
-class UserCreateView(CreateView):
+class UserCreateView(generic.CreateView):
     form_class = UserForm
     model = User
     template_name = 'account/user_form.html'
@@ -19,7 +22,7 @@ class UserCreateView(CreateView):
     def get(self, request, *args, **kwargs):
         form = UserForm()
         if request.user.is_authenticated():
-            return HttpResponseRedirect(reverse('home'))
+            return HttpResponseRedirect(urlresolvers.reverse('home'))
         return render_to_response(self.template_name, {'form': form},
                                   context_instance=RequestContext(request))
 
@@ -30,47 +33,70 @@ class UserCreateView(CreateView):
         authenticated_user = authenticate(username=username, password=password)
         if authenticated_user is not None:
             login(self.request, authenticated_user)
-        return HttpResponseRedirect(reverse('dashboard_general'))
+        return HttpResponseRedirect(urlresolvers.reverse('dashboard_general'))
 
 
-class UserDetailView(DetailView):
-
-    def get(self, request, *args, **kwargs):
-        return HttpResponseRedirect(reverse('dashboard_general'))
-
-
-class UserApiView(generics.RetrieveAPIView):
-    model = User
-    serializer_class = UserSerializer
-    slug_url_kwarg = 'username'
-    slug_field = 'username'
-
-
-class UserPasswordApiView(generics.RetrieveAPIView):
-    model = User
-    serializer_class = UserSerializer
-    slug_url_kwarg = 'username'
-    slug_field = 'username'
+class UserDetailView(generic.DetailView):
 
     def get(self, request, *args, **kwargs):
-        if not request.is_secure():
-            return HttpResponseRedirect(reverse('home'))
-        user = super(UserPasswordApiView, self).get(request, *args, **kwargs)
-        if (not hashers.check_password(kwargs['password'],
-                                       user.data['password'])):
-            raise Http404(u"No users found matching the query")
-        return user
+        return HttpResponseRedirect(urlresolvers.reverse('dashboard_general'))
 
 
-class UserListCreateApiView(generics.ListCreateAPIView):
-    model = User
-    serializer_class = UserSerializer
+class GenerateTokenView(generic.TemplateView):
+    
+    def get(self, request, *args, **kwargs):
+        return HttpResponseRedirect('/')
+
+    def post(self, request, *args, **kwargs):
+        context = self.get_context_data(**kwargs)
+        if 'username' in request.POST and 'password' in request.POST:
+            user, created = User.objects.get_or_create(username=request.POST['username'])
+            if created:
+                user.set_password(request.POST['password'])
+                user.save()
+                authentication_token = self.generate_token(user)
+            else:
+                if hashers.check_password(request.POST['password'], user.password):
+                    authentication_token = self.generate_token(user)
+                else:
+                    authentication_token = AuthenticationToken()
+        else:
+            authentication_token = AuthenticationToken()
+        context['authentication_token'] = serializers.serialize('json', [ authentication_token,])
+        return self.render_to_response(context)
+
+    def generate_token(self, user):
+        return AuthenticationToken.objects.create(user=user,token_string=uuid.uuid4())
+
+    def render_to_response(self, context, **response_kwargs):
+        response_kwargs['content_type'] = 'application/json'
+        return HttpResponse(json.dumps(context),**response_kwargs)
+
+
+##############################################################################
+##
+## REST API VIEWS
+##
+##############################################################################
+
+
+class UserAuthenticationTokenView(generics.RetrieveAPIView):
+    model = AuthenticationToken
+    serializer_class = AuthenticationTokenSerializer
+    slug_url_kwarg = 'token_string'
+    slug_field = 'token_string'
+
+
+class UserAuthenticationTokenDeleteView(generics.DestroyAPIView):
+    model = AuthenticationToken
+    slug_url_kwarg = 'token_string'
+    slug_field = 'token_string'
 
 
 class UserListApiView(generics.ListAPIView):
     model = User
     serializer_class = UserSearchSerializer
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (permissions.IsAuthenticated,)
     queryset = User.objects.exclude(username='admin').exclude(username='anonymous')
 
     def filter_queryset(self, queryset):

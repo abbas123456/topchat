@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 from django.contrib.auth.hashers import make_password
 from client.models import RoomAdministrator
+from account.models import AuthenticationToken
 
 
 class RoomAdministratorSerializer(serializers.ModelSerializer):
@@ -17,7 +18,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('username', 'password', 'id', 'administrated_rooms')
+        fields = ('username', 'administrated_rooms')
 
     def save(self, save_m2m=True):
         self.object.password = make_password(self.object.password)
@@ -28,3 +29,12 @@ class UserSearchSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('username',)
+
+
+class AuthenticationTokenSerializer(serializers.ModelSerializer):
+    
+    user = UserSerializer()
+    
+    class Meta:
+        model = AuthenticationToken
+        fields = ('user',)

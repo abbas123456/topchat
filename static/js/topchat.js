@@ -1,17 +1,7 @@
 var client = {
-	connectToServer: function() {
-		if ($('#chat_user_room_number').length > 0) {
-			roomNumber = $('#chat_user_room_number').val();
-			if ($('#chat_user_username').length > 0 && $('#chat_user_password').length > 0) {
-				username = $('#chat_user_username').val();
-				password = $('#chat_user_password').val();
-				webSocket = new WebSocket("wss://localhost:7000/" + roomNumber + '/' + username + '/' + password);
-			} else {
-				webSocket = new WebSocket("wss://localhost:7000/" + roomNumber);	
-			}
-			
-			client.attachWebSocketHandlers(webSocket);
-		}
+	connectToServer: function(path) {
+		webSocket = new WebSocket(path);	
+		client.attachWebSocketHandlers(webSocket);
 	},
 	attachWebSocketHandlers: function(webSocket) {
 		webSocket.onmessage = client.webSocketOnMessageHandler;
@@ -87,14 +77,6 @@ var client = {
 		request = {'type':1, 'text': text};
 		webSocket.send(JSON.stringify(request));
 	},
-	sendChangeUsernameRequestToServer: function(username) {
-		request = {'type':2, 'username': username};
-		webSocket.send(JSON.stringify(request));
-	},
-	sendLoginRegisterRequestToServer: function(username, password) {
-		request = {'type':3, 'username': username, 'password': password};
-		webSocket.send(JSON.stringify(request));
-	},
 }
 
 $(document).ready(function(){
@@ -104,9 +86,12 @@ $(document).ready(function(){
 	if (matches !== null) {
 		client.resizeElementsBasedOnPageHeight();
 	}
-	client.connectToServer();
     private_message_windows = [];
-                               
+    if ($('#chat_user_room_number').length > 0) {
+    	var modal_options = {backdrop: 'static', keyboard: false};
+    	$('#login_register_modal').modal(modal_options)	
+    }
+    
     $('body').on('keyup','#chat_input', function(event) {
         if(event.keyCode == 13){
         	message = $('#chat_input').val();
@@ -123,9 +108,7 @@ $(document).ready(function(){
     
     $('body').on('click','#reconnect_button', function(event) {
     	event.preventDefault();
-    	$('#disconnected_alert').hide();
-    	client.connectToServer();
-        client.clearAllUsernamesFromUserList();
+    	location.reload();
     });
     
     $('body').on('click', 'tr.private_conversation', function(event) {
@@ -154,26 +137,6 @@ $(document).ready(function(){
     			$(".timed_alert").alert('close');
 	} ,3000);
     
-    var popover_options = {placement: 'left', html: true};
-    $('#change_username_popover').popover(popover_options)
-    
-    $('body').on('click', '#change_username_button', function(event) {
-    	event.preventDefault();
-    	if ($('#change_username_username').val() !== "") {
-    		client.sendChangeUsernameRequestToServer($('#change_username_username').val());
-    		$('#change_username_popover').popover('hide');
-    	}
-    });
-    $('#login_register_popover').popover(popover_options)
-    
-    $('body').on('click', '#login_register_button', function(event) {
-    	event.preventDefault();
-    	if ($('#login_register_username').val() !== "" && $('#login_register_password').val() !== "") {
-    		client.sendLoginRegisterRequestToServer($('#login_register_username').val(), $('#login_register_password').val());
-    		$('#login_register_popover').popover('hide');
-    	}
-    });
-    
     $('body').on('click', '.delete_administrator_buttons', function(event) {
     	event.preventDefault();
     	$($(event.target).parents("div")[0]).children("div").children("input").attr("checked",true);
@@ -187,5 +150,39 @@ $(document).ready(function(){
     		$('#id_is_active').attr("checked",false);
     	}
     	$('#general_settings_form').submit();
+    });
+    
+    $.ajaxSetup({
+        crossDomain: false,
+        beforeSend: function(xhr, settings) {
+            if (!/^(GET|HEAD|OPTIONS|TRACE)$/.test(settings.type)) {
+            	var csrftoken = $.cookie('csrftoken');
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
+    
+    $('body').on('click', '#login_register_button', function(event) {
+    	event.preventDefault();
+    	if ($('#login_register_username').val() !== "" && $('#login_register_password').val() !== "") {
+    		$.post("/accounts/generate-token/", { "username": $('#login_register_username').val(), "password": $('#login_register_password').val()},
+    		function(data){
+    			data = $.parseJSON(data['authentication_token'])[0];
+    			if (data.fields.token_string == "") {
+    				$('#login_register_error').show();
+    				return;
+    			}
+    			roomNumber = $('#chat_user_room_number').val();
+    			client.connectToServer("ws://localhost:7000/"+roomNumber+'/'+data.fields.token_string);
+    			$('#login_register_modal').modal('hide')
+		 	}, "json");
+    	}
+	});
+    
+    $('body').on('click', '#login_as_a_guest_button', function(event) {
+    	event.preventDefault();
+    	roomNumber = $('#chat_user_room_number').val();
+		client.connectToServer("ws://localhost:7000/"+roomNumber)
+		$('#login_register_modal').modal('hide')
     });
 });

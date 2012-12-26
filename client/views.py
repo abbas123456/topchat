@@ -29,12 +29,14 @@ class PrivateConversationView(generic.DetailView):
         return context
 
 
+##############################################################################
+##
+## REST API VIEWS
+##
+##############################################################################
+
+
 class RoomApiView(generics.RetrieveAPIView):
     model = Room
     serializer_class = RoomSerializer
 
-
-class RoomListApiView(generics.ListAPIView):
-    model = Room
-    serializer_class = RoomSerializer
-    queryset = Room.objects.all()

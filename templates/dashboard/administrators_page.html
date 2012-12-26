@@ -4,7 +4,7 @@
 $('input[type="text"]').typeahead({
     source: function(query, typeahead) {
         $.ajax({
-            url: "/user-list/"+query+"/8/",
+            url: "/users/"+query+"/8/",
             dataType: "json",
             type: "GET",
             success: function(data) {
