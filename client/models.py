@@ -54,6 +54,14 @@ class RoomAdministrator(models.Model):
         unique_together = ('administrator', 'room',)
 
 
+class RoomBannedUser(models.Model):
+    banned_user = models.ForeignKey(User)
+    room = models.ForeignKey(Room)
+
+    class Meta:
+        unique_together = ('banned_user', 'room',)
+
+
 @receiver(post_delete, sender=Room)
 def delete_appearance(sender, instance, **kwargs):
     instance.appearance.delete()

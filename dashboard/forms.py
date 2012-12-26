@@ -44,3 +44,23 @@ class RoomAdministratorForm(forms.ModelForm):
             return user
         except:
             raise ValidationError("This user does not exist")
+
+
+class RoomBannedUsersForm(forms.ModelForm):
+
+    user_list_queryset = UserListApiView.queryset
+    queryset = user_list_queryset.values_list('username', flat=True)
+    banned_user_choices = [(id, id) for id in queryset]
+    banned_user = forms.ChoiceField(banned_user_choices,
+                                     widget=AutoCompleteWidget)
+
+    class Meta:
+        model = models.RoomBannedUser
+        exclude = ('room')
+
+    def clean_banned_user(self):
+        try:
+            user = User.objects.get(username=self.cleaned_data['banned_user'])
+            return user
+        except:
+            raise ValidationError("This user does not exist")

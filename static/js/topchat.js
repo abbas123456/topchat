@@ -197,15 +197,16 @@ $(document).ready(function(){
     $('body').on('click', '#login_register_button', function(event) {
     	event.preventDefault();
     	if ($('#login_register_username').val() !== "" && $('#login_register_password').val() !== "") {
-    		$.post("/accounts/generate-token/", { "username": $('#login_register_username').val(), "password": $('#login_register_password').val()},
+    		roomNumber = $('#chat_user_room_number').val();
+    		$.post("/accounts/generate-token/", { "username": $('#login_register_username').val(), "password": $('#login_register_password').val(), 'room_id': roomNumber},
     		function(data){
-    			data = $.parseJSON(data['authentication_token'])[0];
-    			if (data.fields.token_string == "") {
+    			if (data['error_message'] !== undefined) {
+    				$('#login_register_error').html(data['error_message']);
     				$('#login_register_error').show();
     				return;
     			}
-    			roomNumber = $('#chat_user_room_number').val();
-    			client.connectToServer("ws://localhost:7000/"+roomNumber+'/'+data.fields.token_string);
+    			token = $.parseJSON(data['authentication_token'])[0];
+    			client.connectToServer("ws://localhost:7000/"+roomNumber+'/'+token.fields.token_string);
     			$('#login_register_modal').modal('hide')
 		 	}, "json");
     	}

@@ -49,17 +49,22 @@ class GenerateTokenView(generic.TemplateView):
 
     def post(self, request, *args, **kwargs):
         context = self.get_context_data(**kwargs)
-        if 'username' in request.POST and 'password' in request.POST:
+        if 'username' in request.POST and 'password' in request.POST and 'room_id' in request.POST:
             user, created = User.objects.get_or_create(username=request.POST['username'])
             if created:
                 user.set_password(request.POST['password'])
                 user.save()
                 authentication_token = self.generate_token(user)
             else:
-                if hashers.check_password(request.POST['password'], user.password):
+                banned_room_ids = [banned_user.room.id for banned_user in user.roombanneduser_set.all()]
+                if int(request.POST['room_id']) in banned_room_ids:
+                    authentication_token = AuthenticationToken()
+                    context['error_message'] = 'You have been banned from this room!'
+                elif hashers.check_password(request.POST['password'], user.password):
                     authentication_token = self.generate_token(user)
                 else:
                     authentication_token = AuthenticationToken()
+                    context['error_message'] = 'Credentials are incorrect.'
         else:
             authentication_token = AuthenticationToken()
         context['authentication_token'] = serializers.serialize('json', [ authentication_token,])

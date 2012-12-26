@@ -68,18 +68,14 @@ class AppearancePageView(DashboardViewMixin, generic.UpdateView):
                                            self).get_object().id)
 
 
-class AdministratorsPageView(DashboardViewMixin, generic.TemplateView):
-    template_name = 'dashboard/administrators_page.html'
-    AdministratorFormSet = modelformset_factory(models.RoomAdministrator,
-                                                form=forms.RoomAdministratorForm,
-                                                can_delete=True)
+class UserListPageView(DashboardViewMixin, generic.TemplateView):
 
     def get_context_data(self, **kwargs):
-        context = super(AdministratorsPageView, self).get_context_data(**kwargs)
+        context = super(UserListPageView, self).get_context_data(**kwargs)
         room = self.get_object()
         if room.id is not None:
-            queryset = models.RoomAdministrator.objects.filter(room_id=room.id)
-            context['formset'] = self.AdministratorFormSet(queryset=queryset)
+            queryset = self.model.objects.filter(room_id=room.id)
+            context['formset'] = self.FormSet(queryset=queryset)
         return context
 
     def post(self, request, *args, **kwargs):
@@ -88,14 +84,14 @@ class AdministratorsPageView(DashboardViewMixin, generic.TemplateView):
             return http.HttpResponseRedirect(reverse('dashboard_general'))
         elif room is None:
             return http.HttpResponseRedirect(reverse('dashboard_general'))
-        formset = self.AdministratorFormSet(request.POST, request.FILES)
+        formset = self.FormSet(request.POST, request.FILES)
         if formset.is_valid():
-            administrators = formset.save(commit=False)
-            for administrator in administrators:
-                administrator.room = room
+            instances = formset.save(commit=False)
+            for instance in instances:
+                instance.room = room
                 try:
-                    administrator.full_clean()
-                    administrator.save()
+                    instance.full_clean()
+                    instance.save()
                 except ValidationError as e:
                     messages.error(self.request, e.message_dict['__all__'][0])
                     return http.HttpResponseRedirect(self.get_success_url())
@@ -106,14 +102,28 @@ class AdministratorsPageView(DashboardViewMixin, generic.TemplateView):
 
         return http.HttpResponseRedirect(self.get_success_url())
 
+
+class AdministratorsPageView(UserListPageView):
+    template_name = 'dashboard/administrators_page.html'
+    model = models.RoomAdministrator
+    FormSet = modelformset_factory(model, form=forms.RoomAdministratorForm,
+                                   can_delete=True)
     def get_success_url(self):
         return "{0}?room={1}".format(reverse('dashboard_administrators'),
                                      super(AdministratorsPageView,
                                            self).get_object().id)
 
 
-class UserManagementPageView(generic.TemplateView):
+class UserManagementPageView(UserListPageView):
     template_name = 'dashboard/user_management_page.html'
+    model = models.RoomBannedUser
+    FormSet = modelformset_factory(model, form=forms.RoomBannedUsersForm,
+                                   can_delete=True)
+    
+    def get_success_url(self):
+        return "{0}?room={1}".format(reverse('dashboard_user_management'),
+                                     super(UserManagementPageView,
+                                           self).get_object().id)
 
 
 class YourWebsitePageView(DashboardViewMixin, generic.DetailView):

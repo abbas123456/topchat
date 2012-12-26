@@ -18,7 +18,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('username', 'administrated_rooms')
+        fields = ('id', 'username', 'administrated_rooms')
 
     def save(self, save_m2m=True):
         self.object.password = make_password(self.object.password)

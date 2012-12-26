@@ -64,6 +64,7 @@ urlpatterns = patterns('',
 
     # REST api
     url(r'^rooms/(?P<pk>\d+)/$', client_views.RoomApiView.as_view()),
+    url(r'^banned-users/$', client_views.BanUserApiView.as_view()),
     url(r'^user-tokens/(?P<token_string>[-\w\d]+)/$',
         account_views.UserAuthenticationTokenView.as_view()),
     url(r'^delete-user-token/(?P<token_string>[-\w\d]+)/$',
