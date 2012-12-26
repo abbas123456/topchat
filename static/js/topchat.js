@@ -19,7 +19,7 @@ var client = {
     		client.removeUsernameFromUserList(message['username'])
     	} else if (message['type'] == 5) {
     		var private_message_client = private_message_windows[message['recipient_username']];
-    		private_message_client.appendBotMessageToChatTextArea(message['username'], message['message']);
+    		private_message_client.appendBotMessageToChatTextArea(message['message']);
     	} else if (message['type'] == 6) {
     		var private_message_client = private_message_windows[message['recipient_username']];
     		private_message_client.appendUserMessageToChatTextArea(message['username'], message['colour_rgb'], message['message']);
@@ -42,7 +42,7 @@ var client = {
 	},
 	appendBotMessageToChatTextArea: function(username, message) {
 		var text_area= $('#chat_text_area');
-    	text_area.html(text_area.html() + "<small><p>"+ username +": "+message+"</p></small>");
+    	text_area.html(text_area.html() + "<small><p>"+message+"</p></small>");
     	var height = $('#chat_text_area')[0].scrollHeight;
 	    $('#chat_text_area').scrollTop(height);
 	},
