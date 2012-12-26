@@ -112,7 +112,7 @@ img.social {
     color: white;
 }
 
-#chat_text_area {
+.chat_div {
     height: 420px; 
     overflow-x: hidden;
     overflow-y: scroll;
@@ -128,57 +128,6 @@ img.social {
     border-left: 1px solid white;
     border-top: 1px solid white;
     border-bottom: 1px solid white;	
-}
-
-/* Chat user table */
-
-.scrolling {
-    overflow-y: scroll;
-}
-
-.scroll_headers {
-    padding-right: 16px;
-}
-
-.scroll_padded {
-	width:99%;
-    margin-left: 5px;
-    table-layout: fixed;
-}
-
-.scroll_padded th {
-    padding: 0 0 0 5px;
-    text-align: left;
-}
-
-.scroll_padded td {
-    padding: 0 0 0 5px;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-    text-align: left;
-}
-
-.scroll_padded th.amount {
-    padding: 0 5px 0 0;
-    text-align: right;
-}
-
-.scroll_padded td.amount {
-    padding: 0 5px 0 0;
-    text-align: right;
-}
-
-#scroll_body {
-    border-left: 1px solid white;
-    border-top: 1px solid white;
-    height: 420px;
-}
-
-
-.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
-    background-color: rgba(255,255,255,0.1);
-    cursor: pointer;
 }
 
 i.pre-text {
@@ -212,4 +161,16 @@ i.pre-text {
 
 .modal {
 	color: #033F5F;	
+}
+
+.user-list > li > a {
+	margin-right: 0px;
+}
+
+.nav-tabs.nav-stacked > li > a {
+	border: 0px;
+}
+
+.dropdown-menu {
+	margin: 0;	
 }

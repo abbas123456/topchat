@@ -14,7 +14,7 @@ var client = {
     	} else if (message['type'] == 2) {
     		client.appendUserMessageToChatTextArea(message['username'], message['colour_rgb'], message['message'])
     	} else if (message['type'] == 3) {
-    		client.addUsernameToUserList(message['username'], message['colour_rgb'])
+    		client.addUsernameToUserList(message['username'], message['is_administrator'], message['is_recipient_administator'], message['colour_rgb'])
     	} else if (message['type'] == 4) {
     		client.removeUsernameFromUserList(message['username'])
     	} else if (message['type'] == 5) {
@@ -51,11 +51,15 @@ var client = {
     	var height = $('#chat_text_area')[0].scrollHeight;
 	    $('#chat_text_area').scrollTop(height); 
 	},
-	addUsernameToUserList: function(username, colour_rgb) {
-		$('#chat_user_table_body').html($('#chat_user_table_body').html()+"<tr id='"+username+"' class='private_conversation' name='UserListUsernames'><td style='color: rgb("+ colour_rgb +")' recipient_username='"+username+"'><i class='icon-user icon-white' /></i> "+username+"</a></td></tr>");
+	addUsernameToUserList: function(username, is_administrator, is_recipient_administator, colour_rgb) {
+		var icon = is_administrator ? 'icon-eye-open' : 'icon-user';
+		var administrator_links = is_recipient_administator ? '<li class="divider"></li><li><a class="administrator_ban_buttons" href=""><i class="pre-text icon-exclamation-sign"></i>Kick</a></li><li><a class="administrator_ban_buttons" href=""><i class="pre-text icon-warning-sign"></i>Ban</a></li>' : '';
+		var dropdown_html = '<li><a href="" class="private_conversation_buttons"><i class="pre-text icon-envelope"></i>Private conversation</a></li>'+administrator_links;
+		var user_html = "<li recipient_username='"+username+"' class='dropdown'><a class='dropdown-toggle' data-toggle='dropdown' href='#' style='color: rgb("+colour_rgb+")'><i class='"+icon+" icon-white pre-text'></i>"+username+"</a><ul class='dropdown-menu'>"+dropdown_html+"</ul></li>";
+		$(user_html).insertAfter($('#chat_user_list').children("ul").children("li").last());
 	},
 	removeUsernameFromUserList: function(username) {
-		$('#'+username).remove();
+		$('li.dropdown[recipient_username="'+username+'"]').remove()
 	},
 	clearAllUsernamesFromUserList: function() {
 		$('tr[name="UserListUsernames"][id!="MoBot"]').each(function(key, value) {
@@ -66,7 +70,7 @@ var client = {
 		windowHeight = $(window).height();
 		pixelBuffer = 103;
 		$('#chat_text_area').height(windowHeight-pixelBuffer);
-		$('#scroll_body').height(windowHeight-pixelBuffer);
+		$('#chat_user_list').height(windowHeight-pixelBuffer);
 	},
 	openPrivateConversationWindow: function(recipientUsername) {
 		roomNumber = $('#chat_user_room_number').val();
@@ -111,8 +115,9 @@ $(document).ready(function(){
     	location.reload();
     });
     
-    $('body').on('click', 'tr.private_conversation', function(event) {
-    	recipient_username = $(event.target).attr("recipient_username");
+    $('body').on('click', '.private_conversation_buttons', function(event) {
+    	event.preventDefault();
+    	recipient_username = $(event.target).parents("li.dropdown").attr("recipient_username");
     	if (recipient_username === undefined) {
     		return;
     	}
@@ -120,6 +125,8 @@ $(document).ready(function(){
 			client.openPrivateConversationWindow(recipient_username);
 		}
     });
+    
+    
     
     $('body').on('change', '#navigation_room_dropdown', function(event) {
     	if ($(event.target).val() !== '0') {
