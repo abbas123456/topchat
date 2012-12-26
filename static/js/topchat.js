@@ -38,6 +38,7 @@ var client = {
 	},
 	webSocketOnCloseHandler: function(e) {
 		$('#disconnected_alert').show();
+		$('li.dropdown[recipient_username]').remove()
 	},
 	appendBotMessageToChatTextArea: function(username, message) {
 		var text_area= $('#chat_text_area');
@@ -53,7 +54,7 @@ var client = {
 	},
 	addUsernameToUserList: function(username, is_administrator, is_recipient_administator, colour_rgb) {
 		var icon = is_administrator ? 'icon-eye-open' : 'icon-user';
-		var administrator_links = is_recipient_administator ? '<li class="divider"></li><li><a class="administrator_ban_buttons" href=""><i class="pre-text icon-exclamation-sign"></i>Kick</a></li><li><a class="administrator_ban_buttons" href=""><i class="pre-text icon-warning-sign"></i>Ban</a></li>' : '';
+		var administrator_links = is_recipient_administator ? '<li class="divider"></li><li><a class="administrator_kick_buttons" href=""><i class="pre-text icon-exclamation-sign"></i>Kick</a></li><li><a class="administrator_ban_buttons" href=""><i class="pre-text icon-warning-sign"></i>Ban</a></li>' : '';
 		var dropdown_html = '<li><a href="" class="private_conversation_buttons"><i class="pre-text icon-envelope"></i>Private conversation</a></li>'+administrator_links;
 		var user_html = "<li recipient_username='"+username+"' class='dropdown'><a class='dropdown-toggle' data-toggle='dropdown' href='#' style='color: rgb("+colour_rgb+")'><i class='"+icon+" icon-white pre-text'></i>"+username+"</a><ul class='dropdown-menu'>"+dropdown_html+"</ul></li>";
 		$(user_html).insertAfter($('#chat_user_list').children("ul").children("li").last());
@@ -81,6 +82,14 @@ var client = {
 		request = {'type':1, 'text': text};
 		webSocket.send(JSON.stringify(request));
 	},
+	sendKickMessageToServer: function(username) {
+		request = {'type':3, 'username': username};
+		webSocket.send(JSON.stringify(request));
+	},
+	sendBanMessageToServer: function(username) {
+		request = {'type':4, 'username': username};
+		webSocket.send(JSON.stringify(request));
+	}
 }
 
 $(document).ready(function(){
@@ -126,7 +135,23 @@ $(document).ready(function(){
 		}
     });
     
+    $('body').on('click', '.administrator_kick_buttons', function(event) {
+    	event.preventDefault();
+    	recipient_username = $(event.target).parents("li.dropdown").attr("recipient_username");
+    	if (recipient_username === undefined) {
+    		return;
+    	}
+    	client.sendKickMessageToServer(recipient_username);
+    });
     
+    $('body').on('click', '.administrator_ban_buttons', function(event) {
+    	event.preventDefault();
+    	recipient_username = $(event.target).parents("li.dropdown").attr("recipient_username");
+    	if (recipient_username === undefined) {
+    		return;
+    	}
+    	client.sendBanMessageToServer(recipient_username);
+    });
     
     $('body').on('change', '#navigation_room_dropdown', function(event) {
     	if ($(event.target).val() !== '0') {
