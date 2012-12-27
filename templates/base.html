@@ -2,10 +2,10 @@
 <html>
     <head>
         <link rel="shortcut icon" href="{{ STATIC_URL }}favicon.ico" />
-        <title>Topchat - Online chat application -{% block title %}{% endblock %}</title>
+        <title>Create your own chat rooms - {% block title %}{% endblock %} - Topchat</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
-        <meta name="description" content="An online chat application that also lets you create and customise chat rooms for your own websites.">  
+        <meta name="description" content="Topchat lets you create your own chat rooms that you can also add to your own websites">  
         <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap.min.css" />
         <link rel="stylesheet" href="{{ STATIC_URL }}css/styles.css" />
         <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap-responsive.min.css" />
@@ -15,6 +15,40 @@
     <body>
         <div id="wrap">
             <div id="container" class="container">
+                <div class="header">
+                    <div class="container">
+                        <div class="row-fluid">
+                            <div class="span1"></div>
+                            <div class="span2_tight">
+                                <img width="70" height="107" src="{{STATIC_URL}}img/logo.png" />
+                            </div>
+                            <div class="span4">
+                                <div class="page-header">
+                                    <h1>Topchat <small> online chat</small></h1>
+                                    <p class="lead"><strong>Create your own chat rooms</strong></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="main_body" class="container-fluid">
+                	{% block dashboard_alert_bar %}
+                	{% if user.is_authenticated %}
+	                	<div class="row-fluid">
+	                		<div class="alert alert-info">
+	                			<button type="button" class="close" data-dismiss="alert">×</button>
+		        				<p align="center"><a href="{% url dashboard_general %}">Create, customise and manage your own rooms</a>.</p>
+		    				</div>
+	                	</div>
+               		{% endif %}
+               		{% endblock %}
+                    <div class="row-fluid">
+                        <div class="span1"></div>
+                        <div class="span11">
+                            {% block primary %}{% endblock %}
+                        </div>
+                    </div>
+                </div>
                 <div class="navbar navbar-static-top navbar-inverse navbar-fixed-top">
                     <div class="navbar-inner">
                         <ul class="nav">
@@ -41,40 +75,6 @@
                         <form class="navbar-search pull-right">
                             <input type="text" class="search-query" placeholder="Search rooms" />
                         </form>
-                    </div>
-                </div>
-                <div class="header">
-                    <div class="container">
-                        <div class="row-fluid">
-                            <div class="span1"></div>
-                            <div class="span2_tight">
-                                <img width="70" height="107" src="{{STATIC_URL}}img/logo.png" />
-                            </div>
-                            <br />
-                            <div class="span4">
-                                <div class="page-header">
-                                    <h1>Topchat <small> online chat</small></h1>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div id="main_body" class="container-fluid">
-                	{% block dashboard_alert_bar %}
-                	{% if user.is_authenticated %}
-	                	<div class="row-fluid">
-	                		<div class="alert alert-info">
-	                			<button type="button" class="close" data-dismiss="alert">×</button>
-		        				<p align="center"><a href="{% url dashboard_general %}">Create, customise and manage your own rooms</a>.</p>
-		    				</div>
-	                	</div>
-               		{% endif %}
-               		{% endblock %}
-                    <div class="row-fluid">
-                        <div class="span1"></div>
-                        <div class="span11">
-                            {% block primary %}{% endblock %}
-                        </div>
                     </div>
                 </div>
                 <!--[if lt IE 9]><script type="text/javascript" src="{{ STATIC_URL }}js/excanvas.js"></script><![endif]-->

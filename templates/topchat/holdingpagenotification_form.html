@@ -2,24 +2,13 @@
 <html>
     <head>
         <link rel="shortcut icon" href="{{ STATIC_URL }}favicon.ico" />
-        <title>Topchat - Online chat application</title>
+        <title>Create your own chat rooms - Topchat</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
-        <meta name="description" content="An online chat application that also lets you create and customise chat rooms for your own websites.">  
+        <meta name="description" content="Topchat lets you create your own chat rooms that you can also add to your own websites">  
         <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap.min.css" />
         <link rel="stylesheet" href="{{ STATIC_URL }}css/styles.css" />
         <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap-responsive.min.css" />
-        <script type="text/javascript">
-			var _gaq = _gaq || [];
-			_gaq.push(['_setAccount', 'UA-36759104-1']);
-			_gaq.push(['_trackPageview']);
-			
-			(function() {
-			  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-			  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-			  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-			})();
-        </script>
     </head>
 
     <body id="holding_body">
@@ -35,8 +24,9 @@
 	                    <div class="span5">
 	                        <div class="page-header">
 	                            <h1>Topchat <small> online chat</small></h1>
+	                            <p class="lead"><strong>Create your own chat rooms</strong></p>
 	                        </div>
-	                        <p class="lead"><strong>Coming soon</strong>, the online chat application that also lets you create and customise chat rooms for your own websites...</p>
+	                        <p class="lead">Coming soon</p>
 	                    </div>
                     </div>
                 </div>
@@ -62,12 +52,24 @@
 		    					{% for message in messages %}
 		    						<div class="alert alert-info">
 		    						<p> {{ message }} </p>
-		    					{% endfor %}
+		    						</div>
+	    						{% endfor %}
 							{% endif %}
 						</div>
 					</div>
-				</div>
-            </div>
+            	</div>
+           	</div>
         </div>
+        <script type="text/javascript">
+			var _gaq = _gaq || [];
+			_gaq.push(['_setAccount', 'UA-36759104-1']);
+			_gaq.push(['_trackPageview']);
+			
+			(function() {
+			  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+			})();
+       </script>
     </body>
 </html>

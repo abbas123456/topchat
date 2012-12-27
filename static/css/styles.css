@@ -174,3 +174,8 @@ i.pre-text {
 .dropdown-menu {
 	margin: 0;	
 }
+
+div.page-header > p.lead {
+	margin: 0;
+	margin-bottom: 0px;	
+}
