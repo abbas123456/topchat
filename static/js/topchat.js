@@ -101,8 +101,7 @@ $(document).ready(function(){
 	}
     private_message_windows = [];
     if ($('#chat_user_room_number').length > 0) {
-    	var modal_options = {backdrop: 'static', keyboard: false};
-    	$('#login_register_modal').modal(modal_options)	
+    	$('#login_register_modal').modal({backdrop: 'static', keyboard: false});
     }
     
     $('body').on('keyup','#chat_input', function(event) {
@@ -121,7 +120,7 @@ $(document).ready(function(){
     
     $('body').on('click','#reconnect_button', function(event) {
     	event.preventDefault();
-    	location.reload();
+    	$('#login_register_modal').modal({backdrop: 'static', keyboard: false});
     });
     
     $('body').on('click', '.private_conversation_buttons', function(event) {
