@@ -147,14 +147,6 @@ i.pre-text {
 	padding-right: 15px;
 }
 
-.popover-title {
-	padding: 0 0;
-}
-
-.popover_form {
-	margin: 0 0 0;
-}
-
 .carousel-control {
 	display: none;
 }
@@ -178,4 +170,8 @@ i.pre-text {
 div.page-header > p.lead {
 	margin: 0;
 	margin-bottom: 0px;	
+}
+.popover {margin-top: -20px;}
+.popover-content > p > span.css-emoticon {
+	cursor: pointer;
 }

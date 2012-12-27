@@ -48,9 +48,10 @@ var client = {
 	},
 	appendUserMessageToChatTextArea: function(username, colour_rgb, message) {
 		var text_area= $('#chat_text_area');
-    	text_area.html(text_area.html() + "<small><p><span style='color: rgb("+ colour_rgb +")'>"+ username +": </span>"+ message +"</p></small>");
+    	text_area.html(text_area.html() + "<small><p class='user_message'><span style='color: rgb("+ colour_rgb +")'>"+ username +": </span> "+ message +"</p></small>");
     	var height = $('#chat_text_area')[0].scrollHeight;
 	    $('#chat_text_area').scrollTop(height); 
+	    $('.user_message').last().emoticonize({delay:0});
 	},
 	addUsernameToUserList: function(username, is_administrator, is_recipient_administator, colour_rgb) {
 		var icon = is_administrator ? 'icon-eye-open' : 'icon-user';
@@ -79,8 +80,10 @@ var client = {
 		return window.open(url,'','width=800,height=340');
 	},
 	sendMessageToServer: function(text) {
-		request = {'type':1, 'text': text};
-		webSocket.send(JSON.stringify(request));
+		if (text !== "") {
+			request = {'type':1, 'text': text};
+			webSocket.send(JSON.stringify(request));	
+		}
 	},
 	sendKickMessageToServer: function(username) {
 		request = {'type':3, 'username': username};
@@ -93,6 +96,9 @@ var client = {
 }
 
 $(document).ready(function(){
+	setTimeout(function() {
+    	$(".timed_alert").alert('close');
+	} ,3000);
 	
 	re = new RegExp("standalone-room");
 	matches = re.exec(window.location.pathname);
@@ -120,6 +126,7 @@ $(document).ready(function(){
     
     $('body').on('click','#reconnect_button', function(event) {
     	event.preventDefault();
+    	$('#disconnected_alert').hide();
     	$('#login_register_modal').modal({backdrop: 'static', keyboard: false});
     });
     
@@ -163,10 +170,6 @@ $(document).ready(function(){
     $('.carousel').carousel({
     	interval: 5000
     })
-    
-    setTimeout(function() {
-    			$(".timed_alert").alert('close');
-	} ,3000);
     
     $('body').on('click', '.delete_administrator_buttons', function(event) {
     	event.preventDefault();
@@ -216,5 +219,15 @@ $(document).ready(function(){
     	roomNumber = $('#chat_user_room_number').val();
 		client.connectToServer("ws://localhost:7000/"+roomNumber)
 		$('#login_register_modal').modal('hide')
+    });
+    
+    $('#emoticon_popover').popover({placement: 'top', html: true});
+    $('#emoticon_popover').emoticonize();
+    $('body').on('click', '#emoticon_popover', function(event) {
+    	$('.popover-content').emoticonize();
+    });
+    $('.popover-content').find("span").live('click', function(event) {
+    	emoticonText = $(event.target).html();
+    	$('#chat_input').val($('#chat_input').val()+emoticonText);
     });
 });
