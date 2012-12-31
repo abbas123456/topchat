@@ -92,24 +92,51 @@ var client = {
 	sendBanMessageToServer: function(username) {
 		request = {'type':4, 'username': username};
 		webSocket.send(JSON.stringify(request));
+	},
+	
+	onLoad: function() {
+		
+		$.ajaxSetup({
+	        crossDomain: false,
+	        beforeSend: function(xhr, settings) {
+	            if (!/^(GET|HEAD|OPTIONS|TRACE)$/.test(settings.type)) {
+	            	var csrftoken = $.cookie('csrftoken');
+	                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+	            }
+	        }
+	    });
+		
+		if ($('#chat_user_room_number').length > 0) {
+	    	$('#login_register_modal').modal({backdrop: 'static', keyboard: false});
+	    	private_message_windows = [];
+	    }
+		
+		setTimeout(function() {
+	    	$(".timed_alert").alert('close');
+		} ,3000);
+		
+		re = new RegExp("standalone-room");
+		matches = re.exec(window.location.pathname);
+		if (matches !== null) {
+			client.resizeElementsBasedOnPageHeight();
+		}
+		
+		var tooltip_options = {delay: { show: 500, hide: 0 }, placement: 'right', html: true, title: 'What is this'}; 
+	    $('#html_code_tooltip').tooltip(tooltip_options)
+	    $('#private_room_tooltip').tooltip(tooltip_options)
+	    
+	    $('.carousel').carousel({
+	    	interval: 5000
+	    })
+		
+	    $('#emoticon_popover').popover({placement: 'top', html: true});
+	    $('#emoticon_popover').emoticonize();
 	}
 }
 
 $(document).ready(function(){
-	setTimeout(function() {
-    	$(".timed_alert").alert('close');
-	} ,3000);
+	client.onLoad();
 	
-	re = new RegExp("standalone-room");
-	matches = re.exec(window.location.pathname);
-	if (matches !== null) {
-		client.resizeElementsBasedOnPageHeight();
-	}
-    private_message_windows = [];
-    if ($('#chat_user_room_number').length > 0) {
-    	$('#login_register_modal').modal({backdrop: 'static', keyboard: false});
-    }
-    
     $('body').on('keyup','#chat_input', function(event) {
         if(event.keyCode == 13){
         	message = $('#chat_input').val();
@@ -164,12 +191,6 @@ $(document).ready(function(){
 			$(event.target).parent("form").submit();		
     	}
     });
-    var tooltip_options = {delay: { show: 500, hide: 0 }, placement: 'right', html: true, title: 'What is this'}; 
-    $('#html_code_tooltip').tooltip(tooltip_options)
-    $('#private_room_tooltip').tooltip(tooltip_options)
-    $('.carousel').carousel({
-    	interval: 5000
-    })
     
     $('body').on('click', '.delete_administrator_buttons', function(event) {
     	event.preventDefault();
@@ -184,16 +205,6 @@ $(document).ready(function(){
     		$('#id_is_active').attr("checked",false);
     	}
     	$('#general_settings_form').submit();
-    });
-    
-    $.ajaxSetup({
-        crossDomain: false,
-        beforeSend: function(xhr, settings) {
-            if (!/^(GET|HEAD|OPTIONS|TRACE)$/.test(settings.type)) {
-            	var csrftoken = $.cookie('csrftoken');
-                xhr.setRequestHeader("X-CSRFToken", csrftoken);
-            }
-        }
     });
     
     $('body').on('click', '#login_register_button', function(event) {
@@ -217,17 +228,21 @@ $(document).ready(function(){
     $('body').on('click', '#login_as_a_guest_button', function(event) {
     	event.preventDefault();
     	roomNumber = $('#chat_user_room_number').val();
-		client.connectToServer("ws://localhost:7000/"+roomNumber)
-		$('#login_register_modal').modal('hide')
+		client.connectToServer("ws://localhost:7000/"+roomNumber);
+		$('#login_register_modal').modal('hide');
     });
     
-    $('#emoticon_popover').popover({placement: 'top', html: true});
-    $('#emoticon_popover').emoticonize();
+    $('body').on('blur', '#emoticon_popover', function(event) {
+    	$('#emoticon_popover').popover('hide');
+    	$('#chat_input').focus();
+    });
+    
     $('body').on('click', '#emoticon_popover', function(event) {
     	$('.popover-content').emoticonize();
     });
+    
     $('.popover-content').find("span").live('click', function(event) {
-    	emoticonText = $(event.target).html();
+    	emoticonText = $(event.target).html() + ' ';
     	$('#chat_input').val($('#chat_input').val()+emoticonText);
     });
 });
