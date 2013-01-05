@@ -7,7 +7,7 @@ var client = {
 	},
 	appendBotMessageToChatTextArea: function(username, message) {
 		var text_area= $('#private_conversation_text_area');
-    	text_area.html(text_area.html() + "<small><p>"+ username +": "+message+"</p></small>");
+    	text_area.html(text_area.html() + "<small><p>"+message+"</p></small>");
     	var height = $('#private_conversation_text_area')[0].scrollHeight;
 	    $('#private_conversation_text_area').scrollTop(height); 
 	},

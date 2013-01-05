@@ -19,7 +19,7 @@ var client = {
     		client.removeUsernameFromUserList(message['username'])
     	} else if (message['type'] == 5) {
     		var private_message_client = private_message_windows[message['recipient_username']];
-    		private_message_client.appendBotMessageToChatTextArea(message['message']);
+    		private_message_client.appendBotMessageToChatTextArea(message['username'], message['message']);
     	} else if (message['type'] == 6) {
     		var private_message_client = private_message_windows[message['recipient_username']];
     		private_message_client.appendUserMessageToChatTextArea(message['username'], message['colour_rgb'], message['message']);
@@ -34,6 +34,10 @@ var client = {
     			var private_message_client = private_message_windows[message['username']];
     			private_message_client.appendUserMessageToChatTextArea(message['username'], message['colour_rgb'], message['message']);
     		}
+    	} else if (message['type'] == 8) {
+    		client.change_username_display_to_blocked(message['username']);
+    	} else if (message['type'] == 9) {
+    		client.change_username_display_to_unblocked(message['username']);
     	}
 	},
 	webSocketOnCloseHandler: function(e) {
@@ -55,8 +59,8 @@ var client = {
 	},
 	addUsernameToUserList: function(username, is_administrator, is_recipient_administator, colour_rgb) {
 		var icon = is_administrator ? 'icon-eye-open' : 'icon-user';
-		var administrator_links = is_recipient_administator ? '<li class="divider"></li><li><a class="administrator_kick_buttons" href=""><i class="pre-text icon-exclamation-sign"></i>Kick</a></li><li><a class="administrator_ban_buttons" href=""><i class="pre-text icon-warning-sign"></i>Ban</a></li>' : '';
-		var dropdown_html = '<li><a href="" class="private_conversation_buttons"><i class="pre-text icon-envelope"></i>Private conversation</a></li>'+administrator_links;
+		var administrator_links = is_recipient_administator ? '<li class="divider"></li><li><a class="chat_controls" name="administrator_kick_buttons" href=""><i class="pre-text icon-exclamation-sign"></i>Kick</a></li><li><a class="chat_controls" name="administrator_ban_buttons" href=""><i class="pre-text icon-warning-sign"></i>Ban</a></li>' : '';
+		var dropdown_html = '<li><a href="" class="chat_controls" name="private_conversation_buttons"><i class="pre-text icon-envelope"></i>Private conversation</a></li><li class="divider"></li><li><a class="chat_controls" name="block_buttons" href=""><i class="pre-text icon-ban-circle"></i>Block</a></li>'+administrator_links;
 		var user_html = "<li recipient_username='"+username+"' class='dropdown'><a class='dropdown-toggle' data-toggle='dropdown' href='#' style='color: rgb("+colour_rgb+")'><i class='"+icon+" icon-white pre-text'></i>"+username+"</a><ul class='dropdown-menu'>"+dropdown_html+"</ul></li>";
 		$(user_html).insertAfter($('#chat_user_list').children("ul").children("li").last());
 	},
@@ -79,6 +83,20 @@ var client = {
 		url = '/private-conversation/'+roomNumber+'/'+recipientUsername+'/';
 		return window.open(url,'','width=800,height=340');
 	},
+	change_username_display_to_blocked: function(username) {
+		control_anchor = $('li.dropdown[recipient_username="'+username+'"]').find("a[name='block_buttons']"); 
+		control_anchor.html('<i class="pre-text icon-ban-circle"></i>Unblock');
+		control_anchor.attr("name", "unblock_buttons");
+		username_anchor = $($('li.dropdown[recipient_username="'+username+'"]').find("a")[0]);
+		username_anchor.html('<i class="icon-ban-circle icon-white pre-text"></i>'+username);
+	},
+	change_username_display_to_unblocked: function(username) {
+		control_anchor = $('li.dropdown[recipient_username="'+username+'"]').find("a[name='unblock_buttons']"); 
+		control_anchor.html('<i class="pre-text icon-ban-circle"></i>Block');
+		control_anchor.attr("name", "block_buttons");
+		username_anchor = $($('li.dropdown[recipient_username="'+username+'"]').find("a")[0]);
+		username_anchor.html('<i class="icon-user icon-white pre-text"></i>'+username);
+	},
 	sendMessageToServer: function(text) {
 		if (text !== "") {
 			request = {'type':1, 'text': text};
@@ -93,7 +111,14 @@ var client = {
 		request = {'type':4, 'username': username};
 		webSocket.send(JSON.stringify(request));
 	},
-	
+	sendBlockMessageToServer: function(username) {
+		request = {'type':5, 'username': username};
+		webSocket.send(JSON.stringify(request));
+	},
+	sendUnblockMessageToServer: function(username) {
+		request = {'type':6, 'username': username};
+		webSocket.send(JSON.stringify(request));
+	},
 	onLoad: function() {
 		
 		$.ajaxSetup({
@@ -157,33 +182,26 @@ $(document).ready(function(){
     	$('#login_register_modal').modal({backdrop: 'static', keyboard: false});
     });
     
-    $('body').on('click', '.private_conversation_buttons', function(event) {
+    $('body').on('click', '.chat_controls', function(event) {
     	event.preventDefault();
     	recipient_username = $(event.target).parents("li.dropdown").attr("recipient_username");
     	if (recipient_username === undefined) {
     		return;
     	}
-		if (private_message_windows[recipient_username] === undefined) {
-			client.openPrivateConversationWindow(recipient_username);
-		}
-    });
-    
-    $('body').on('click', '.administrator_kick_buttons', function(event) {
-    	event.preventDefault();
-    	recipient_username = $(event.target).parents("li.dropdown").attr("recipient_username");
-    	if (recipient_username === undefined) {
-    		return;
+    	buttonName = $(event.target).attr("name"); 
+    	if (buttonName == "private_conversation_buttons") {
+    		if (private_message_windows[recipient_username] === undefined) {
+    			client.openPrivateConversationWindow(recipient_username);
+    		}
+    	} else if (buttonName == "administrator_kick_buttons") {
+    		client.sendKickMessageToServer(recipient_username);    		
+    	} else if (buttonName == "administrator_ban_buttons") {
+    		client.sendBanMessageToServer(recipient_username);   		
+    	} else if (buttonName == "block_buttons") {
+    		client.sendBlockMessageToServer(recipient_username);
+    	} else if (buttonName == "unblock_buttons") {
+    		client.sendUnblockMessageToServer(recipient_username);
     	}
-    	client.sendKickMessageToServer(recipient_username);
-    });
-    
-    $('body').on('click', '.administrator_ban_buttons', function(event) {
-    	event.preventDefault();
-    	recipient_username = $(event.target).parents("li.dropdown").attr("recipient_username");
-    	if (recipient_username === undefined) {
-    		return;
-    	}
-    	client.sendBanMessageToServer(recipient_username);
     });
     
     $('body').on('change', '#navigation_room_dropdown', function(event) {
