@@ -35,7 +35,8 @@ $(document).ready(function() {
     });
 	
 	window.opener.private_message_windows[client.getRecipientUsernameFromUrl()] = client;
-
+	$('#chat_input').focus();
+	
 	$('body').on('keyup','#chat_input', function(event) {
         if(event.keyCode == 13){
         	message = $('#chat_input').val();
