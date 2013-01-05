@@ -1,7 +1,7 @@
 from django.views import generic
-from client import models
+from core.client import models
 from rest_framework import generics
-from client.serializers import RoomSerializer, BannedUserSerializer
+from core.client.serializers import RoomSerializer, BannedUserSerializer
 
 
 class ChatPageView(generic.DetailView):

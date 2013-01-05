@@ -1,12 +1,12 @@
 from django.conf.urls import patterns, url
-from client import views as client_views
-from topchat.views import HomePageView, AboutPageView, GetStartedPageView, \
+from core.client import views as client_views
+from core.topchat.views import HomePageView, AboutPageView, GetStartedPageView, \
     HoldingPageView
-from account import views as account_views
-from dashboard import views as dashboard_views
+from core.account import views as account_views
+from core.dashboard import views as dashboard_views
 
 from rest_framework.urlpatterns import format_suffix_patterns
-from topchat.sitemap import StaticSitemap
+from core.topchat.sitemap import StaticSitemap
 from django.contrib.auth.decorators import login_required
 
 sitemaps = {

@@ -1,10 +1,10 @@
 from django import forms
-from client import models
+from core.client import models
 from django.contrib.auth.models import User
 from django.forms.widgets import Select
 from django.core.exceptions import ValidationError
 from django.utils.safestring import mark_safe
-from account.views import UserListApiView
+from core.account.views import UserListApiView
 
 
 class RoomForm(forms.ModelForm):

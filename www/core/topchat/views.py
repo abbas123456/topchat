@@ -2,7 +2,7 @@ from django.views.generic import TemplateView, CreateView
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
-from topchat.models import HoldingPageNotification
+from core.topchat.models import HoldingPageNotification
 
 
 class HomePageView(TemplateView):

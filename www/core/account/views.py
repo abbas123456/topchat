@@ -9,9 +9,9 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.views import generic
 from rest_framework import generics, permissions
-from account.serializers import UserSearchSerializer, AuthenticationTokenSerializer
-from account.models import AuthenticationToken
-from account.forms import UserForm
+from core.account.serializers import UserSearchSerializer, AuthenticationTokenSerializer
+from core.account.models import AuthenticationToken
+from core.account.forms import UserForm
 
 
 class UserCreateView(generic.CreateView):

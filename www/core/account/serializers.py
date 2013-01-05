@@ -1,8 +1,8 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from django.contrib.auth.hashers import make_password
-from client.models import RoomAdministrator
-from account.models import AuthenticationToken
+from core.client.models import RoomAdministrator
+from core.account.models import AuthenticationToken
 
 
 class RoomAdministratorSerializer(serializers.ModelSerializer):

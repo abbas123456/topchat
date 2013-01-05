@@ -1,4 +1,4 @@
-from client.models import Room, RoomBannedUser
+from core.client.models import Room, RoomBannedUser
 from rest_framework import serializers
 
 
