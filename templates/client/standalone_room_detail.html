@@ -4,10 +4,11 @@
     <div id="disconnected_alert" style="display:none" class="alert alert-error">
         <p>Looks like you've been disconnected, <a id="reconnect_button" href="#">click here</a> to re-connect</p>
     </div>
-    <p class="lead">{{ object }} - {{ object.description }}</p>
+    <p class="lead">{{ object }}</p>
     <div class="row-fluid">
 	    <div class="span9 chat_box" style="background-color:#{{ object.appearance.background_colour}};color:#{{ object.appearance.text_colour}};">
 	       <div id="chat_text_area" class="chat_div">
+	           <p>{{ object.description }}</p>
 	       </div> 
 	    </div>
 		<div class="span3 chat_box" style="background-color:#{{ object.appearance.background_colour}};color:#{{ object.appearance.text_colour}};">
@@ -30,6 +31,9 @@
             <button id="chat_send_message_button" class="field span12 btn btn-inverse" type="button">Send</button>
             <input type="hidden" id="chat_user_room_number" value="{{ object.id }}" />
         </div>
+        </div>
+        <div class="span3">
+        	<p class="pull-right">Powered by <a target="_blank" href="https://www.topch.at">topch.at</a></p>
         </div>
     </div>
 </div>
