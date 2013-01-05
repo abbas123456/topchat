@@ -219,7 +219,7 @@ $(document).ready(function(){
     				return;
     			}
     			token = $.parseJSON(data['authentication_token'])[0];
-    			client.connectToServer("ws://localhost:7000/"+roomNumber+'/'+token.fields.token_string);
+    			client.connectToServer("wss://localhost:7000/"+roomNumber+'/'+token.fields.token_string);
     			$('#login_register_modal').modal('hide')
 		 	}, "json");
     	}
@@ -228,7 +228,7 @@ $(document).ready(function(){
     $('body').on('click', '#login_as_a_guest_button', function(event) {
     	event.preventDefault();
     	roomNumber = $('#chat_user_room_number').val();
-		client.connectToServer("ws://localhost:7000/"+roomNumber);
+		client.connectToServer("wss://localhost:7000/"+roomNumber);
 		$('#login_register_modal').modal('hide');
     });
     
