@@ -40,10 +40,7 @@
 </div>
 <div class="row-fluid">
 	    <div class="span11">
-	    <p class="lead">All rooms:</p>
-	    {% for room in rooms %}
-	        <small><a href="{{ room.get_absolute_url }}">{{ room }}</a></small><br />
-	    {% endfor %}
+	    <p class="lead"><a href="{% url search %}">Browse all rooms</a></p>
     </div>
 </div>
 

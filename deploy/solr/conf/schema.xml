@@ -147,10 +147,9 @@
 
 
     <field name="category" type="text_en" indexed="true" stored="true" multiValued="false" />
-
     <field name="text" type="text_en" indexed="true" stored="true" multiValued="false" />
-
     <field name="category_exact" type="string" indexed="true" stored="true" multiValued="false" />
+    <field name="name" type="string" indexed="true" stored="true" multiValued="false" />
 
   </fields>
 

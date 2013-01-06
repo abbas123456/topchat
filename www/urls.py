@@ -74,7 +74,7 @@ urlpatterns = patterns('',
         account_views.UserListApiView.as_view()),
     url(r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap',
         {'sitemaps': sitemaps}),
-    url(r'^search/', client_views.RoomSearchView()),
+    url(r'^rooms/', client_views.RoomSearchView(), name='search'),
 )
 
 urlpatterns = format_suffix_patterns(urlpatterns, allowed=['json', 'api'])

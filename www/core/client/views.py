@@ -6,13 +6,9 @@ from core.client.serializers import RoomSerializer, BannedUserSerializer
 from haystack.views import FacetedSearchView
 from haystack.query import SearchQuerySet
 
+
 class ChatPageView(generic.DetailView):
     model = models.Room
-
-    def get_context_data(self, **kwargs):
-        context = super(ChatPageView, self).get_context_data(**kwargs)
-        context['rooms'] = models.Room.objects.all()
-        return context
 
 
 class StandaloneChatPageView(generic.DetailView):
@@ -33,7 +29,7 @@ class PrivateConversationView(generic.DetailView):
 class RoomSearchView(FacetedSearchView):
 
     def __init__(self, *args, **kwargs):
-        sqs = SearchQuerySet().facet('category')
+        sqs = SearchQuerySet().order_by('name').facet('category')
         FacetedSearchView.__init__(self, searchqueryset=sqs, form_class=RoomSearchForm)
 
 
