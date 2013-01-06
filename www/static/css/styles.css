@@ -189,3 +189,9 @@ div.page-header > p.lead {
 .affix {
     position: fixed; 
 }
+
+.getting_started_text {
+	background-color: rgba(0,0,0,0.3);
+	padding:10px;
+	border: 1px solid black;
+}
