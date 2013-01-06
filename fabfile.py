@@ -23,7 +23,8 @@ def deploy():
     apply_production_permissions()
     print(green("Reloading apache"))
     reload_apache()
-
+    print(green("Restarting solr"))
+    restart_solr()
 
 def archive(archive_file, reference):
     local('git archive %s | gzip > %s ' % (reference, archive_file))
@@ -61,3 +62,6 @@ def apply_production_permissions():
 
 def reload_apache():
     sudo('/etc/init.d/apache2 reload')
+
+def restart_solr():
+    sudo('supervisorctl restart topchat-solr')
