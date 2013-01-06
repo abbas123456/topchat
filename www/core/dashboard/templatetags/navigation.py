@@ -1,7 +1,7 @@
 from django import template
 from django.template import Context
 from django.template.loader import render_to_string
-from client.models import Room
+from core.client.models import Room
 from django.core.urlresolvers import resolve
 
 register = template.Library()

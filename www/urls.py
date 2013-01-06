@@ -1,4 +1,4 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import patterns, url, include
 from core.client import views as client_views
 from core.topchat.views import HomePageView, AboutPageView, GetStartedPageView, \
     HoldingPageView
@@ -8,6 +8,7 @@ from core.dashboard import views as dashboard_views
 from rest_framework.urlpatterns import format_suffix_patterns
 from core.topchat.sitemap import StaticSitemap
 from django.contrib.auth.decorators import login_required
+from haystack.views import FacetedSearchView
 
 sitemaps = {
     'main': StaticSitemap,
@@ -73,6 +74,7 @@ urlpatterns = patterns('',
         account_views.UserListApiView.as_view()),
     url(r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap',
         {'sitemaps': sitemaps}),
+    url(r'^search/', client_views.RoomSearchView()),
 )
 
 urlpatterns = format_suffix_patterns(urlpatterns, allowed=['json', 'api'])

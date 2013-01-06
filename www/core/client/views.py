@@ -1,8 +1,10 @@
 from django.views import generic
 from core.client import models
+from core.client.forms import RoomSearchForm
 from rest_framework import generics
 from core.client.serializers import RoomSerializer, BannedUserSerializer
-
+from haystack.views import FacetedSearchView
+from haystack.query import SearchQuerySet
 
 class ChatPageView(generic.DetailView):
     model = models.Room
@@ -27,6 +29,12 @@ class PrivateConversationView(generic.DetailView):
         context['username'] = self.kwargs['username']
         context['room'] = self.get_object()
         return context
+
+class RoomSearchView(FacetedSearchView):
+
+    def __init__(self, *args, **kwargs):
+        sqs = SearchQuerySet().facet('category')
+        FacetedSearchView.__init__(self, searchqueryset=sqs, form_class=RoomSearchForm)
 
 
 ##############################################################################
