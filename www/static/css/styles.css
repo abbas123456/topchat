@@ -171,7 +171,21 @@ div.page-header > p.lead {
 	margin: 0;
 	margin-bottom: 0px;	
 }
-.popover {margin-top: -20px;}
+.popover {
+	margin-top: -20px;
+}
+
 .popover-content > p > span.css-emoticon {
 	cursor: pointer;
+}
+
+.getting_started_images {
+	padding: 10px;
+	background-color: #FFFFFF;
+	margin-left: 20px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+.affix {
+    position: fixed; 
 }

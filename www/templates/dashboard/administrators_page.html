@@ -21,10 +21,10 @@ $('input[type="text"]').typeahead({
 function deleteIfNotInList() {
 	names = new Array();
 	$('.dropdown-menu').children("li").each(function(k, v){
-		names.push($(v).attr('data-value'))
+		names.push($(v).attr('data-value'));
 	});
     if ($.inArray($(this).val(), names) == -1 && names.length > 0) {
-		$(this).val("")
+		$(this).val("");
     }
 };
 </script>
