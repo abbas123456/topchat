@@ -33,6 +33,14 @@ class RoomSearchView(FacetedSearchView):
         FacetedSearchView.__init__(self, searchqueryset=sqs, form_class=RoomSearchForm)
 
 
+    def extra_context(self):
+        extra = super(FacetedSearchView, self).extra_context()
+        extra['request'] = self.request
+        facet_counts = self.results.facet_counts()
+        facet_counts['fields'].update({'category':sorted(facet_counts['fields']['category'])})
+        extra['facets']  = facet_counts
+        return extra
+
 ##############################################################################
 ##
 ## REST API VIEWS

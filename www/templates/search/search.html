@@ -22,7 +22,10 @@
 		<div class="span5">
 			{% for result in page.object_list %}
         		<div>
-	            	<h3><a href="{{ result.object.get_absolute_url }}">{{ result.object.name }}</a></h3>
+	            	<h3>
+	            		<a href="{{ result.object.get_absolute_url }}">{{ result.object.name }}</a><small>
+	            		<p>Category: {{ result.object.category }}</p></small>
+					</h3>
             		<p>{{ result.object.description }}</p>
         		</div>
         		<hr />
