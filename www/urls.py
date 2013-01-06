@@ -1,5 +1,6 @@
-from django.conf.urls import patterns, url, include
+from django.conf.urls import patterns, url
 from core.client import views as client_views
+from core.client.models import Room
 from core.topchat.views import HomePageView, AboutPageView, GetStartedPageView, \
     HoldingPageView
 from core.account import views as account_views
@@ -8,9 +9,15 @@ from core.dashboard import views as dashboard_views
 from rest_framework.urlpatterns import format_suffix_patterns
 from core.topchat.sitemap import StaticSitemap
 from django.contrib.auth.decorators import login_required
-from haystack.views import FacetedSearchView
+from django.contrib.sitemaps import GenericSitemap
+
+room_info_dict = {
+    'queryset': Room.objects.all(),
+    'date_field': 'created_date',
+}
 
 sitemaps = {
+    'threads': GenericSitemap(room_info_dict, changefreq='Daily'),
     'main': StaticSitemap,
 }
 

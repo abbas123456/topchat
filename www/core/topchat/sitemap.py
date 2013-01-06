@@ -11,7 +11,12 @@ class AbstractSitemapClass():
 
 
 class StaticSitemap(Sitemap):
-    pages = {'home': '/'}
+    pages = {'home': '/', 'about': '/about/',
+             'get-started': '/get-started/',
+             'register': '/accounts/register/',
+             'login': '/accounts/login/',
+             'rooms': '/rooms/'
+             }
     main_sitemaps = []
     for page in pages.keys():
         sitemap_class = AbstractSitemapClass()
@@ -20,6 +25,7 @@ class StaticSitemap(Sitemap):
 
     def items(self):
         return self.main_sitemaps
-    lastmod = datetime(2012, 12, 02)
+
+    lastmod = datetime(2013, 01, 06)
     priority = 1
     changefreq = "yearly"
