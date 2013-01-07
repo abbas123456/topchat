@@ -149,7 +149,14 @@ LOGGING = {
             'level': 'ERROR',
             'filters': ['require_debug_false'],
             'class': 'django.utils.log.AdminEmailHandler'
-        }
+        },
+        'file': {
+           'level': 'DEBUG',
+           'filename': '/var/log/topchat/debug.log',
+           'class': 'logging.handlers.RotatingFileHandler',
+           'maxBytes': 1024 * 1024 * 5, # 5 MB
+           'backupCount': 5,
+        },
     },
     'loggers': {
         'django.request': {
