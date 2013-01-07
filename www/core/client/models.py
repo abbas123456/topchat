@@ -16,8 +16,8 @@ class RoomCategory(models.Model):
 
 
 class RoomAppearance(models.Model):
-    background_colour = models.CharField(max_length=8, default='033F5F')
-    text_colour = models.CharField(max_length=8, default='FFFFFF')
+    background_colour = models.CharField(max_length=8, default='ffffff')
+    text_colour = models.CharField(max_length=8, default='000000')
 
 
 class Room(models.Model):
