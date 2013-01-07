@@ -197,3 +197,7 @@ div.page-header > p.lead {
 	padding:10px;
 	border: 1px solid black;
 }
+
+a.highlighted_link {
+	color: #5BB75B !important;
+}

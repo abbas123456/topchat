@@ -6,7 +6,7 @@
 <div class="span4">
 	<form method="post" action="{% url django.contrib.auth.views.login %}">
 		{% csrf_token %}
-		{% if form.username.errors %}
+		{% if form.username.errors or form.non_field_errors %}
 		   <div class="control-group error">
 		       <label class="control-label" for="id_username">Username</label>
 		       <div class="controls">
@@ -22,12 +22,16 @@
 	           </div>
 	       </div>
 	    {% endif %}
-	    {% if form.password.errors %}
+	    {% if form.password.errors or form.non_field_errors %}
 	    	<div class="control-group error">
 		       <label class="control-label" for="id_password">Password</label>
 		       <div class="controls">
 		           {{ form.password }}
-		           <span class="help-inline">{{ form.password.errors }}</span>
+		           {% if form.password.errors %}
+		               <span class="help-inline">{{ form.password.errors }}</span>
+		           {% else %}
+		           	   <span class="help-inline">{{ form.non_field_errors }}</span>
+		           {% endif %}
 		       </div>
 		   </div>
 		{% else %}
@@ -37,7 +41,7 @@
 	               {{ form.password }}
 	           </div>
 	       </div>
-	    {% endif %}      
+	    {% endif %}     
 		<div class="control-group">
 		    <div class="controls">
 		        <input type="submit" class="btn btn-primary" value="Log in" />
@@ -50,6 +54,6 @@
 <div class="span1"></div>
 <div class="span6">
     <h1>Don't have an account?</h1>
-    <p class="lead">Click <a href="{% url register %}">here</a> to register.</p>
+    <p class="lead"><a href="{% url register %}">Register</a> now.</p>
 </div>
 {% endblock %}

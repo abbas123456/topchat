@@ -72,10 +72,12 @@
 	                       	</form>
 	                        <ul class="nav pull-right">
 	                        	<li class="divider-vertical"></li>
+	                        	<li{% block navBarCreateRoomState %}{% endblock %}><a href="{% url create_room %}">Create room</a></li>
+	                        	<li class="divider-vertical"></li>
 	                        	{% if user.is_authenticated %}
 	                                <li><a href="{% url logout %}">Log out</a></li>
 	                            {% else %}
-	                                <li{% block navBarLoginState %}{% endblock %}><a href="{% url login %}">Log in</a></li>
+	                                <li{% block navBarLoginState %}{% endblock %}><a class="highlighted_link" href="{% url login %}">Log in</a></li>
 	                            {% endif %}
 	                            <li class="divider-vertical"></li>
 	                       	</ul>
