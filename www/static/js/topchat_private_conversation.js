@@ -45,12 +45,6 @@ $(document).ready(function() {
         }
     });
     
-    $('body').on('click','#chat_send_message_button', function(event) {
-    	message = $('#chat_input').val();
-		$('#chat_input').val("")
-    	client.sendMessageToServer(window.opener.webSocket, client.getRecipientUsernameFromUrl(), message);
-    });
-    
     $('body').on('blur', '#emoticon_popover', function(event) {
     	$('#emoticon_popover').popover('hide');
     	$('#chat_input').focus();

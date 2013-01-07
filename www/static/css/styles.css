@@ -175,6 +175,7 @@ div.page-header > p.lead {
 	margin: 0;
 	margin-bottom: 0px;	
 }
+
 .popover {
 	margin-top: -20px;
 }
@@ -189,9 +190,6 @@ div.page-header > p.lead {
 	margin-left: 20px;
 	margin-top: 10px;
 	margin-bottom: 10px;
-}
-.affix {
-    position: fixed; 
 }
 
 .getting_started_text {

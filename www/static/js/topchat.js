@@ -170,12 +170,6 @@ $(document).ready(function(){
         }
     });
     
-    $('body').on('click','#chat_send_message_button', function(event) {
-    	message = $('#chat_input').val();
-		$('#chat_input').val("")
-        client.sendMessageToServer(message);
-    });
-    
     $('body').on('click','#reconnect_button', function(event) {
     	event.preventDefault();
     	$('#disconnected_alert').hide();

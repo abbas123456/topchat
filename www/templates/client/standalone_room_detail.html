@@ -25,23 +25,20 @@
     </div>
     <div class="row-fluid">
         <div class="span9">
-           <div class="span9">
+           <div class="span12">
                <input class="field span11" id="chat_input" />
-               <button id="emoticon_popover" rel="popover" class="pull-right field span1 btn btn-inverse" type="button"
+               <button id="emoticon_popover" rel="popover" class="pull-right btn btn-inverse" type="button"
                data-content=" :-) :) :o) :c) :^) :-D :-( :-9 ;-) :-P :-p :-b :-O :-/ :-X :-# :'( B-) 8-) :-\ ;*( :-* :] :&gt; =] =) 8) :} :D 8D XD xD =D :( :&lt; :[ :{ =( ;) ;] ;D :P :p =P =p :b :O 8O :/ =/ :S :# :X B) O:) <3 ;( >:) >;) >:( O_o O_O o_o 0_o T_T ^_^ ?-)"
                >:-)</button>
            </div>
-           <div class="span3">
-            <button id="chat_send_message_button" class="field span12 btn btn-inverse" type="button">Send</button>
-            {% if object.is_active %}
-            	<input type="hidden" id="chat_user_room_number" value="{{ object.id }}" />
-            	<input type="hidden" id="websocket_string" value="{{ websocket_string }}" />
-            {% endif %}
-        </div>
         </div>
         <div class="span3">
         	<p class="pull-right">Powered by <a target="_blank" href="https://www.topch.at">topch.at</a></p>
         </div>
+        {% if object.is_active %}
+        	<input type="hidden" id="chat_user_room_number" value="{{ object.id }}" />
+        	<input type="hidden" id="websocket_string" value="{{ websocket_string }}" />
+        {% endif %}
     </div>
 </div>
 <div id="login_register_modal" class="modal hide fade">
