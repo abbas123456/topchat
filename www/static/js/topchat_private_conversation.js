@@ -58,5 +58,7 @@ $(document).ready(function() {
     $('.popover-content').find("span").live('click', function(event) {
     	emoticonText = $(event.target).html() + ' ';
     	$('#chat_input').val($('#chat_input').val()+emoticonText);
+    	$('#emoticon_popover').popover('hide');
+    	$('#chat_input').focus();
     });
 });
