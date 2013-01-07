@@ -38,6 +38,7 @@
 	            <button title="Send message" id="chat_send_message_button" class="field span12 btn btn-inverse" type="button">Send</button>
 	            {% if object.is_active %}
 	            	<input type="hidden" id="chat_user_room_number" value="{{ object.id }}" />
+	            	<input type="hidden" id="websocket_string" value="{{ websocket_string }}" />
 	            {% endif %}
 	           </div>
 	        </div>

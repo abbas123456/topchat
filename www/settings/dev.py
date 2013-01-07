@@ -195,3 +195,5 @@ HAYSTACK_CONNECTIONS = {
         # 'URL': 'http://127.0.0.1:8983/solr/mysite',
     },
 }
+
+WEBSOCKET_STRING = 'wss://localhost:7000/'

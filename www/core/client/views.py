@@ -5,13 +5,18 @@ from rest_framework import generics
 from core.client.serializers import RoomSerializer, BannedUserSerializer
 from haystack.views import FacetedSearchView
 from haystack.query import SearchQuerySet
+from django.conf import settings
 
 
 class ChatPageView(generic.DetailView):
     model = models.Room
 
+    def get_context_data(self, **kwargs):
+        context = super(ChatPageView, self).get_context_data(**kwargs)
+        context['websocket_string'] = settings.WEBSOCKET_STRING
+        return context
 
-class StandaloneChatPageView(generic.DetailView):
+class StandaloneChatPageView(ChatPageView):
     model = models.Room
     template_name = 'client/standalone_room_detail.html'
 

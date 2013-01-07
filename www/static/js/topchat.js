@@ -229,6 +229,7 @@ $(document).ready(function(){
     	event.preventDefault();
     	if ($('#login_register_username').val() !== "" && $('#login_register_password').val() !== "") {
     		roomNumber = $('#chat_user_room_number').val();
+    		websocketString = $('#websocket_string').val(); 
     		$.post("/accounts/generate-token/", { "username": $('#login_register_username').val(), "password": $('#login_register_password').val(), 'room_id': roomNumber},
     		function(data){
     			if (data['error_message'] !== undefined) {
@@ -237,7 +238,7 @@ $(document).ready(function(){
     				return;
     			}
     			token = $.parseJSON(data['authentication_token'])[0];
-    			client.connectToServer("wss://localhost:7000/"+roomNumber+'/'+token.fields.token_string);
+    			client.connectToServer(websocketString+roomNumber+'/'+token.fields.token_string);
     			$('#login_register_modal').modal('hide')
 		 	}, "json");
     	}
@@ -246,7 +247,8 @@ $(document).ready(function(){
     $('body').on('click', '#login_as_a_guest_button', function(event) {
     	event.preventDefault();
     	roomNumber = $('#chat_user_room_number').val();
-		client.connectToServer("wss://localhost:7000/"+roomNumber);
+    	websocketString = $('#websocket_string').val(); 
+		client.connectToServer(websocketString+roomNumber);
 		$('#login_register_modal').modal('hide');
     });
     
