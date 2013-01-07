@@ -143,7 +143,7 @@ i.pre-text {
 }
 
 .nav > li > a:hover {
-	background-color: #B4C7D1;
+	background-color: grey;
 }
 
 .nav-tabs > li > a, .nav-pills > li > a {

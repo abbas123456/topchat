@@ -61,7 +61,7 @@ var client = {
 		var icon = is_administrator ? 'icon-eye-open' : 'icon-user';
 		var administrator_links = is_recipient_administator ? '<li class="divider"></li><li><a class="chat_controls" name="administrator_kick_buttons" href=""><i class="pre-text icon-exclamation-sign"></i>Kick</a></li><li><a class="chat_controls" name="administrator_ban_buttons" href=""><i class="pre-text icon-warning-sign"></i>Ban</a></li>' : '';
 		var dropdown_html = '<li><a href="" class="chat_controls" name="private_conversation_buttons"><i class="pre-text icon-envelope"></i>Private conversation</a></li><li class="divider"></li><li><a class="chat_controls" name="block_buttons" href=""><i class="pre-text icon-ban-circle"></i>Block</a></li>'+administrator_links;
-		var user_html = "<li recipient_username='"+username+"' class='dropdown'><a class='dropdown-toggle' data-toggle='dropdown' href='#' style='color: rgb("+colour_rgb+")'><i class='"+icon+" icon-white pre-text'></i>"+username+"</a><ul class='dropdown-menu'>"+dropdown_html+"</ul></li>";
+		var user_html = "<li recipient_username='"+username+"' class='dropdown'><a class='dropdown-toggle' data-toggle='dropdown' href='#' style='color: rgb("+colour_rgb+")'><i class='"+icon+" pre-text'></i>"+username+"</a><ul class='dropdown-menu'>"+dropdown_html+"</ul></li>";
 		$(user_html).insertAfter($('#chat_user_list').children("ul").children("li").last());
 	},
 	removeUsernameFromUserList: function(username) {
@@ -88,14 +88,14 @@ var client = {
 		control_anchor.html('<i class="pre-text icon-ban-circle"></i>Unblock');
 		control_anchor.attr("name", "unblock_buttons");
 		username_anchor = $($('li.dropdown[recipient_username="'+username+'"]').find("a")[0]);
-		username_anchor.html('<i class="icon-ban-circle icon-white pre-text"></i>'+username);
+		username_anchor.html('<i class="icon-ban-circle pre-text"></i>'+username);
 	},
 	change_username_display_to_unblocked: function(username) {
 		control_anchor = $('li.dropdown[recipient_username="'+username+'"]').find("a[name='unblock_buttons']"); 
 		control_anchor.html('<i class="pre-text icon-ban-circle"></i>Block');
 		control_anchor.attr("name", "block_buttons");
 		username_anchor = $($('li.dropdown[recipient_username="'+username+'"]').find("a")[0]);
-		username_anchor.html('<i class="icon-user icon-white pre-text"></i>'+username);
+		username_anchor.html('<i class="icon-user pre-text"></i>'+username);
 	},
 	sendMessageToServer: function(text) {
 		if (text !== "") {
