@@ -6,18 +6,21 @@
 <div class="row-fluid">
 	<div class="span11">
 		<h3>Getting started</h3>
-		<p>Follow this simple tutorial to add a chat room to your website.</p>
+		<p>Follow this simple tutorial to add a chat room to your website. Once you're happy go ahead and <a href="{% url register %}">register</a>.</p>
 		<hr />
 	</div> 
 </div>
 <div id="getting_started_div" class="row-fluid">
 	<div class="span3">
 		<ul class="nav nav-list">
+			<li class="nav-header">Getting started</li>
 			<li><a href="#getting_started_step1">1. Register</a></li>
 			<li><a href="#getting_started_step2">2. Create room</a></li>
-			<li><a href="#getting_started_step3">3. Customise room</a></li>
-			<li><a href="#getting_started_step4">4. Room admins</a></li>
-			<li><a href="#getting_started_step5">5. Add to your website</a></li>
+			<li><a href="#getting_started_step3">3. Add to your website</a></li>
+			<li class="nav-header">Extra steps</li>
+			<li><a href="#getting_started_step4">4. Customise room</a></li>
+			<li><a href="#getting_started_step5">5. Room admins</a></li>
+			
 		</ul>
 	</div>
 	<div class="span8">
@@ -32,8 +35,14 @@
 		<p class="getting_started_text">Fill in the details for your chat room and click on "Create room"</p>
 		<p><img class="getting_started_images" src="{{ STATIC_URL }}img/getting_started/step3.png"></p>
 		<hr />
-		<p id="getting_started_step3" class="lead">3. Customise room</p>
-		<p class="getting_started_text">If you don't want to customise your chat room you can skip this step and go straight to step 5, adding to your website.
+		<p id="getting_started_step3" class="lead">3. Add to your website</p>
+		<p class="getting_started_text">To add the chat room to your website go to the "Your website" section of the dashboard and copy the html code supplied.</p>
+		<p><img class="getting_started_images" src="{{ STATIC_URL }}img/getting_started/step12.png"></p>
+		<p class="getting_started_text">You need to then paste the html code onto your website on the page you want the chat room to appear. You can control the height and
+		width of the chat room by changing the height and width pixel values in the html code.</p>
+		<hr />
+		<p id="getting_started_step4" class="lead">4. Customise room</p>
+		<p class="getting_started_text">After adding the chat room to your website you may want to customise it..
 		After creating your chat room you will be taken back to the dashboard page. To customise the appearance of the chat room click on "Appearance".<p>
 		<p><img class="getting_started_images" src="{{ STATIC_URL }}img/getting_started/step4.png"></p>
 		<p class="getting_started_text">You will now see a preview of your chat room with the default colour scheme.</p>
@@ -44,7 +53,7 @@
 		<p class="getting_started_text">Once you are happy with the colours click on "Save".</p>
 		<p><img class="getting_started_images" src="{{ STATIC_URL }}img/getting_started/step7.png"></p>
 		<hr />
-		<p id="getting_started_step4" class="lead">4. Room admins</p>
+		<p id="getting_started_step5" class="lead">5. Room admins</p>
 		<p class="getting_started_text">To manage your chat room administrators click on "Administrators", you will see that your username has already
 		been added to the list of administrators as you created the chat room.</p>
 		<p><img class="getting_started_images" src="{{ STATIC_URL }}img/getting_started/step8.png"></p>
@@ -55,20 +64,7 @@
 		<p><img class="getting_started_images" src="{{ STATIC_URL }}img/getting_started/step11.png"></p>
 		<p class="getting_started_text">To manage users that are banned from the chat room, follow the same instructions as above in the "User management"
 		section of the dashboard.</p>
-		<hr />
-		<p id="getting_started_step5" class="lead">5. Add to your website</p>
-		<p class="getting_started_text">To add the chat room to your website go to the "Your website" section of the dashboard and copy the html code supplied.</p>
-		<p><img class="getting_started_images" src="{{ STATIC_URL }}img/getting_started/step12.png"></p>
-		<p class="getting_started_text">You need to then paste the html code onto your website on the page you want the chat room to appear. You can control the height and
-		width of the chat room by changing the height and width pixel values in the html code.</p>
 	</div>
 </div>
 <br />
-<div class="row-fluid">
-	<div class="span12">
-    	<p class="lead">
-            <a href="{% url register %}" class="pull-right btn btn-large btn-primary promo_button">Register</a>
-        </p>
-	</div>
-</div>
 {% endblock %}
