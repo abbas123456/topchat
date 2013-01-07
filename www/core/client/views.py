@@ -42,7 +42,8 @@ class RoomSearchView(FacetedSearchView):
         extra = super(FacetedSearchView, self).extra_context()
         extra['request'] = self.request
         facet_counts = self.results.facet_counts()
-        facet_counts['fields'].update({'category':sorted(facet_counts['fields']['category'])})
+        if 'fields' in facet_counts:
+            facet_counts['fields'].update({'category':sorted(facet_counts['fields']['category'])})
         extra['facets']  = facet_counts
         return extra
 
