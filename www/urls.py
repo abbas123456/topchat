@@ -7,19 +7,8 @@ from core.account import views as account_views
 from core.dashboard import views as dashboard_views
 
 from rest_framework.urlpatterns import format_suffix_patterns
-from core.topchat.sitemap import StaticSitemap
+from core.topchat.sitemap import StaticSitemap, GenericSitemap
 from django.contrib.auth.decorators import login_required
-from django.contrib.sitemaps import GenericSitemap
-
-room_info_dict = {
-    'queryset': Room.objects.all(),
-    'date_field': 'created_date',
-}
-
-sitemaps = {
-    'threads': GenericSitemap(room_info_dict, changefreq='Daily'),
-    'main': StaticSitemap,
-}
 
 urlpatterns = patterns('',
     url(r'^$', HomePageView.as_view(), name='home'),
@@ -80,7 +69,7 @@ urlpatterns = patterns('',
     url(r'^users/(?P<search_query>[-\w\d]+)/(?P<limit>\d+)/$',
         account_views.UserListApiView.as_view()),
     url(r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap',
-        {'sitemaps': sitemaps}),
+        {'sitemaps': {'rooms': GenericSitemap(), 'main': StaticSitemap}}),
     url(r'^rooms/', client_views.RoomSearchView(), name='search'),
 )
 

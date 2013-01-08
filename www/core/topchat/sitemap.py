@@ -1,6 +1,6 @@
-from django.contrib.sitemaps import Sitemap
+from django.contrib import sitemaps
 from datetime import datetime
-
+from core.client.models import Room
 
 class AbstractSitemapClass():
     changefreq = 'daily'
@@ -10,7 +10,8 @@ class AbstractSitemapClass():
         return self.url
 
 
-class StaticSitemap(Sitemap):
+class StaticSitemap(sitemaps.Sitemap):
+    protocol = 'https'
     pages = {'home': '/', 'about': '/about/',
              'get-started': '/get-started/',
              'register': '/accounts/register/',
@@ -29,3 +30,14 @@ class StaticSitemap(Sitemap):
     lastmod = datetime(2013, 01, 06)
     priority = 1
     changefreq = "yearly"
+
+
+class GenericSitemap(sitemaps.GenericSitemap):
+    protocol = 'https'
+    room_info_dict = {
+                      'queryset': Room.objects.all(),
+                      'date_field': 'created_date',
+    }    
+    def __init__(self):
+        super(GenericSitemap, self).__init__(self.room_info_dict, changefreq='Daily')
+    
