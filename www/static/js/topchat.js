@@ -74,7 +74,7 @@ var client = {
 	},
 	resizeElementsBasedOnPageHeight: function() {
 		windowHeight = $(window).height();
-		pixelBuffer = 103;
+		pixelBuffer = 104;
 		$('#chat_text_area').height(windowHeight-pixelBuffer);
 		$('#chat_user_list').height(windowHeight-pixelBuffer);
 	},
