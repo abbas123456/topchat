@@ -108,6 +108,7 @@ class AdministratorsPageView(UserListPageView):
     model = models.RoomAdministrator
     FormSet = modelformset_factory(model, form=forms.RoomAdministratorForm,
                                    can_delete=True)
+
     def get_success_url(self):
         return "{0}?room={1}".format(reverse('dashboard_administrators'),
                                      super(AdministratorsPageView,
@@ -119,7 +120,7 @@ class UserManagementPageView(UserListPageView):
     model = models.RoomBannedUser
     FormSet = modelformset_factory(model, form=forms.RoomBannedUsersForm,
                                    can_delete=True)
-    
+
     def get_success_url(self):
         return "{0}?room={1}".format(reverse('dashboard_user_management'),
                                      super(UserManagementPageView,
@@ -132,7 +133,7 @@ class YourWebsitePageView(DashboardViewMixin, generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super(YourWebsitePageView, self).get_context_data(**kwargs)
         if self.get_object().id is not None:
-            hostname = self.request.get_host()
+            hostname = "https://{0}".format(self.request.get_host())
             path = reverse('standalone_room_detail',
                            kwargs={'pk': self.get_object().id})
             context['room_standalone_url'] = "{0}{1}".format(hostname, path)
